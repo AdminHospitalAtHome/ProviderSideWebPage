@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllPatients  } from '../BackendFunctionCall/getPatientList';
 import { filterPatients } from '../BackendFunctionCall/filterPatients';
 import AllPatientSideBar from '../Components/AllPatientSideBar';
+import { getRecentBloodOxygen, getRecentHeartRate, getRecentBloodPressure, getRecentWeight } from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css'; // Assuming you have a CSS file for styles
 interface Patient {
 	PatientID: number;
@@ -10,11 +11,32 @@ interface Patient {
 	Gender: string;
 	DateOfBirth: string;
   }
+
+  interface VitalData {
+	bloodOxygen: string | null;
+	heartRate: string | null;
+	bloodPressure: string | null;
+	weight: string | null;
+  }
+
+  
   
 export default function VitalPage() {
 	const [patients, setPatients] = useState<Patient[]>([]);
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [filters, setFilters] = useState({ providerID: '', firstName: '', lastName: '', gender: '' });
+  const [patientId, setExpandedId] = useState<number | null>(null);
+  const [vitalData, setVitalData] = useState<VitalData>({
+    bloodOxygen: null,
+    heartRate: null,
+    bloodPressure: null,
+    weight: null
+  });
+
+  const toggleExpanded = (id: number) => {
+    setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
+  };
+
 
   useEffect(() => {
     getAllPatients()
@@ -25,6 +47,23 @@ export default function VitalPage() {
         console.error('Error fetching patients:', error);
       });
   }, []);
+
+  useEffect(() => {
+    if (patientId !== null) {
+      Promise.all([
+        getRecentBloodOxygen(patientId),
+        getRecentHeartRate(patientId),
+        getRecentBloodPressure(patientId),
+        getRecentWeight(patientId)
+      ])
+      .then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
+        setVitalData({ bloodOxygen, heartRate, bloodPressure, weight });
+      })
+      .catch(error => {
+        console.error('Error fetching vital data:', error);
+      });
+    }
+  }, [patientId]);
 
   const handleFilterChange = (name: string, value:string) => {
     setFilters(prevFilters => ({
@@ -97,7 +136,7 @@ export default function VitalPage() {
         </div>
       )}
 
-      <AllPatientSideBar patients={patients} />
+      <AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={vitalData}/>
     </div>
   );
 }

@@ -38,7 +38,7 @@ export function getRecentHeartRate(patientID: number): Promise<string> {
             .then(res => res.json())
             .then(output => {
                 if (output.length === 1) {
-                    resolve(`${output[0].HeartRateInBPM}`);
+                    resolve(`${output[0].HeartRateInBPM} BPM`);
                 } else {
                     resolve('N/A');
                 }
