@@ -12,13 +12,16 @@ interface Patient {
 
 export default function AllPatientSideBar({ patients }: { patients: Patient[] }) {
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
-  
-  const toggleExpanded = (id: number) => {
-    setExpandedIds(prevExpandedIds =>
-      prevExpandedIds.includes(id)
-        ? prevExpandedIds.filter(eId => eId !== id)
-        : [...prevExpandedIds, id]
-    );
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+//   const toggleExpanded = (id: number) => {
+//     setExpandedIds(prevExpandedIds =>
+//       prevExpandedIds.includes(id)
+//         ? prevExpandedIds.filter(eId => eId !== id)
+//         : [...prevExpandedIds, id]
+//     );
+//   };
+const toggleExpanded = (id: number) => {
+    setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
   };
 
   return (
@@ -29,7 +32,7 @@ export default function AllPatientSideBar({ patients }: { patients: Patient[] })
             <div className="avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
             <span className="name">{patient.FirstName} {patient.LastName}</span>
           </button>
-          <div className={`details ${expandedIds.includes(patient.PatientID) ? 'expanded' : ''}`}>
+          <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
             <p className="detailText">Gender: {patient.Gender}</p>
             <p className="detailText">Age: ...</p>
             <div className="separator" />

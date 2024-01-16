@@ -11,8 +11,10 @@
     margin-bottom: 10px;
     border: none;
     cursor: pointer;
-  }
-  
+    width: 100%;
+    
+}
+
   .name {
     margin-left: 10px;
   }
@@ -20,10 +22,11 @@
   .details {
     background-color: #FFF8DC;
     padding: 10px;
-    border-bottom: 1px solid #DDD;
+    border-top: 1px solid #DDD; 
+    margin-top: -10px; 
     margin-bottom: 10px;
     display: none;
-  }
+}
   
   .details.expanded {
     display: block;
