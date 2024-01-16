@@ -1,0 +1,30 @@
+.sidebar {
+    width: 15%;
+    height: 100vh;
+    background-color: #d88d63;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .filterButton {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  
+  .filterPanel {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .input {
+    display: block;
+    width: calc(100% - 24px);
+    height: 40px;
+    margin: 6px 12px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
