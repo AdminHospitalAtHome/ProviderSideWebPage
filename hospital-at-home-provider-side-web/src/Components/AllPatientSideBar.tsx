@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllPatients } from '../BackendFunctionCall/getPatientList';
-import './AllPatientSideBar.css'; 
+import './AllPatientSideBar.css';
 
 interface Patient {
   PatientID: number;
