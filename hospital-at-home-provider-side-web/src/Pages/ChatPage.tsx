@@ -2,6 +2,6 @@
 
 export default function ChatPage(): JSX.Element {
 	return (<div>
-		this is chat page bebop
+		this is chat page
 	</div>);
 }
