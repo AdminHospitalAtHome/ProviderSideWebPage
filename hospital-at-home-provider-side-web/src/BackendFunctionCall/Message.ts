@@ -1,4 +1,4 @@
-import {ChatClient} from "@azure/communication-chat";
+import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {AzureCommunicationTokenCredential} from "@azure/communication-common";
 
 const endpointurl =
@@ -7,7 +7,6 @@ const endpointurl =
 //reference of web app functions: https://github.com/AdminHospitalAtHome/ProviderWebPage/blob/main/ProviderWebPage/app/BackendFunctions/Chat/Message.ts
 
 export let temp_communicationId: string = ''
-
 
 
 export function initChatClient(userId: number): Promise<ChatClient | undefined> {
@@ -28,21 +27,20 @@ export function initChatClient(userId: number): Promise<ChatClient | undefined> 
 	});
 }
 
-export function getAllThreads(chatClient: ChatClient): Promise<String[]> {
-	return new Promise<String[]>(async (resolve) => {
+export function getAllThreads(chatClient: ChatClient): Promise<ChatThreadClient[]> {
+	return new Promise<ChatThreadClient[]>(async (resolve) => {
 		const threads = chatClient.listChatThreads()
-		let threadIDs: string[] = [];
+		let threadClients: ChatThreadClient[] = [];
 		for await (const t of threads) {
 			try {
-				threadIDs.push(t.id);
+				threadClients.push(chatClient.getChatThreadClient(t.id))
 			} catch {
-
+			
 			}
 		}
-		resolve(threadIDs);
+		resolve(threadClients);
 	})
 }
-
 
 
 export function getCommunicationId(userId: number): Promise<string> {
@@ -73,4 +71,30 @@ export function getCommunicationToken(communicationId: string): Promise<string> 
 	});
 }
 
+export async function getParticipantInThread(chatThreadClient: ChatThreadClient, communicationID: string) {
+	return new Promise<string | undefined>(async (resolve) => {
+		let participants = chatThreadClient.listParticipants()
+		for await (const p of participants) {
+			try {
+				// @ts-ignore
+				if (p.id.communicationUserId !== communicationID) {
+					resolve(p.displayName);
+				}
+			} catch {
+			}
+			// if (communicationID === p.id)
+			// console.log(p.id);
+		}
+		resolve("Error");
+	});
+}
+
+export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
+	return new Promise(async (resolve) => {
+		let messages = chatThreadClient.listMessages()
+		messages.next().then((res) => {
+			resolve(res.value)
+		})
+	})
+}
 
