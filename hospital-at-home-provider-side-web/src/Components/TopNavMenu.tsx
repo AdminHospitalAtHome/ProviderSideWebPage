@@ -1,12 +1,14 @@
-import Navbar from 'react-bootstrap/Nav';
-import {NavbarBrand} from "react-bootstrap";
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
 
 export default function TopNavMenu(): JSX.Element {
 	//reference https://react-bootstrap.netlify.app/docs/components/navbar/
-	return <div>
-		<Navbar>
-			<NavbarBrand href={'/vital'}>Vitals</NavbarBrand>
-			<NavbarBrand href={'/chat'}>Chat</NavbarBrand>
+	return <Container>
+		<Navbar fixed="top" bg="dark" data-bs-theme="dark" style={{display: "flex", justifyContent: "space-around"}}>
+			<Navbar.Text>Hospital-At-Home</Navbar.Text>
+			<Navbar.Brand href={'/vital'}>Vitals</Navbar.Brand>
+			<Navbar.Brand href={'/chat'}>Chat</Navbar.Brand>
 		</Navbar>
-	</div>
+	</Container>
 }
