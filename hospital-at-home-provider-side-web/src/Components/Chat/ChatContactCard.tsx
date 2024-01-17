@@ -1,6 +1,6 @@
 import {ChatThreadClient} from '@azure/communication-chat'
 import Card from 'react-bootstrap/Card'
-import {getParticipantInThread, getThreadLastMessage} from "../BackendFunctionCall/Message";
+import {getParticipantInThread, getThreadLastMessage} from "../../BackendFunctionCall/Message";
 import {useEffect, useState} from "react";
 
 export default function ChatContactCard({threadClient: chatThreadClient, providerCommunicationID}: {

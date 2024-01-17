@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllPatients } from '../BackendFunctionCall/getPatientList';
+import { getAllPatients } from '../../BackendFunctionCall/getPatientList';
 import './AllPatientSideBar.css';
 
 interface Patient {
