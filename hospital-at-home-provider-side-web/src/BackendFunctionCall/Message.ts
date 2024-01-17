@@ -1,5 +1,6 @@
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
-import {AzureCommunicationTokenCredential} from "@azure/communication-common";
+import {AzureCommunicationTokenCredential, CommunicationUserIdentifier} from "@azure/communication-common";
+import {fromFlatCommunicationIdentifier, useAzureCommunicationChatAdapter} from "@azure/communication-react";
 
 const endpointurl =
 	'https://hospitalathomechat.unitedstates.communication.azure.com';
@@ -98,3 +99,17 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
 	})
 }
 
+export function createAdapter(chatThreadClient: ChatThreadClient, communicationUserId: string) {
+	return new Promise((resolve) => )
+	getCommunicationToken(communicationUserId).then((cred) => {
+			return useAzureCommunicationChatAdapter({
+				endpoint: endpointurl,
+				userId: fromFlatCommunicationIdentifier(communicationUserId) as CommunicationUserIdentifier,
+				displayName: "TEMP",
+				credential: new AzureCommunicationTokenCredential(cred),
+				threadId: chatThreadClient.threadId
+			})
+		}
+	)
+	
+}
