@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import {filterPatients} from '../BackendFunctionCall/filterPatients';
-import AllPatientSideBar from '../Components/AllPatientSideBar';
+import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import {
 	getRecentBloodOxygen,
 	getRecentHeartRate,

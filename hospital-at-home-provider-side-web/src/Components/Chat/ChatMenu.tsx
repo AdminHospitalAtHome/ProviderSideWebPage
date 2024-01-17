@@ -2,7 +2,7 @@ import {Container, Card} from 'react-bootstrap'
 import React, {useEffect, useState} from "react";
 import ChatContactCard from "./ChatContactCard";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
-import {getAllThreads, initChatClient, temp_communicationId} from "../BackendFunctionCall/Message";
+import {getAllThreads, initChatClient, temp_communicationId} from "../../BackendFunctionCall/Message";
 
 export default function ChatMenu({providerID}:{providerID: number}): React.JSX.Element{
   const [chatClient, setChatClient] = useState<ChatClient | undefined>(undefined);
