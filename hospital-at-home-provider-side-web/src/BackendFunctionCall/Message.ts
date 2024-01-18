@@ -1,8 +1,12 @@
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {AzureCommunicationTokenCredential, CommunicationUserIdentifier} from "@azure/communication-common";
-import {fromFlatCommunicationIdentifier, useAzureCommunicationChatAdapter} from "@azure/communication-react";
+import {
+	ChatAdapter, createAzureCommunicationChatAdapter, createAzureCommunicationChatAdapterFromClient,
+	fromFlatCommunicationIdentifier,
+	useAzureCommunicationChatAdapter
+} from "@azure/communication-react";
 
-const endpointurl =
+export const endpointurl =
 	'https://hospitalathomechat.unitedstates.communication.azure.com';
 //reference of mobile app function:https://github.com/AdminHospitalAtHome/2023-2024seniorProjectTest/blob/main/SeniorProjectApp/BackEndFunctionCall/ChatFunctions/Message.ts
 //reference of web app functions: https://github.com/AdminHospitalAtHome/ProviderWebPage/blob/main/ProviderWebPage/app/BackendFunctions/Chat/Message.ts
@@ -36,7 +40,7 @@ export function getAllThreads(chatClient: ChatClient): Promise<ChatThreadClient[
 			try {
 				threadClients.push(chatClient.getChatThreadClient(t.id))
 			} catch {
-			
+
 			}
 		}
 		resolve(threadClients);
@@ -99,17 +103,16 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
 	})
 }
 
-export function createAdapter(chatThreadClient: ChatThreadClient, communicationUserId: string) {
-	return new Promise((resolve) => )
-	getCommunicationToken(communicationUserId).then((cred) => {
-			return useAzureCommunicationChatAdapter({
-				endpoint: endpointurl,
-				userId: fromFlatCommunicationIdentifier(communicationUserId) as CommunicationUserIdentifier,
-				displayName: "TEMP",
-				credential: new AzureCommunicationTokenCredential(cred),
-				threadId: chatThreadClient.threadId
-			})
-		}
-	)
-	
-}
+
+// if (chatThreadClient && communicationUserId) {
+// 	getCommunicationToken(communicationUserId).then((cred) => {
+// 		console.log("CRED:",cred);
+// 		resolve(useAzureCommunicationChatAdapter({
+// 			endpoint: endpointurl,
+// 			userId: fromFlatCommunicationIdentifier(communicationUserId) as CommunicationUserIdentifier,
+// 			displayName: "TEMP",
+// 			credential: new AzureCommunicationTokenCredential(cred),
+// 			threadId: chatThreadClient.threadId
+// 		}));
+// 	})
+// }
