@@ -1,6 +1,5 @@
 .sidebar {
     width: 15%;
-    height: 100vh;
     background-color: #d88d63;
     padding: 10px;
     overflow-y: auto;
@@ -27,4 +26,16 @@
     padding: 10px;
     border: 1px solid #ccc;
   }
-  
+  .main-container {
+    display: flex;
+    height: 90vh;
+}
+
+.main-content {
+  width: 85%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr); 
+    gap: 20px;
+    padding: 20px;
+}

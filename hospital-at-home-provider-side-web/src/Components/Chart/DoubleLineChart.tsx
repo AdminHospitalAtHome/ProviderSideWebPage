@@ -52,7 +52,6 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({ labels, data1, label1
             });
         }
 
-        // Cleanup function to destroy chart instance on unmount
         return () => {
             if (chartInstance.current) {
                 chartInstance.current.destroy();

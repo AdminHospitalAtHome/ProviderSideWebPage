@@ -9,6 +9,7 @@ import {
 	getRecentWeight
 } from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css'; // Assuming you have a CSS file for styles
+import VitalCard from '../Components/Vital/VitalCard';
 interface Patient {
 	PatientID: number;
 	FirstName: string;
@@ -104,6 +105,7 @@ export default function VitalPage() {
 	
 	return (
 		<body style={{paddingTop: '60px'}}>
+		<div className="main-container">
 		<div className="sidebar">
 			<div className="filterButton">
 				<button onClick={() => setFilterPanelVisible(!filterPanelVisible)}>
@@ -140,9 +142,19 @@ export default function VitalPage() {
 					<button onClick={applyFilters}>Apply Filters</button>
 				</div>
 			)}
-			
 			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={vitalData}/>
 		</div>
+			<div className="main-content">
+				
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} />
+				<VitalCard title="Heart Rate" data={vitalData.heartRate}/>
+				
+				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure}/>
+					
+				<VitalCard title="Weight" data={vitalData.weight}/>
+			</div>
+		</div>
+
 		</body>
 	
 	);
