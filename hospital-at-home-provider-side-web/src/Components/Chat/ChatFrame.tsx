@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {
 	ChatComposite, fromFlatCommunicationIdentifier,
 
@@ -12,36 +12,36 @@ export default function ChatFrame({thread, communicationID}: {thread: ChatThread
 
 
 	const [credential, setCredential] = useState<any>(undefined);
-	const userID = fromFlatCommunicationIdentifier(communicationID) as CommunicationUserIdentifier
-	// const adapter = useAzureCommunicationChatAdapter({});
+	// const userID = fromFlatCommunicationIdentifier(communicationID) as CommunicationUserIdentifier
+
+	const userId = useMemo( () => {
+		return fromFlatCommunicationIdentifier(communicationID) as CommunicationUserIdentifier
+	}, [communicationID])
+
+	// const credential = useMemo(async () => {
+	// 	await getCommunicationToken(communicationID).then((cred) => {
+	// 		return (new AzureCommunicationTokenCredential(cred));
+	// 	})
+	// 	console.log('Thread Created')
+	// }, [communicationID])
 
 	useEffect(() => {
 		getCommunicationToken(communicationID).then((cred) => {
 			setCredential(new AzureCommunicationTokenCredential(cred));
 		})
-		console.log('Thread Created')
 	}, [thread])
 
-	//
-	// useEffect(()=> {
-	// 	 adapter = useAzureCommunicationChatAdapter({
-	// 		endpoint: endpointurl,
-	// 		userId: userID,
-	// 		displayName: "TEMP NAME",
-	// 		credential: credential,
-	// 		threadId: thread.threadId
-	// 	})
-	// }, [credential])
 
 	console.log("Run")
 
 	const adapter = useAzureCommunicationChatAdapter({
 		endpoint: endpointurl,
-		userId: userID,
+		userId: userId,
 		displayName: "TEMP NAME",
 		credential: credential,
 		threadId: thread.threadId
 	})
+	// let adapter = ""
 
 
 	if (adapter) {
