@@ -61,3 +61,116 @@ export function getRecentWeight(patientID: number): Promise<string> {
             });
     });
 }
+
+export default function timeTableParser(dateTime: string): string {
+    var tempDateObject: Date = new Date(dateTime);
+    tempDateObject.setMinutes(
+        tempDateObject.getMinutes() - tempDateObject.getTimezoneOffset(),
+    );
+    var tmpDate = tempDateObject.toISOString().split('T')[0].split('-');
+    const tmpDateString = tmpDate[1] + '-' + tmpDate[2] + '-' + tmpDate[0];
+    var tmpTime = tempDateObject.toISOString().split('T')[1].split(':');
+    var tmpHour = parseInt(tmpTime[0]);
+    var tmpTimeString = '';
+    if (tmpHour > 12) {
+        tmpTimeString = String(tmpHour - 12) + ':' + tmpTime[1] + ' PM';
+    } else if (tmpHour === 0) {
+        tmpTimeString = String(tmpHour + 12) + ':' + tmpTime[1] + 'AM';
+    } else {
+        tmpTimeString = String(tmpHour) + ':' + tmpTime[1] + ' AM';
+    }
+    return tmpDateString + '\n' + tmpTimeString;
+}
+
+export function getBloodOxygen(
+    patientID: number,
+    startDateTime: string,
+    stopDateTime: string,
+) {
+    return fetch(
+        `https://hosptial-at-home-js-api.azurewebsites.net/api/getBloodOxygen?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
+    )
+        .then(response => response.json())
+        .then(json => parseBloodOxygenData(json));
+}
+
+export function parseBloodOxygenData(bloodOxygenJson: any) {
+    let bloodOxygenArr = [];
+    for (var i = 0; i < bloodOxygenJson.length; i++) {
+        bloodOxygenArr.push([
+            timeTableParser(bloodOxygenJson[i].DateTimeTaken),
+            bloodOxygenJson[i].BloodOxygenLevelInPercentage,
+        ]);
+    }
+    return bloodOxygenArr;
+}
+
+export function getBloodPressure(
+    patientID: number,
+    startDateTime: string,
+    stopDateTime: string,
+) {
+    return fetch(
+        `https://hosptial-at-home-js-api.azurewebsites.net/api/getBloodPressure?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
+    )
+        .then(response => response.json())
+        .then(json => parseBloodPressureData(json));
+}
+
+export function parseBloodPressureData(bloodPressureJSON: any) {
+    let bloodPressureArr = [];
+    for (let i = 0; i < bloodPressureJSON.length; i++) {
+        bloodPressureArr.push([
+            timeTableParser(bloodPressureJSON[i].DateTimeTaken),
+            bloodPressureJSON[i].SystolicBloodPressureInMmHg,
+            bloodPressureJSON[i].DiastolicBloodPressureInMmHg,
+        ]);
+    }
+    return bloodPressureArr;
+}
+
+export function getHeartRate(
+    patientID: number,
+    startDateTime: string,
+    stopDateTime: string,
+) {
+    return fetch(
+        `https://hosptial-at-home-js-api.azurewebsites.net/api/getHeartRate?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
+    )
+        .then(response => response.json())
+        .then(json => parseHeartRateData(json));
+}
+
+export function parseHeartRateData(heartRateJson: any) {
+    let heartRateArr = [];
+    for (let i = 0; i < heartRateJson.length; i++) {
+        heartRateArr.push([
+            timeTableParser(heartRateJson[i].DateTimeTaken),
+            heartRateJson[i].HeartRateInBPM,
+        ]);
+    }
+    return heartRateArr;
+}
+
+export function getWeight(
+    patientID: number,
+    startDateTime: string,
+    stopDateTime: string,
+) {
+    return fetch(
+        `https://hosptial-at-home-js-api.azurewebsites.net/api/getWeight?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
+    )
+        .then(response => response.json())
+        .then(json => parseWeightData(json));
+}
+
+export function parseWeightData(weightJson: any) {
+    let weightArr = [];
+    for (let i = 0; i < weightJson.length; i++) {
+        weightArr.push([
+            timeTableParser(weightJson[i].DateTimeTaken),
+            weightJson[i].WeightInPounds,
+        ]);
+    }
+    return weightArr;
+}
