@@ -1,15 +1,18 @@
 import {useEffect, useState} from 'react';
 import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import {filterPatients} from '../BackendFunctionCall/filterPatients';
-import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
+
 import {
-	getRecentBloodOxygen,
-	getRecentHeartRate,
-	getRecentBloodPressure,
-	getRecentWeight
+	getHeartRate,
+	getBloodPressure,
+	getWeight,
+	getBloodOxygen
 } from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css'; // Assuming you have a CSS file for styles
 import VitalCard from '../Components/Vital/VitalCard';
+import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
+import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
+
 interface Patient {
 	PatientID: number;
 	FirstName: string;
@@ -19,12 +22,19 @@ interface Patient {
 }
 
 interface VitalData {
-	bloodOxygen: string | null;
-	heartRate: string | null;
-	bloodPressure: string | null;
-	weight: string | null;
+	bloodOxygen: any[][] | null;
+	heartRate: any[][] | null;
+	bloodPressure: any[][] | null;
+	weight: any[][] | null;
 }
 
+
+interface RecentVitalData {
+	recentBloodOxygen: string | null;
+	recentHeartRate: string | null;
+	recentBloodPressure: string | null;
+	recentWeight: string | null;
+}
 
 export default function VitalPage() {
 	const [patients, setPatients] = useState<Patient[]>([]);
@@ -32,15 +42,27 @@ export default function VitalPage() {
 	const [filters, setFilters] = useState({providerID: '', firstName: '', lastName: '', gender: ''});
 	const [patientId, setExpandedId] = useState<number | null>(null);
 	const [vitalData, setVitalData] = useState<VitalData>({
+		
 		bloodOxygen: null,
 		heartRate: null,
 		bloodPressure: null,
 		weight: null
 	});
+
+	const [recentVitalData, setRecentVitalData] = useState<RecentVitalData>({
+		recentBloodOxygen: null,
+		recentHeartRate: null,
+		recentBloodPressure: null,
+		recentWeight: null
+	});
+
+	const [startDateTime, setStartDateTime] = useState(getDefaultStartTime());
+	const [stopDateTime, setStopDateTime] = useState(new Date().toISOString());
 	
 	const toggleExpanded = (id: number) => {
 		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
 	};
+	
 	
 	
 	useEffect(() => {
@@ -56,18 +78,33 @@ export default function VitalPage() {
 	useEffect(() => {
 		if (patientId !== null) {
 			Promise.all([
-					getRecentBloodOxygen(patientId),
-					getRecentHeartRate(patientId),
-					getRecentBloodPressure(patientId),
-					getRecentWeight(patientId)
+					getBloodOxygen(patientId, startDateTime, stopDateTime),
+					getHeartRate(patientId,  startDateTime, stopDateTime),
+					getBloodPressure(patientId, startDateTime, stopDateTime),
+					getWeight(patientId, startDateTime, stopDateTime)
 				])
 				.then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
-					setVitalData({bloodOxygen, heartRate, bloodPressure, weight});
+					const recentBloodOxygen = bloodOxygen.length > 0 ? bloodOxygen[bloodOxygen.length - 1][1] : null;
+					const recentHeartRate = heartRate.length > 0 ? heartRate[heartRate.length - 1][1] : null;
+					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]} - ${bloodPressure[bloodPressure.length - 1][1]}`  : null;
+					const recentWeight = weight.length > 0 ? weight[weight.length - 1][1] : null;
+					setVitalData({ bloodOxygen, heartRate, bloodPressure, weight });
+					
+					setRecentVitalData({
+						recentBloodOxygen: recentBloodOxygen,
+						recentHeartRate: recentHeartRate,
+						recentBloodPressure: recentBloodPressure,
+						recentWeight: recentWeight
+					});
 				})
 				.catch(error => {
 					console.error('Error fetching vital data:', error);
 				});
 		}
+
+
+		console.log(vitalData)
+		console.log(recentVitalData);
 	}, [patientId]);
 	
 	const handleFilterChange = (name: string, value: string) => {
@@ -142,7 +179,7 @@ export default function VitalPage() {
 					<button onClick={applyFilters}>Apply Filters</button>
 				</div>
 			)}
-			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={vitalData}/>
+			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
 		</div>
 			<div className="main-content">
 				
@@ -159,3 +196,5 @@ export default function VitalPage() {
 	
 	);
 }
+
+

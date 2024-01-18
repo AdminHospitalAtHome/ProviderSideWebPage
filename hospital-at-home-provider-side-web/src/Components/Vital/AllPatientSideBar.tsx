@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllPatients } from '../../BackendFunctionCall/getPatientList';
 import './AllPatientSideBar.css';
+import React from 'react';
 
 interface Patient {
   PatientID: number;
@@ -43,6 +44,8 @@ function calculateAge(birthdateStr:string) {
   return (
     <div className="container">
       {patients.map((patient) => (
+
+
         <div key={patient.PatientID}>
           <button className="tile" onClick={() => toggle(patient.PatientID)}>
             <div className="avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
@@ -52,10 +55,10 @@ function calculateAge(birthdateStr:string) {
             <p className="detailText">Gender: {patient.Gender}</p>
             <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
             <div className="separator" />
-            <p className="detailText">Weight: {vitalData.weight}</p>
-            <p className="detailText">Heart Rate: {vitalData.heartRate}</p>
-            <p className="detailText">Blood Oxygen: {vitalData.bloodOxygen}</p>
-            <p className="detailText">Blood Pressure: {vitalData.bloodPressure}</p>
+            <p className="detailText">Weight: {vitalData.recentWeight}</p>
+            <p className="detailText">Heart Rate: {vitalData.recentHeartRate}</p>
+            <p className="detailText">Blood Oxygen: {vitalData.recentBloodOxygen}</p>
+            <p className="detailText">Blood Pressure: {vitalData.recentBloodPressure}</p>
           </div>
         </div>
       ))}
