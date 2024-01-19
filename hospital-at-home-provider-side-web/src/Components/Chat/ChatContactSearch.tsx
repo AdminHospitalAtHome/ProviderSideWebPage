@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 export default function ChatContactSearch(): React.JSX.Element {
   const [dropDownOptions, setDropDownOptions] = useState<{name: string, value: number}[]>([])
-  const [selectedPateint, setSelectedPatient] = useState<number>(0);
+  const [selectedPateint, setSelectedPatient] = useState<any>(null);
 
   useEffect(() => {
     getPatients().then(setDropDownOptions)
@@ -17,8 +17,10 @@ export default function ChatContactSearch(): React.JSX.Element {
 
   return (
     <div style={{display: 'flex',flexDirection:'row'}}>
-      <SelectSearch options={dropDownOptions} search></SelectSearch>
-      <Button onClick={() => {createNewThread}}>IMA BUTTON</Button>
+      <SelectSearch onChange={setSelectedPatient} options={dropDownOptions} search></SelectSearch>
+      <Button onClick={() => {
+        // createNewThread(selectedPateint, chatClient, provierCommunicationId)
+      }}>IMA BUTTON</Button>
     </div>
     );
 }

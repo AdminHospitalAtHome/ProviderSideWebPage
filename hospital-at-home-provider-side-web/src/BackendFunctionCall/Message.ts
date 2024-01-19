@@ -125,6 +125,6 @@ export function getPatients(): Promise<{name: string, value: number}[]> {
   })
 }
 
-export function createNewThread() {
+export function createNewThread(selectedPatient: any, chatCLient: ChatClient, providerCommunicationID: string) {
 
 }
