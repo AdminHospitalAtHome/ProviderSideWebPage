@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@adobe/react-spectrum": "^3.33.1",
     "@azure/communication-common": "^2.3.0",
     "@azure/communication-react": "^1.11.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -19,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.2",
     "react-scripts": "5.0.1",
+    "react-select-search": "^4.1.7",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },

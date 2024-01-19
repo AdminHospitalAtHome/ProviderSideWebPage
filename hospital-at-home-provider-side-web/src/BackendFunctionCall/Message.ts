@@ -1,5 +1,6 @@
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {AzureCommunicationTokenCredential} from "@azure/communication-common";
+import {getAllPatients} from "./getPatientList";
 
 export const endpointUrl =
   'https://hospitalathomechat.unitedstates.communication.azure.com';
@@ -96,3 +97,34 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
   })
 }
 
+// export function getPatients(): Promise<{ name: string, value: number }[]> {
+//   return new Promise((resolve) => {
+//     // let patients: {name: string, value: number}[] = []
+//     getAllPatients().then(res => {
+//       const patients = res.map(function (patient):{// @ts-ignore
+//         return {patient.PatientID, patient.FirstName}})
+//     })
+//   })
+// }
+
+export function getPatients(): Promise<{name: string, value: number}[]> {
+  return new Promise((resolve)=> {
+    let patients: {name: string, value: number}[] = []
+    getAllPatients().then((output) => {
+
+      //@ts-ignore
+      const patientIdsAndLastNames = output.map(patient => ({
+        value: patient.PatientID,
+        name: (patient.FirstName + " " + patient.LastName)
+      }));
+
+
+      resolve(patientIdsAndLastNames);
+    })
+
+  })
+}
+
+export function createNewThread() {
+
+}
