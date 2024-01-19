@@ -12,6 +12,7 @@ import './VitalPage.css'; // Assuming you have a CSS file for styles
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
+import SingleLineChart from "../Components/Chart/SingleLineChart";
 
 interface Patient {
 	PatientID: number;
@@ -28,7 +29,6 @@ interface VitalData {
 	weight: any[][] | null;
 }
 
-
 interface RecentVitalData {
 	recentBloodOxygen: string | null;
 	recentHeartRate: string | null;
@@ -42,7 +42,6 @@ export default function VitalPage() {
 	const [filters, setFilters] = useState({providerID: '', firstName: '', lastName: '', gender: ''});
 	const [patientId, setExpandedId] = useState<number | null>(null);
 	const [vitalData, setVitalData] = useState<VitalData>({
-		
 		bloodOxygen: null,
 		heartRate: null,
 		bloodPressure: null,
@@ -62,9 +61,7 @@ export default function VitalPage() {
 	const toggleExpanded = (id: number) => {
 		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
 	};
-	
-	
-	
+
 	useEffect(() => {
 		getAllPatients()
 			.then(patientData => {
@@ -88,7 +85,12 @@ export default function VitalPage() {
 					const recentHeartRate = heartRate.length > 0 ? heartRate[heartRate.length - 1][1] : null;
 					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]} - ${bloodPressure[bloodPressure.length - 1][1]}`  : null;
 					const recentWeight = weight.length > 0 ? weight[weight.length - 1][1] : null;
-					setVitalData({ bloodOxygen, heartRate, bloodPressure, weight });
+					setVitalData({
+						bloodOxygen: bloodOxygen,
+						heartRate: heartRate,
+						bloodPressure: bloodPressure,
+						weight: weight
+					});
 					
 					setRecentVitalData({
 						recentBloodOxygen: recentBloodOxygen,
@@ -101,10 +103,8 @@ export default function VitalPage() {
 					console.error('Error fetching vital data:', error);
 				});
 		}
-
-
 		console.log(vitalData)
-		console.log(recentVitalData);
+		// console.log(recentVitalData);
 	}, [patientId]);
 	
 	const handleFilterChange = (name: string, value: string) => {
@@ -113,7 +113,6 @@ export default function VitalPage() {
 			[name]: value
 		}));
 	};
-	
 	
 	const applyFilters = () => {
 		// Convert the filters object into a query string, appending 'null' for null, undefined, or empty string values
@@ -138,7 +137,6 @@ export default function VitalPage() {
 				console.error('Error fetching patients:', error);
 			});
 	};
-	
 	
 	return (
 		<body style={{paddingTop: '60px'}}>
@@ -182,18 +180,15 @@ export default function VitalPage() {
 			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
 		</div>
 			<div className="main-content">
-				
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} />
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen}/>
 				<VitalCard title="Heart Rate" data={vitalData.heartRate}/>
-				
 				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure}/>
-					
 				<VitalCard title="Weight" data={vitalData.weight}/>
 			</div>
 		</div>
 
 		</body>
-	
+
 	);
 }
 
