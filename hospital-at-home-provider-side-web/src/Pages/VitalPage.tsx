@@ -12,7 +12,7 @@ import './VitalPage.css'; // Assuming you have a CSS file for styles
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
-import SingleLineChart from "../Components/Chart/SingleLineChart";
+import SingleLineChart from '../Components/Chart/SingleLineChart';
 
 interface Patient {
 	PatientID: number;
@@ -62,6 +62,8 @@ export default function VitalPage() {
 		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
 	};
 
+	
+	
 	useEffect(() => {
 		getAllPatients()
 			.then(patientData => {
@@ -138,6 +140,8 @@ export default function VitalPage() {
 			});
 	};
 	
+	
+	const heartRateChart = <SingleLineChart data={vitalData.heartRate} />
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
@@ -180,10 +184,14 @@ export default function VitalPage() {
 			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
 		</div>
 			<div className="main-content">
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen}/>
-				<VitalCard title="Heart Rate" data={vitalData.heartRate}/>
-				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure}/>
-				<VitalCard title="Weight" data={vitalData.weight}/>
+				
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={heartRateChart}/>
+				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart}/>
+				
+				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={heartRateChart}/>
+					
+				<VitalCard title="Weight" data={vitalData.weight} children={heartRateChart}/>
+				
 			</div>
 		</div>
 

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import './VitalCard.css';
-import SingleLineChart from "../Chart/SingleLineChart"; // You should create a CSS file for this component
+import './VitalCard.css'; // You should create a CSS file for this component
+import SingleLineChart from '../Chart/SingleLineChart';
 
-const labels1 = ["January", "February", "March", "April", "May", "June"];
-const data1 = [0, 10, 5, 2, 20, 30, 45];
-
-function VitalCard({title, data}:{title:string, data:any}) {
+function VitalCard({ title, data, children}:{title:string, data:any, children: any}) {
     const [isFlipped, setIsFlipped] = useState(false);
     console.log(data);
 
@@ -17,6 +14,7 @@ function VitalCard({title, data}:{title:string, data:any}) {
         <div className={`vital-card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
             <div className="vital-card-front">
                 <h3>{title}</h3>
+                {children}
             </div>
             <div className="vital-card-back">
                 <h1>Chart</h1>

@@ -1,55 +1,47 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
-interface SingleLineChartProps {
-    labels: string[];
-    data: number[];
-    label: string;
-}
+type SingleLineChartProps = {
+    data: any[][] | null;
+};
 
-const SingleLineChart: React.FC<SingleLineChartProps> = ({ labels, data, label }) => {
+const SingleLineChart: React.FC<SingleLineChartProps> = ({ data }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
 
     useEffect(() => {
-        if (chartRef.current) {
-            // Destroy the previous instance if it exists
-            if (chartInstance.current) {
-                chartInstance.current.destroy();
-            }
+        if (chartInstance.current) {
+            chartInstance.current.destroy();
+        }
 
-            const ctx = chartRef.current.getContext('2d');
-            chartInstance.current = new Chart(ctx!, {
+        const ctx = chartRef.current?.getContext('2d');
+        if (ctx && data) {
+            chartInstance.current = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: data.map(d => d[0]),
                     datasets: [{
-                        label: label,
-                        data: data,
+                        label: 'Heart Rate',
+                        data: data.map(d => d[1]),
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1
                     }]
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                    // Add your options here
                 }
             });
         }
 
-        // Cleanup function to destroy chart instance on unmount
         return () => {
-            if (chartInstance.current) {
-                chartInstance.current.destroy();
-            }
+            chartInstance.current?.destroy();
         };
-    }, [labels, data, label]);
+    }, [data]);
 
-    return <canvas ref={chartRef} />;
+    return (
+        <canvas ref={chartRef}></canvas>
+    );
 };
 
 export default SingleLineChart;
