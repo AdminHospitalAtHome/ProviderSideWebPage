@@ -18,7 +18,6 @@ function VitalCard({ title, data, children}:{title:string, data:any, children: a
             </div>
             <div className="vital-card-back">
                 <h1>Chart</h1>
-                <SingleLineChart labels={labels1} data={data1} label={"Vital Data"}/>
             </div>
         </div>
     );

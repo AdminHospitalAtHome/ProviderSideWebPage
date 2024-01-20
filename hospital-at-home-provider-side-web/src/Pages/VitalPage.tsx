@@ -142,6 +142,8 @@ export default function VitalPage() {
 	
 	
 	const heartRateChart = <SingleLineChart data={vitalData.heartRate} />
+	const weightChart = <SingleLineChart data={vitalData.weight} />
+	const bloodOxygenChart = <SingleLineChart data={vitalData.bloodOxygen} />
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
@@ -185,12 +187,12 @@ export default function VitalPage() {
 		</div>
 			<div className="main-content">
 				
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={heartRateChart}/>
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}/>
 				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart}/>
 				
 				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={heartRateChart}/>
 					
-				<VitalCard title="Weight" data={vitalData.weight} children={heartRateChart}/>
+				<VitalCard title="Weight" data={vitalData.weight} children={weightChart}/>
 				
 			</div>
 		</div>
