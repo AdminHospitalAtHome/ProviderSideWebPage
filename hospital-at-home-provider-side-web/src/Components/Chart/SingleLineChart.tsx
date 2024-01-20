@@ -3,9 +3,10 @@ import Chart from 'chart.js/auto';
 
 type SingleLineChartProps = {
     data: any[][] | null;
+    label: string;
 };
 
-const SingleLineChart: React.FC<SingleLineChartProps> = ({ data }) => {
+const SingleLineChart: React.FC<SingleLineChartProps> = ({ data , label}) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
 
@@ -21,7 +22,7 @@ const SingleLineChart: React.FC<SingleLineChartProps> = ({ data }) => {
                 data: {
                     labels: data.map(d => d[0]),
                     datasets: [{
-                        label: 'Heart Rate',
+                        label: label,
                         data: data.map(d => d[1]),
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',

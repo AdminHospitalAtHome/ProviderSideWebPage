@@ -13,6 +13,7 @@ import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
 import SingleLineChart from '../Components/Chart/SingleLineChart';
+import DoubleLineChart from "../Components/Chart/DoubleLineChart";
 
 interface Patient {
 	PatientID: number;
@@ -139,11 +140,34 @@ export default function VitalPage() {
 				console.error('Error fetching patients:', error);
 			});
 	};
-	
-	
-	const heartRateChart = <SingleLineChart data={vitalData.heartRate} />
-	const weightChart = <SingleLineChart data={vitalData.weight} />
-	const bloodOxygenChart = <SingleLineChart data={vitalData.bloodOxygen} />
+
+
+	const heartRateChart = (
+		<SingleLineChart
+			data={vitalData.heartRate}
+			label="Heart Rate in BPM"
+		/>
+	);
+
+	const weightChart= (
+		<SingleLineChart
+			data={vitalData.weight}
+			label="Weight in lbs"
+		/>);
+
+	const bloodOxygenChart= (
+		<SingleLineChart
+			data={vitalData.bloodOxygen}
+			label="Blood Oxygen level in %"
+		/>);
+
+	const bloodPressureChart = (
+		<DoubleLineChart
+			data={vitalData.bloodPressure}
+			label1="Systolic Blood Pressure in mmHg"
+			label2="Diastolic Blood Pressure in mmHg"
+	/>);
+
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
@@ -189,9 +213,7 @@ export default function VitalPage() {
 				
 				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}/>
 				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart}/>
-				
-				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={heartRateChart}/>
-					
+				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}/>
 				<VitalCard title="Weight" data={vitalData.weight} children={weightChart}/>
 				
 			</div>

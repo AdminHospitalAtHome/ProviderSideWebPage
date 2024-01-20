@@ -2,40 +2,38 @@ import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
 interface DoubleLineChartProps {
-    labels: string[];
-    data1: number[];
+    data: any[][] | null;
     label1: string;
-    data2: number[];
     label2: string;
 }
 
-const DoubleLineChart: React.FC<DoubleLineChartProps> = ({ labels, data1, label1, data2, label2 }) => {
+const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2}) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart | null>(null);
 
     useEffect(() => {
-        if (chartRef.current) {
             // Destroy the previous instance if it exists
             if (chartInstance.current) {
                 chartInstance.current.destroy();
             }
 
-            const ctx = chartRef.current.getContext('2d');
+            const ctx = chartRef.current?.getContext('2d');
+        if (ctx && data) {
             chartInstance.current = new Chart(ctx!, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: data.map(d => d[0]),
                     datasets: [
                         {
                             label: label1,
-                            data: data1,
+                            data: data.map(d => d[1]),
                             fill: false,
                             borderColor: 'rgb(75, 192, 192)',
                             tension: 0.1
                         },
                         {
                             label: label2,
-                            data: data2,
+                            data: data.map(d => d[2]),
                             fill: false,
                             borderColor: 'rgb(255, 99, 132)',
                             tension: 0.1
@@ -51,13 +49,12 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({ labels, data1, label1
                 }
             });
         }
-
         return () => {
             if (chartInstance.current) {
                 chartInstance.current.destroy();
             }
         };
-    }, [labels, data1, label1, data2, label2]);
+    }, [data]);
 
     return <canvas ref={chartRef} />;
 };

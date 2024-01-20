@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './VitalCard.css'; // You should create a CSS file for this component
-import SingleLineChart from '../Chart/SingleLineChart';
 
 function VitalCard({ title, data, children}:{title:string, data:any, children: any}) {
     const [isFlipped, setIsFlipped] = useState(false);
