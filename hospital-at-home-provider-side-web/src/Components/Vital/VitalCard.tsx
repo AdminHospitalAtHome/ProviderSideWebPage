@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './VitalCard.css'; // You should create a CSS file for this component
 
-function VitalCard({ title, data, children}:{title:string, data:any, children: any}) {
+function VitalCard({ title, data, children, children2}:{title:string, data:any, children: any, children2: any}) {
     const [isFlipped, setIsFlipped] = useState(false);
     console.log(data);
 
@@ -17,6 +17,7 @@ function VitalCard({ title, data, children}:{title:string, data:any, children: a
             </div>
             <div className="vital-card-back">
                 <h1>Chart</h1>
+                {children2}
             </div>
         </div>
     );

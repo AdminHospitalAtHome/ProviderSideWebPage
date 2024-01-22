@@ -14,6 +14,7 @@ import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
 import SingleLineChart from '../Components/Chart/SingleLineChart';
 import DoubleLineChart from "../Components/Chart/DoubleLineChart";
+import DataTable from "../Components/Table/DataTable";
 
 interface Patient {
 	PatientID: number;
@@ -168,6 +169,30 @@ export default function VitalPage() {
 			label2="Diastolic Blood Pressure in mmHg"
 	/>);
 
+	const heartRateTable = (
+		<DataTable
+			columns={["Date Time", "Heart Rate in BPM"]}
+			data={vitalData.heartRate} />
+	);
+
+	const weightTable = (
+		<DataTable
+			columns={["Date Time", "Weight in lbs"]}
+			data={vitalData.weight} />
+	);
+
+	const bloodOxygenTable = (
+		<DataTable
+			columns={["Date Time", "Blood Oxygen level in %"]}
+			data={vitalData.bloodOxygen} />
+	);
+
+	const bloodPressureTable = (
+		<DataTable
+			columns={["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"]}
+			data={vitalData.bloodPressure} />
+	);
+
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
@@ -211,10 +236,10 @@ export default function VitalPage() {
 		</div>
 			<div className="main-content">
 				
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}/>
-				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart}/>
-				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}/>
-				<VitalCard title="Weight" data={vitalData.weight} children={weightChart}/>
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
+				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+				<VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
 				
 			</div>
 		</div>
