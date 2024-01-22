@@ -64,9 +64,7 @@ export default function VitalPage() {
 	const toggleExpanded = (id: number) => {
 		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
 	};
-
-
-
+	
 	useEffect(() => {
 		getAllPatients()
 			.then(patientData => {
@@ -187,14 +185,25 @@ export default function VitalPage() {
 			data={vitalData.bloodOxygen} />
 	);
 
-
 	const bloodPressureTable = (
 		<DataTable
 			columns={["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"]}
 			data={vitalData.bloodPressure} />
 	);
 
+	const patientData = patients.map(patient => [
+		patient.PatientID,
+		patient.FirstName,
+		patient.LastName,
+		patient.Gender,
+		patient.DateOfBirth
+	]);
+
+	const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
+
+
 	const handleExportClick = () => {
+		exportToCsv(patientData, patientHeaders, 'patient.csv');
 		exportToCsv(vitalData.bloodOxygen, ["Date Time", "Blood Oxygen level in %"], 'bloodOxygen.csv');
 		exportToCsv(vitalData.bloodPressure, ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"], 'bloodPressure.csv');
 		exportToCsv(vitalData.heartRate, ["Date Time", "Heart Rate in BPM"], 'heartRate.csv');
