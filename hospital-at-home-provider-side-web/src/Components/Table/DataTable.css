@@ -1,0 +1,26 @@
+.table-container {
+    overflow-x: auto;
+    max-height: 400px; /* Adjust the height as needed */
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    border: 1px solid red;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  

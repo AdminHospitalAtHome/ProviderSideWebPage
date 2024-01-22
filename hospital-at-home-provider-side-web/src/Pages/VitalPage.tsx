@@ -170,9 +170,8 @@ export default function VitalPage() {
 	/>);
 
 	const heartRateTable = (
-		<DataTable
-			columns={["Date Time", "Heart Rate in BPM"]}
-			data={vitalData.heartRate} />
+		<DataTable columns={["Date Time", "Heart Rate in BPM"]}
+		data={vitalData.heartRate}></DataTable>
 	);
 
 	const weightTable = (

@@ -1,41 +1,68 @@
-// DataTable.tsx
 import React from 'react';
+import { useTable, Column, Cell, Row, HeaderGroup } from 'react-table';
+import './DataTable.css';
+interface DataTableProps {
+  data: any[][] | null;
+  columns: string[];
+}
 
-type DataTableProps = {
-    columns: string[];
-    data: any[][] | null;
-};
+function DataTable({ data, columns }: DataTableProps) {
 
-const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
-    // Check if data is null or empty
-    const isDataEmpty = !data || data.length === 0;
+  const columnDefs: Column<any>[] = React.useMemo(() => 
+    columns.map((col) => ({
+      Header: col,
+      accessor: col,
+    })),
+    [columns]
+  );
 
-    return (
-        <table>
-            <thead>
-            <tr>
-                {columns.map((column, index) => (
-                    <th key={index}>{column}</th>
-                ))}
+
+  const dataFormatted = data ? data.map(row => {
+    let rowData: { [key: string]: any } = {};
+    row.forEach((cell, index) => {
+      rowData[columns[index]] = cell;
+    });
+    return rowData;
+  }) : [];
+
+  const tableInstance = useTable<any>({ columns: columnDefs, data: dataFormatted });
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
+
+
+  return (
+    <div className="table-container">
+        <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup: HeaderGroup<any>) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column: HeaderGroup<any>) => (
+              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row: Row<any>) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell: Cell<any>) => (
+                <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+              ))}
             </tr>
-            </thead>
-            <tbody>
-            {isDataEmpty ? (
-                <tr>
-                    <td colSpan={columns.length}>No data available</td>
-                </tr>
-            ) : (
-                data!.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {row.map((cell, cellIndex) => (
-                            <td key={cellIndex}>{cell}</td>
-                        ))}
-                    </tr>
-                ))
-            )}
-            </tbody>
-        </table>
-    );
-};
+          );
+        })}
+      </tbody>
+    </table>
+    </div>
+  );
+}
 
 export default DataTable;
