@@ -32,10 +32,11 @@ export default function ChatFrame({thread, communicationID, communicationToken}:
 
   if (adapter) {
     return (
-      <div>
+      <div style={{height: '90vh', width: '100%'}}>
         <ChatComposite adapter={adapter}
                        options={{
-                         errorBar: true
+                         errorBar: true,
+
                        }}
         ></ChatComposite>
       </div>

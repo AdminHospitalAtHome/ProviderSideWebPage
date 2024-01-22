@@ -107,9 +107,9 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
 //   })
 // }
 
-export function getPatients(): Promise<{name: string, value: number}[]> {
-  return new Promise((resolve)=> {
-    let patients: {name: string, value: number}[] = []
+export function getPatients(): Promise<{ name: string, value: number }[]> {
+  return new Promise((resolve) => {
+    let patients: { name: string, value: number }[] = []
     getAllPatients().then((output) => {
 
       //@ts-ignore
@@ -125,6 +125,71 @@ export function getPatients(): Promise<{name: string, value: number}[]> {
   })
 }
 
-export function createNewThread(selectedPatient: any, chatCLient: ChatClient, providerCommunicationID: string) {
+// Based Off Azure Sample Code: https://github.com/Azure-Samples/communication-services-javascript-quickstarts/blob/main/add-chat/client.js
+export function createNewThread(selectedPatient: number,
+                                chatClient: ChatClient,
+                                providerCommunicationID: string,
+                                dropDownOptions: {
+                                  name: string,
+                                  value: number
+                                }[],
+                                threadClients: ChatThreadClient[]
+): Promise<ChatThreadClient | undefined> {
+
+  let patientName = '';
+  dropDownOptions.map(patient => {
+    if (patient.value === selectedPatient) {
+      patientName = patient.name;
+    }
+  })
+
+  return new Promise( (resolve) => {
+    getCommunicationId(selectedPatient).then(async (patientCommunicationID) => {
+
+        // Check if Chat already Exists:
+        for (const threadClient of threadClients) {
+          let participants = threadClient.listParticipants()
+          for await (const p of participants) {
+            try {
+              //@ts-ignore
+              if (p.id.communicationUserId === patientCommunicationID) {
+                resolve(threadClient);
+              }
+            } catch {
+            }
+          }
+        }
+
+        const createChatThreadRequest = {
+          topic: 'Chat with ' + patientName + ' (' + selectedPatient + ')'
+        }
+        const createChatThreadOptions = {
+          participants: [
+            { // Provider
+              id: {communicationUserId: providerCommunicationID},
+              displayName: 'Temp Provider',
+            },
+            { // Patient
+              id: {communicationUserId: patientCommunicationID},
+              displayName: patientName,
+            }
+          ]
+        }
+
+        chatClient.createChatThread(createChatThreadRequest, createChatThreadOptions)
+          .then(res => {
+            if (res.chatThread) {
+              resolve(chatClient.getChatThreadClient(res.chatThread.id));
+            } else {
+              resolve(undefined); // Todo: Maybe Change
+            }
+
+
+          })
+      }
+    )
+
+  })
+
 
 }
