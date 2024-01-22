@@ -32,12 +32,12 @@ export default function ChatPage(): React.JSX.Element {
         setThreadClients(res);
       })
     }
-  }, [chatClient])
+  }, [chatClient, chatThread])
 
 
   if (chatThread && communicationToken !== "" && chatClient) {
     return (<body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-    <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient}></ChatMenu></div>
+    <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread}></ChatMenu></div>
     <div style={{flexGrow: 11}}>
       <ChatFrame thread={chatThread} communicationID={temp_communicationId}
                  communicationToken={communicationToken}></ChatFrame>
@@ -46,7 +46,7 @@ export default function ChatPage(): React.JSX.Element {
   } else if (chatClient) {
     return (
       <body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-      <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient}></ChatMenu></div>
+      <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread}></ChatMenu></div>
       <div style={{flexGrow: 11}}>
         Please Select a Chat...
       </div>

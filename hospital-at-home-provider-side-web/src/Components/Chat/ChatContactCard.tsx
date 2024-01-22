@@ -3,25 +3,26 @@ import Card from 'react-bootstrap/Card'
 import {getParticipantInThread, getThreadLastMessage} from "../../BackendFunctionCall/Message";
 import React, {useEffect, useState} from "react";
 
-export default function ChatContactCard({threadClient: chatThreadClient, providerCommunicationID}: {
+export default function ChatContactCard({threadClient, providerCommunicationID, selected}: {
   threadClient: ChatThreadClient,
-  providerCommunicationID: string
+  providerCommunicationID: string,
+  selected: boolean
 }): React.JSX.Element {
   const [patientName, setPatientName] = useState<string | undefined>('')
   const [lastMessage, setLastMessage] = useState<any>(undefined)
 
   useEffect(() => {
-      getParticipantInThread(chatThreadClient, providerCommunicationID).then(setPatientName)
-    }, [chatThreadClient]
+      getParticipantInThread(threadClient, providerCommunicationID).then(setPatientName)
+    }, [threadClient]
   )
 
   useEffect(() => {
-    getThreadLastMessage(chatThreadClient).then(setLastMessage)
-  }, [chatThreadClient])
+    getThreadLastMessage(threadClient).then(setLastMessage)
+  }, [threadClient])
 
 
   if (lastMessage) {
-    return (<Card style={{margin: '5px'}}>
+    return (<Card style={selected ? {margin: '5px', backgroundColor:'#c5d4fc'} : {margin:'5px'}}>
       <Card.Title>{patientName}</Card.Title>
       <Card.Text>{lastMessage.content.message}</Card.Text>
       <Card.Footer>{String(lastMessage.createdOn)}</Card.Footer>

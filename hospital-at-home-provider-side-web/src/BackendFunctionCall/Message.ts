@@ -154,11 +154,14 @@ export function createNewThread(selectedPatient: number,
               //@ts-ignore
               if (p.id.communicationUserId === patientCommunicationID) {
                 resolve(threadClient);
+                return;
               }
             } catch {
             }
           }
         }
+
+        console.log("New Chat Created")
 
         const createChatThreadRequest = {
           topic: 'Chat with ' + patientName + ' (' + selectedPatient + ')'
