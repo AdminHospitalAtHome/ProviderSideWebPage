@@ -15,6 +15,7 @@ import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
 import SingleLineChart from '../Components/Chart/SingleLineChart';
 import DoubleLineChart from "../Components/Chart/DoubleLineChart";
 import DataTable from "../Components/Table/DataTable";
+import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 
 interface Patient {
 	PatientID: number;
@@ -59,13 +60,13 @@ export default function VitalPage() {
 
 	const [startDateTime, setStartDateTime] = useState(getDefaultStartTime());
 	const [stopDateTime, setStopDateTime] = useState(new Date().toISOString());
-	
+
 	const toggleExpanded = (id: number) => {
 		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
 	};
 
-	
-	
+
+
 	useEffect(() => {
 		getAllPatients()
 			.then(patientData => {
@@ -75,7 +76,7 @@ export default function VitalPage() {
 				console.error('Error fetching patients:', error);
 			});
 	}, []);
-	
+
 	useEffect(() => {
 		if (patientId !== null) {
 			Promise.all([
@@ -95,7 +96,7 @@ export default function VitalPage() {
 						bloodPressure: bloodPressure,
 						weight: weight
 					});
-					
+
 					setRecentVitalData({
 						recentBloodOxygen: recentBloodOxygen,
 						recentHeartRate: recentHeartRate,
@@ -110,14 +111,14 @@ export default function VitalPage() {
 		console.log(vitalData)
 		// console.log(recentVitalData);
 	}, [patientId]);
-	
+
 	const handleFilterChange = (name: string, value: string) => {
 		setFilters(prevFilters => ({
 			...prevFilters,
 			[name]: value
 		}));
 	};
-	
+
 	const applyFilters = () => {
 		// Convert the filters object into a query string, appending 'null' for null, undefined, or empty string values
 		const filterParams = Object.entries(filters)
@@ -128,9 +129,9 @@ export default function VitalPage() {
 				return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 			})
 			.join('&');
-		
+
 		console.log(filterParams);
-		
+
 		filterPatients(filterParams)
 			.then((patientData: any) => {
 				const patients: Patient[] = patientData as Patient[];
@@ -141,7 +142,6 @@ export default function VitalPage() {
 				console.error('Error fetching patients:', error);
 			});
 	};
-
 
 	const heartRateChart = (
 		<SingleLineChart
@@ -187,60 +187,73 @@ export default function VitalPage() {
 			data={vitalData.bloodOxygen} />
 	);
 
+
 	const bloodPressureTable = (
 		<DataTable
 			columns={["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"]}
 			data={vitalData.bloodPressure} />
 	);
 
+	const handleExportClick = () => {
+		exportToCsv(vitalData.bloodOxygen, ["Date Time", "Blood Oxygen level in %"], 'bloodOxygen.csv');
+		exportToCsv(vitalData.bloodPressure, ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"], 'bloodPressure.csv');
+		exportToCsv(vitalData.heartRate, ["Date Time", "Heart Rate in BPM"], 'heartRate.csv');
+		exportToCsv(vitalData.weight, ["Date Time", "Weight in lbs"], 'weight.csv');
+	};
+
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
-		<div className="sidebar">
-			<div className="filterButton">
-				<button onClick={() => setFilterPanelVisible(!filterPanelVisible)}>
-					Filter
-				</button>
-			</div>
-			
-			{filterPanelVisible && (
-				<div className="filterPanel">
-					<input
-						className="input"
-						onChange={(e) => handleFilterChange('providerID', e.target.value)}
-						value={filters.providerID}
-						placeholder="Provider ID"
-					/>
-					<input
-						className="input"
-						onChange={(e) => handleFilterChange('firstName', e.target.value)}
-						value={filters.firstName}
-						placeholder="First Name"
-					/>
-					<input
-						className="input"
-						onChange={(e) => handleFilterChange('lastName', e.target.value)}
-						value={filters.lastName}
-						placeholder="Last Name"
-					/>
-					<input
-						className="input"
-						onChange={(e) => handleFilterChange('gender', e.target.value)}
-						value={filters.gender}
-						placeholder="Gender"
-					/>
-					<button onClick={applyFilters}>Apply Filters</button>
+			<div className="sidebar">
+				<div className="exportDataButton">
+					<button
+						onClick={() => handleExportClick()}>
+						Export Data
+					</button>
 				</div>
-			)}
-			<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
-		</div>
+				<div className="filterButton">
+					<button onClick={() => setFilterPanelVisible(!filterPanelVisible)}>
+						Filter
+					</button>
+				</div>
+
+				{filterPanelVisible && (
+					<div className="filterPanel">
+						<input
+							className="input"
+							onChange={(e) => handleFilterChange('providerID', e.target.value)}
+							value={filters.providerID}
+							placeholder="Provider ID"
+						/>
+						<input
+							className="input"
+							onChange={(e) => handleFilterChange('firstName', e.target.value)}
+							value={filters.firstName}
+							placeholder="First Name"
+						/>
+						<input
+							className="input"
+							onChange={(e) => handleFilterChange('lastName', e.target.value)}
+							value={filters.lastName}
+							placeholder="Last Name"
+						/>
+						<input
+							className="input"
+							onChange={(e) => handleFilterChange('gender', e.target.value)}
+							value={filters.gender}
+							placeholder="Gender"
+						/>
+						<button onClick={applyFilters}>Apply Filters</button>
+					</div>
+				)}
+				<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
+			</div>
 			<div className="main-content">
-				
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}
+						   children2={bloodOxygenTable}/>
 				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
 				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
 				<VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
-				
 			</div>
 		</div>
 
