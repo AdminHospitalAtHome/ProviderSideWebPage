@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import { Chart, TooltipItem, ChartData, ChartOptions } from 'chart.js/auto';
 
 type SingleLineChartProps = {
     data: any[][] | null;
@@ -30,7 +30,17 @@ const SingleLineChart: React.FC<SingleLineChartProps> = ({ data , label}) => {
                     }]
                 },
                 options: {
-                    // Add your options here
+                    plugins: {
+                        tooltip:{
+                            enabled: true,
+                            callbacks: {
+                                afterLabel: function(context){
+                                    let index = context.dataIndex;
+                                    return "Is Manual Input:" + data.map(d => d[2])[index];
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }

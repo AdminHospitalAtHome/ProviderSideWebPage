@@ -45,6 +45,17 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                         y: {
                             beginAtZero: true
                         }
+                    },
+                    plugins: {
+                        tooltip:{
+                            enabled: true,
+                            callbacks: {
+                                afterLabel: function(context){
+                                    let index = context.dataIndex;
+                                    return "Is Manual Input: " + data.map(d => d[3])[index];
+                                }
+                            }
+                        }
                     }
                 }
             });

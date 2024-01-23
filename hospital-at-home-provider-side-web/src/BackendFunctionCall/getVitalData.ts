@@ -100,6 +100,7 @@ export function parseBloodOxygenData(bloodOxygenJson: any) {
         bloodOxygenArr.push([
             timeTableParser(bloodOxygenJson[i].DateTimeTaken),
             bloodOxygenJson[i].BloodOxygenLevelInPercentage,
+            bloodOxygenJson[i].IfManualInput
         ]);
     }
     return bloodOxygenArr;
@@ -124,6 +125,7 @@ export function parseBloodPressureData(bloodPressureJSON: any) {
             timeTableParser(bloodPressureJSON[i].DateTimeTaken),
             bloodPressureJSON[i].SystolicBloodPressureInMmHg,
             bloodPressureJSON[i].DiastolicBloodPressureInMmHg,
+            bloodPressureJSON[i].IfManualInput
         ]);
     }
     return bloodPressureArr;
@@ -147,6 +149,7 @@ export function parseHeartRateData(heartRateJson: any) {
         heartRateArr.push([
             timeTableParser(heartRateJson[i].DateTimeTaken),
             heartRateJson[i].HeartRateInBPM,
+            heartRateJson[i].IfManualInput
         ]);
     }
     return heartRateArr;
@@ -170,6 +173,7 @@ export function parseWeightData(weightJson: any) {
         weightArr.push([
             timeTableParser(weightJson[i].DateTimeTaken),
             weightJson[i].WeightInPounds,
+            weightJson[i].IfManualInput
         ]);
     }
     return weightArr;
