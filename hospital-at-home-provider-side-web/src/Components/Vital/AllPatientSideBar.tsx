@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { getAllPatients } from '../../BackendFunctionCall/getPatientList';
 import './AllPatientSideBar.css';
 import React from 'react';
+import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
+import StatusButton from "../Button/StatusButton";
 
 interface Patient {
   PatientID: number;
@@ -10,6 +12,14 @@ interface Patient {
   Gender: string;
   DateOfBirth: string;
 }
+
+const styles = {
+    detailText: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }
+};
 
 export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: any, vitalData:any}) {
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
@@ -38,28 +48,38 @@ function calculateAge(birthdateStr:string) {
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
       age--;
     }
-  
     return age;
   }
+
   return (
     <div className="container">
       {patients.map((patient) => (
-
-
         <div key={patient.PatientID}>
           <button className="tile" onClick={() => toggle(patient.PatientID)}>
             <div className="avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
             <span className="name">{patient.FirstName} {patient.LastName}</span>
           </button>
-          <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
-            <p className="detailText">Gender: {patient.Gender}</p>
-            <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
-            <div className="separator" />
-            <p className="detailText">Weight: {vitalData.recentWeight}</p>
-            <p className="detailText">Heart Rate: {vitalData.recentHeartRate}</p>
-            <p className="detailText">Blood Oxygen: {vitalData.recentBloodOxygen}</p>
-            <p className="detailText">Blood Pressure: {vitalData.recentBloodPressure}</p>
-          </div>
+            <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
+                <p className="detailText">Gender: {patient.Gender}</p>
+                <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
+                <div className="separator"/>
+                <p className="detailText" style={styles.detailText}>
+                    Weight: {vitalData.recentWeight}
+                    <StatusButton color={getAlertLevel()}/>
+                </p>
+                <p className="detailText" style={styles.detailText}>
+                    Heart Rate: {vitalData.recentHeartRate}
+                    <StatusButton color={getAlertLevel()}/>
+                </p>
+                <p className="detailText" style={styles.detailText}>
+                    Blood Oxygen: {vitalData.recentBloodOxygen}
+                    <StatusButton color={getAlertLevel()}/>
+                </p>
+                <p className="detailText" style={styles.detailText}>
+                    Blood Pressure: {vitalData.recentBloodPressure}
+                    <StatusButton color={getAlertLevel()}/>
+                </p>
+            </div>
         </div>
       ))}
     </div>
