@@ -52,7 +52,7 @@ export default function ChatPage(): React.JSX.Element {
       </div>
       </body>);
   } else {
-    return (<body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}></body>);
+    return (<div style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>Loading</div>);
   }
 
 

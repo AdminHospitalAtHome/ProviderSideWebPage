@@ -12,13 +12,26 @@ export default function ChatContactCard({threadClient, providerCommunicationID, 
   const [lastMessage, setLastMessage] = useState<any>(undefined)
 
   useEffect(() => {
+    try {
+      console.log("AAA", threadClient)
       getParticipantInThread(threadClient, providerCommunicationID).then(setPatientName)
+    } catch (error){
+      console.log(error)
+    }
+    
     }, [threadClient]
   )
 
   useEffect(() => {
-    getThreadLastMessage(threadClient).then(setLastMessage)
+    try{
+      getThreadLastMessage(threadClient).then(setLastMessage)
+    } catch {
+      console.log("AHG")
+    }
+    
   }, [threadClient])
+  
+  
 
 
   if (lastMessage) {
