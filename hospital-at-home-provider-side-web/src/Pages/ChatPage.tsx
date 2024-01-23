@@ -1,6 +1,6 @@
 import ChatMenu from "../Components/Chat/ChatMenu";
 import ChatFrame from "../Components/Chat/ChatFrame";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {
   getAllThreads,
@@ -17,6 +17,7 @@ export default function ChatPage(): React.JSX.Element {
   const [threadClients, setThreadClients] = useState<ChatThreadClient[]>([]);
   const [chatThread, setChatThread] = useState<ChatThreadClient | undefined>(undefined);
   const [communicationToken, setCommunicationToken] = useState<string>("")
+  const [update, forceUpdate] = useReducer(x => x + 1, 0)
 
   useEffect(() => {
     initChatClient(providerId).then(res => {
@@ -32,12 +33,14 @@ export default function ChatPage(): React.JSX.Element {
         setThreadClients(res);
       })
     }
-  }, [chatClient, chatThread])
+  }, [chatClient, chatThread, update])
+
+
 
 
   if (chatThread && communicationToken !== "" && chatClient) {
     return (<body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-    <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread}></ChatMenu></div>
+    <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
     <div style={{flexGrow: 11}}>
       <ChatFrame thread={chatThread} communicationID={temp_communicationId}
                  communicationToken={communicationToken}></ChatFrame>
@@ -46,7 +49,7 @@ export default function ChatPage(): React.JSX.Element {
   } else if (chatClient) {
     return (
       <body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-      <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread}></ChatMenu></div>
+      <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
       <div style={{flexGrow: 11}}>
         Please Select a Chat...
       </div>

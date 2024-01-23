@@ -36,6 +36,7 @@ export default function ChatContactCard({threadClient, providerCommunicationID, 
 
   if (lastMessage) {
     return (<Card style={selected ? {margin: '5px', backgroundColor:'#c5d4fc'} : {margin:'5px'}}>
+
       <Card.Title>{patientName}</Card.Title>
       <Card.Text>{lastMessage.content.message}</Card.Text>
       <Card.Footer>{String(lastMessage.createdOn)}</Card.Footer>

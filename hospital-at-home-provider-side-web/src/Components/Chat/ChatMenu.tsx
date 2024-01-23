@@ -1,53 +1,49 @@
-import React, {useEffect} from "react";
+import React, {useReducer} from "react";
 import ChatContactCard from "./ChatContactCard";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
-import {temp_communicationId} from "../../BackendFunctionCall/Message";
+import {deleteThread, temp_communicationId} from "../../BackendFunctionCall/Message";
 import ChatContactSearch from "./ChatContactSearch";
+import Button from 'react-bootstrap/Button';
 
-export default function ChatMenu({threadClients, setThread, chatClient, currentThread}: {
-	threadClients: ChatThreadClient[],
-	setThread: React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>
-	chatClient: ChatClient
-	currentThread: ChatThreadClient | undefined
+export default function ChatMenu({threadClients, setThread, chatClient, currentThread, forceUpdate}: {
+  threadClients: ChatThreadClient[],
+  setThread: React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>
+  chatClient: ChatClient
+  currentThread: ChatThreadClient | undefined
+  forceUpdate: React.DispatchWithoutAction
 }): React.JSX.Element {
-	useEffect( () => {
-	temp().then((res) => {
-		console.log("Done")
-	})
-		for (let i of threadClients) {
-			console.log(i)
-		}
-		
-	
-	}, [threadClients,chatClient]);
-	
-	return (<div>
-		<ChatContactSearch chatClient={chatClient} providerCommunicationId={temp_communicationId} setThread={setThread}
-		                   threadClients={threadClients}/>
-		
-		{threadClients.map((threadClient) => {
-			let selected = false
-			if (currentThread) {
-				if (currentThread.threadId === threadClient.threadId) {
-					selected = true;
-				}
-			}
-			try {
-				return (
-					<div onClick={() => {
-						setThread(threadClient);
-					}}>
-						<ChatContactCard selected={selected} threadClient={threadClient}
-						                 providerCommunicationID={temp_communicationId}/>
-					</div>)
-			} catch {
-				console.log("ERROR")
-				console.log(threadClient)
-				return(<div></div>)
-			}
-			
-		})}
-	</div>)
+
+
+
+  return (<div>
+    <ChatContactSearch chatClient={chatClient} providerCommunicationId={temp_communicationId} setThread={setThread} threadClients={threadClients}/>
+    {threadClients.map((threadClient) => {
+      let selected = false
+      if (currentThread) {
+        if (currentThread.threadId === threadClient.threadId) {
+          selected = true;
+        }
+      }
+
+      return (
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <div
+            onClick={() => {
+            console.log("Click")
+            setThread(threadClient);
+          }}>
+            <ChatContactCard selected={selected} threadClient={threadClient} providerCommunicationID={temp_communicationId}/>
+          </div>
+
+          <div className="d-grid" style={{margin:"5px", marginLeft:"0"}}>
+            <Button style={{flex:1}} onClick={() => {deleteThread(chatClient, setThread, threadClient).then(() => {
+              forceUpdate()})}} variant="danger">Delete</Button>
+
+
+          </div>
+        </div>)
+    })}
+  </div>)
 }
 
 

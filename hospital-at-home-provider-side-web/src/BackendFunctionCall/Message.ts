@@ -1,6 +1,7 @@
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {AzureCommunicationTokenCredential} from "@azure/communication-common";
 import {getAllPatients} from "./getPatientList";
+import React from "react";
 
 export const endpointUrl =
   'https://hospitalathomechat.unitedstates.communication.azure.com';
@@ -33,7 +34,10 @@ export function getAllThreads(chatClient: ChatClient): Promise<ChatThreadClient[
     let threadClients: ChatThreadClient[] = [];
     for await (const t of threads) {
       try {
-        threadClients.push(chatClient.getChatThreadClient(t.id))
+        if (!t.deletedOn) {
+          threadClients.push(chatClient.getChatThreadClient(t.id))
+        }
+
       } catch {
 
       }
@@ -193,6 +197,19 @@ export function createNewThread(selectedPatient: number,
     )
 
   })
+
+}
+
+export function deleteThread(chatClient: ChatClient, setThread:  React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>, currentThread: ChatThreadClient) {
+  return new Promise((resolve) => {
+    console.log("test")
+
+      chatClient.deleteChatThread(currentThread.threadId).then(() => {
+        resolve(null);
+      })
+
+  })
+
 
 
 }
