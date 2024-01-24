@@ -238,11 +238,11 @@ export default function VitalPage() {
 				<AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
 			</div>
 			<div className="main-content">
-				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}
-						   children2={bloodOxygenTable}/>
-				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
-				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
 				<VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
+				<VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
+				<VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+				<VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+
 			</div>
 		</div>
 

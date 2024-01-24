@@ -40,7 +40,7 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
 		bloodPressure: null,
 		weight: null
   })
-    
+
   const range = {
     bloodPressure:5,
     heartRate:5,
