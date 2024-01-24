@@ -120,6 +120,12 @@ export default function VitalPage() {
 			});
 	};
 
+	const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
+	const bloodOxygenHeaders = ["Date Time", "Blood Oxygen level in %", "ifManualInput"];
+	const bloodPressureHeaders = ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg", "ifManualInput"];
+	const heartRateHeaders = ["Date Time", "Heart Rate in BPM", "ifManualInput"];
+	const weightHeaders = ["Date Time", "Weight in lbs", "ifManualInput"];
+
 	const heartRateChart = (
 		<SingleLineChart
 			data={vitalData.heartRate}
@@ -147,25 +153,25 @@ export default function VitalPage() {
 	/>);
 
 	const heartRateTable = (
-		<DataTable columns={["Date Time", "Heart Rate in BPM"]}
+		<DataTable columns={heartRateHeaders}
 		data={vitalData.heartRate}></DataTable>
 	);
 
 	const weightTable = (
 		<DataTable
-			columns={["Date Time", "Weight in lbs"]}
+			columns={weightHeaders}
 			data={vitalData.weight} />
 	);
 
 	const bloodOxygenTable = (
 		<DataTable
-			columns={["Date Time", "Blood Oxygen level in %"]}
+			columns={bloodOxygenHeaders}
 			data={vitalData.bloodOxygen} />
 	);
 
 	const bloodPressureTable = (
 		<DataTable
-			columns={["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"]}
+			columns={bloodPressureHeaders}
 			data={vitalData.bloodPressure} />
 	);
 
@@ -177,15 +183,13 @@ export default function VitalPage() {
 		patient.DateOfBirth
 	]);
 
-	const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
-
 
 	const handleExportClick = () => {
 		exportToCsv(patientData, patientHeaders, 'patient.csv');
-		exportToCsv(vitalData.bloodOxygen, ["Date Time", "Blood Oxygen level in %"], 'bloodOxygen.csv');
-		exportToCsv(vitalData.bloodPressure, ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg"], 'bloodPressure.csv');
-		exportToCsv(vitalData.heartRate, ["Date Time", "Heart Rate in BPM"], 'heartRate.csv');
-		exportToCsv(vitalData.weight, ["Date Time", "Weight in lbs"], 'weight.csv');
+		exportToCsv(vitalData.bloodOxygen, bloodOxygenHeaders, 'bloodOxygen.csv');
+		exportToCsv(vitalData.bloodPressure, bloodPressureHeaders, 'bloodPressure.csv');
+		exportToCsv(vitalData.heartRate, heartRateHeaders, 'heartRate.csv');
+		exportToCsv(vitalData.weight, weightHeaders, 'weight.csv');
 	};
 
 	return (
