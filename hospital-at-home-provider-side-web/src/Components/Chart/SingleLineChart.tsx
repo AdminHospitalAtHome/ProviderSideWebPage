@@ -26,7 +26,13 @@ const SingleLineChart: React.FC<SingleLineChartProps> = ({ data , label}) => {
                         data: data.map(d => d[1]),
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
+                        tension: 0.1,
+                        pointStyle: (ctx) => {
+                            const index = ctx.dataIndex;
+                            return data[index][2] ? 'triangle' : 'circle';
+                        },
+                        pointRadius: 8,
+                        backgroundColor: 'rgb(75, 192, 192)'
                     }]
                 },
                 options: {

@@ -29,14 +29,26 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                             data: data.map(d => d[1]),
                             fill: false,
                             borderColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
+                            tension: 0.1,
+                            pointStyle: (ctx) => {
+                                const index = ctx.dataIndex;
+                                return data[index][3] ? 'triangle' : 'circle';
+                            },
+                            pointRadius: 8,
+                            backgroundColor: 'rgb(75, 192, 192)'
                         },
                         {
                             label: label2,
                             data: data.map(d => d[2]),
                             fill: false,
                             borderColor: 'rgb(255, 99, 132)',
-                            tension: 0.1
+                            tension: 0.1,
+                            pointStyle: (ctx) => {
+                                const index = ctx.dataIndex;
+                                return data[index][3] ? 'triangle' : 'circle';
+                            },
+                            pointRadius: 8,
+                            backgroundColor: 'rgb(255, 99, 132)'
                         }
                     ]
                 },
