@@ -3,7 +3,7 @@ import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import {filterPatients} from '../BackendFunctionCall/filterPatients';
 
 import { getHeartRate, getWeight, getBloodOxygen, getBloodPressure } from '../BackendFunctionCall/getVitalData';
-import './VitalPage.css'; // Assuming you have a CSS file for styles
+import './VitalPage.css';
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
 import getDefaultStartTime from '../BackendFunctionCall/getDefaultStartTime';
@@ -20,8 +20,6 @@ interface Patient {
 	Gender: string;
 	DateOfBirth: string;
 }
-
-
 
 export default function VitalPage() {
 	const [patients, setPatients] = useState<Patient[]>([]);
@@ -70,7 +68,7 @@ export default function VitalPage() {
 				.then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
 					const recentBloodOxygen = bloodOxygen.length > 0 ? `${bloodOxygen[bloodOxygen.length - 1][1]}%` : null;
 					const recentHeartRate = heartRate.length > 0 ? `${heartRate[heartRate.length - 1][1]} BPM` : null;
-					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]}/${bloodPressure[bloodPressure.length - 1][1]} mmHg`  : null;
+					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][1]}/${bloodPressure[bloodPressure.length - 1][2]} mmHg`  : null;
 					const recentWeight = weight.length > 0 ? `${weight[weight.length - 1][1]} lbs` : null;
 					setVitalData({
 						bloodOxygen: bloodOxygen,
@@ -189,7 +187,7 @@ export default function VitalPage() {
 		exportToCsv(vitalData.heartRate, ["Date Time", "Heart Rate in BPM"], 'heartRate.csv');
 		exportToCsv(vitalData.weight, ["Date Time", "Weight in lbs"], 'weight.csv');
 	};
-	console.log("id:"+patientId)
+
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">

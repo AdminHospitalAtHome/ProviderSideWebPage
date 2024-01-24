@@ -56,7 +56,6 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
   useEffect(() => {
     getBaseLineVitals(expandedId)
     .then(data => {
-       console.log(data)
         const vitals = {
             bloodOxygen: data[0].BloodOxygenLevelInPercentage,
             heartRate: data[0].heartRateInBPM,
@@ -65,8 +64,6 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
             systolicBloodPressure: data[0].SystolicBloodPressureInMmHg
         };
         setBaseLineVitals(vitals);
-        // console.log(expandedId);
-        // console.log(baseLineVitals)
     })
     .catch(error => {
         console.error('Error fetching base line vitals:', error);
