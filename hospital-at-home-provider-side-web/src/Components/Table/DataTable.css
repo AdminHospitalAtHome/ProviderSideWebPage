@@ -1,12 +1,15 @@
 .table-container {
     overflow-x: auto;
-    max-height: 400px; /* Adjust the height as needed */
+    max-height: 400px; 
   }
   
   table {
     border-collapse: collapse;
     width: 100%;
   }
+
+  
+
   
   th, td {
     border: 1px solid red;

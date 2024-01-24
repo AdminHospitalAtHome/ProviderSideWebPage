@@ -4,6 +4,8 @@ import './AllPatientSideBar.css';
 import React from 'react';
 import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import StatusButton from "../Button/StatusButton";
+import { getBaseLineVitals } from '../../BackendFunctionCall/getBaseLineVital';
+import { BaselineVitalInterface, VitalDataInterface } from './PatientVitalInterface';
 
 interface Patient {
   PatientID: number;
@@ -21,21 +23,65 @@ const styles = {
     }
 };
 
-export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: any, vitalData:any}) {
-  const [expandedIds, setExpandedIds] = useState<number[]>([]);
+
+
+export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any}) {
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const[baseLineVitals, setBaseLineVitals] = useState<BaselineVitalInterface>({
+    bloodOxygen: null,
+		heartRate: null,
+    weight: null,
+		diastolicBloodPressure: null,
+		systolicBloodPressure: null
+  })
+
+
+  const [alertLevel, setAlertLevel] = useState<VitalDataInterface>({
+    bloodOxygen: null,
+		heartRate: null,
+		bloodPressure: null,
+		weight: null
+  })
+
+  //set range
+  const range = {
+    bloodPressure:5,
+    heartRate:5,
+    weight:5,
+    bloodOxygen:5
+  }
+
+
 
   const toggle = (id: number)=>{
     toggleExpanded(id);
     setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
   }
-//   const toggleExpanded = (id: number) => {
-//     setExpandedIds(prevExpandedIds =>
-//       prevExpandedIds.includes(id)
-//         ? prevExpandedIds.filter(eId => eId !== id)
-//         : [...prevExpandedIds, id]
-//     );
-//   };
+
+  useEffect(() => {
+    getBaseLineVitals(expandedId)
+    .then(data => {
+       console.log(data)
+        const vitals = {
+            bloodOxygen: data[0].BloodOxygenLevelInPercentage,
+            heartRate: data[0].heartRateInBPM,
+            weight: data[0].WeightInPounds,
+            diastolicBloodPressure: data[0].DiastolicBloodPressureInMmHg,
+            systolicBloodPressure: data[0].SystolicBloodPressureInMmHg
+        };
+        setBaseLineVitals(vitals);
+        // console.log(expandedId);
+        // console.log(baseLineVitals)
+    })
+    .catch(error => {
+        console.error('Error fetching base line vitals:', error);
+    });
+
+   
+
+  },[expandedId])
+
 
 function calculateAge(birthdateStr:string) {
     const birthdate = new Date(birthdateStr);
@@ -64,20 +110,54 @@ function calculateAge(birthdateStr:string) {
                 <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
                 <div className="separator"/>
                 <p className="detailText" style={styles.detailText}>
-                    Weight: {vitalData.recentWeight}
-                    <StatusButton color={getAlertLevel()}/>
+                    Weight: {vitalData.weight}
+                    <StatusButton color={getAlertLevel({
+                                                      weight: {
+                                                          baseLineVital: baseLineVitals.weight, 
+                                                          recentVitalData: vitalData.weight, 
+                                                          range: range.weight
+                                                      },
+                                                    
+                                                  })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
-                    Heart Rate: {vitalData.recentHeartRate}
-                    <StatusButton color={getAlertLevel()}/>
+                    Heart Rate: {vitalData.heartRate}
+                    <StatusButton color={getAlertLevel({
+                                                      heartRate: {
+                                                          baseLineVital: baseLineVitals.heartRate, 
+                                                          recentVitalData: vitalData.heartRate, 
+                                                          range: range.heartRate
+                                                      },
+                                                    
+                                                  })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
-                    Blood Oxygen: {vitalData.recentBloodOxygen}
-                    <StatusButton color={getAlertLevel()}/>
+                    Blood Oxygen: {vitalData.bloodOxygen}
+                    <StatusButton color={getAlertLevel({
+                                                      bloodOxygen: {
+                                                          baseLineVital: baseLineVitals.bloodOxygen, 
+                                                          recentVitalData: vitalData.bloodOxygen, 
+                                                          range: range.bloodOxygen
+                                                      },
+                                                    
+                                                  })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
-                    Blood Pressure: {vitalData.recentBloodPressure}
-                    <StatusButton color={getAlertLevel()}/>
+                    Blood Pressure: {vitalData.bloodPressure}
+                    <StatusButton color={getAlertLevel({
+                                                      Sysolic: {
+                                                          baseLineVital: baseLineVitals.systolicBloodPressure, 
+                                                          recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0], 
+                                                          range: range.bloodOxygen
+                                                      },
+
+                                                      Diastolic:{
+                                                        baseLineVital: baseLineVitals.diastolicBloodPressure, 
+                                                        recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0], 
+                                                        range: range.bloodOxygen
+                                                      },
+                                                    
+                                                  })}/>
                 </p>
             </div>
         </div>

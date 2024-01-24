@@ -2,12 +2,7 @@ import {useEffect, useState} from 'react';
 import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import {filterPatients} from '../BackendFunctionCall/filterPatients';
 
-import {
-	getHeartRate,
-	getBloodPressure,
-	getWeight,
-	getBloodOxygen
-} from '../BackendFunctionCall/getVitalData';
+import { getHeartRate, getWeight, getBloodOxygen, getBloodPressure } from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css'; // Assuming you have a CSS file for styles
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
@@ -16,6 +11,7 @@ import SingleLineChart from '../Components/Chart/SingleLineChart';
 import DoubleLineChart from "../Components/Chart/DoubleLineChart";
 import DataTable from "../Components/Table/DataTable";
 import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
+import { MultipleVitalDataInterface, VitalDataInterface } from '../Components/Vital/PatientVitalInterface';
 
 interface Patient {
 	PatientID: number;
@@ -25,37 +21,25 @@ interface Patient {
 	DateOfBirth: string;
 }
 
-interface VitalData {
-	bloodOxygen: any[][] | null;
-	heartRate: any[][] | null;
-	bloodPressure: any[][] | null;
-	weight: any[][] | null;
-}
 
-interface RecentVitalData {
-	recentBloodOxygen: string | null;
-	recentHeartRate: string | null;
-	recentBloodPressure: string | null;
-	recentWeight: string | null;
-}
 
 export default function VitalPage() {
 	const [patients, setPatients] = useState<Patient[]>([]);
 	const [filterPanelVisible, setFilterPanelVisible] = useState(false);
 	const [filters, setFilters] = useState({providerID: '', firstName: '', lastName: '', gender: ''});
 	const [patientId, setExpandedId] = useState<number | null>(null);
-	const [vitalData, setVitalData] = useState<VitalData>({
+	const [vitalData, setVitalData] = useState<MultipleVitalDataInterface>({
 		bloodOxygen: null,
 		heartRate: null,
 		bloodPressure: null,
 		weight: null
 	});
 
-	const [recentVitalData, setRecentVitalData] = useState<RecentVitalData>({
-		recentBloodOxygen: null,
-		recentHeartRate: null,
-		recentBloodPressure: null,
-		recentWeight: null
+	const [recentVitalData, setRecentVitalData] = useState<VitalDataInterface>({
+		bloodOxygen: null,
+		heartRate: null,
+		bloodPressure: null,
+		weight: null
 	});
 
 	const [startDateTime, setStartDateTime] = useState(getDefaultStartTime());
@@ -85,9 +69,9 @@ export default function VitalPage() {
 				])
 				.then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
 					const recentBloodOxygen = bloodOxygen.length > 0 ? `${bloodOxygen[bloodOxygen.length - 1][1]}%` : null;
-					const recentHeartRate = heartRate.length > 0 ? `${heartRate[heartRate.length - 1][1]}BPM` : null;
-					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]}/${bloodPressure[bloodPressure.length - 1][1]}`  : null;
-					const recentWeight = weight.length > 0 ? `${weight[weight.length - 1][1]}lbs` : null;
+					const recentHeartRate = heartRate.length > 0 ? `${heartRate[heartRate.length - 1][1]} BPM` : null;
+					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]}/${bloodPressure[bloodPressure.length - 1][1]} mmHg`  : null;
+					const recentWeight = weight.length > 0 ? `${weight[weight.length - 1][1]} lbs` : null;
 					setVitalData({
 						bloodOxygen: bloodOxygen,
 						heartRate: heartRate,
@@ -96,18 +80,17 @@ export default function VitalPage() {
 					});
 
 					setRecentVitalData({
-						recentBloodOxygen: recentBloodOxygen,
-						recentHeartRate: recentHeartRate,
-						recentBloodPressure: recentBloodPressure,
-						recentWeight: recentWeight
+						bloodOxygen: recentBloodOxygen,
+						heartRate: recentHeartRate,
+						bloodPressure: recentBloodPressure,
+						weight: recentWeight
 					});
 				})
 				.catch(error => {
 					console.error('Error fetching vital data:', error);
 				});
 		}
-		console.log(vitalData)
-		// console.log(recentVitalData);
+		
 	}, [patientId]);
 
 	const handleFilterChange = (name: string, value: string) => {
@@ -128,13 +111,11 @@ export default function VitalPage() {
 			})
 			.join('&');
 
-		console.log(filterParams);
 
 		filterPatients(filterParams)
 			.then((patientData: any) => {
 				const patients: Patient[] = patientData as Patient[];
 				setPatients(patients);
-				console.log(patients);
 			})
 			.catch(error => {
 				console.error('Error fetching patients:', error);
@@ -208,7 +189,7 @@ export default function VitalPage() {
 		exportToCsv(vitalData.heartRate, ["Date Time", "Heart Rate in BPM"], 'heartRate.csv');
 		exportToCsv(vitalData.weight, ["Date Time", "Weight in lbs"], 'weight.csv');
 	};
-
+	console.log("id:"+patientId)
 	return (
 		<body style={{paddingTop: '60px'}}>
 		<div className="main-container">
