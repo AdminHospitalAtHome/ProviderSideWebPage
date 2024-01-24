@@ -32,7 +32,8 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                             tension: 0.1,
                             pointStyle: (ctx) => {
                                 const index = ctx.dataIndex;
-                                return data[index][3] ? 'triangle' : 'circle';
+                                if (data.length === 0) return 'circle';
+                                return data[index][3] === undefined ? 'triangle' : 'circle';
                             },
                             pointRadius: 8,
                             backgroundColor: 'rgb(75, 192, 192)'
@@ -45,6 +46,7 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                             tension: 0.1,
                             pointStyle: (ctx) => {
                                 const index = ctx.dataIndex;
+                                if (data.length === 0) return 'circle';
                                 return data[index][3] ? 'triangle' : 'circle';
                             },
                             pointRadius: 8,
@@ -56,17 +58,6 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                     scales: {
                         y: {
                             beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        tooltip:{
-                            enabled: true,
-                            callbacks: {
-                                afterLabel: function(context){
-                                    let index = context.dataIndex;
-                                    return "Is Manual Input: " + data.map(d => d[3])[index];
-                                }
-                            }
                         }
                     }
                 }

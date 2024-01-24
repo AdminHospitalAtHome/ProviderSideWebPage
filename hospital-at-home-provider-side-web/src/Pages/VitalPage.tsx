@@ -84,10 +84,10 @@ export default function VitalPage() {
 					getWeight(patientId, startDateTime, stopDateTime)
 				])
 				.then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
-					const recentBloodOxygen = bloodOxygen.length > 0 ? bloodOxygen[bloodOxygen.length - 1][1] : null;
-					const recentHeartRate = heartRate.length > 0 ? heartRate[heartRate.length - 1][1] : null;
-					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]} - ${bloodPressure[bloodPressure.length - 1][1]}`  : null;
-					const recentWeight = weight.length > 0 ? weight[weight.length - 1][1] : null;
+					const recentBloodOxygen = bloodOxygen.length > 0 ? `${bloodOxygen[bloodOxygen.length - 1][1]}%` : null;
+					const recentHeartRate = heartRate.length > 0 ? `${heartRate[heartRate.length - 1][1]}BPM` : null;
+					const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][2]}/${bloodPressure[bloodPressure.length - 1][1]}`  : null;
+					const recentWeight = weight.length > 0 ? `${weight[weight.length - 1][1]}lbs` : null;
 					setVitalData({
 						bloodOxygen: bloodOxygen,
 						heartRate: heartRate,

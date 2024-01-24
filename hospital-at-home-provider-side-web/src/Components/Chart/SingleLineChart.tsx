@@ -29,24 +29,12 @@ const SingleLineChart: React.FC<SingleLineChartProps> = ({ data , label}) => {
                         tension: 0.1,
                         pointStyle: (ctx) => {
                             const index = ctx.dataIndex;
-                            return data[index][2] ? 'triangle' : 'circle';
+                            if (data.length === 0) return 'circle';
+                            return data[index][2] === true ? 'triangle' : 'circle';
                         },
                         pointRadius: 8,
                         backgroundColor: 'rgb(75, 192, 192)'
                     }]
-                },
-                options: {
-                    plugins: {
-                        tooltip:{
-                            enabled: true,
-                            callbacks: {
-                                afterLabel: function(context){
-                                    let index = context.dataIndex;
-                                    return "Is Manual Input:" + data.map(d => d[2])[index];
-                                }
-                            }
-                        }
-                    }
                 }
             });
         }
