@@ -49,8 +49,15 @@ export function getAllThreads(chatClient: ChatClient): Promise<ChatThreadClient[
 
 export function getCommunicationId(userId: number): Promise<string> {
   return new Promise((resolve, reject) => {
+    // Checking if we have a providerID or a PatinetID. PatientIDs are 9 digits and providerIDs are 6. Both can not have a leading zero so this works.
+    let fetchString: string = '';
+    if (userId > 999999) {
+      fetchString = `/getCommunicationId?patientID=${userId}`;
+    } else {
+      fetchString = `/getProviderById?providerID=${userId}`;
+    }
     fetch(
-      `https://hosptial-at-home-js-api.azurewebsites.net/api/getCommunicationId?patientID=${userId}`,
+      `https://hosptial-at-home-js-api.azurewebsites.net/api${fetchString}`,
     )
       .then(res => res.json())
       .then(res => {
@@ -78,15 +85,17 @@ export function getCommunicationToken(communicationId: string): Promise<string> 
 
 export async function getParticipantInThread(chatThreadClient: ChatThreadClient, communicationID: string) {
   return new Promise<string | undefined>(async (resolve) => {
-    let participants = chatThreadClient.listParticipants()
-    for await (const p of participants) {
-      try {
+
+    try {
+      let participants = chatThreadClient.listParticipants()
+      for await (const p of participants) {
         //@ts-ignore
         if (p.id.communicationUserId !== communicationID) {
           resolve(p.displayName);
         }
-      } catch {
       }
+    } catch {
+      console.log('error: get participant in thread function')
     }
     resolve("Error");
   });
@@ -94,10 +103,19 @@ export async function getParticipantInThread(chatThreadClient: ChatThreadClient,
 
 export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
   return new Promise(async (resolve) => {
-    let messages = chatThreadClient.listMessages()
-    messages.next().then((res) => {
-      resolve(res.value)
-    })
+    try {
+      let messages = chatThreadClient.listMessages()
+      console.log("MEssage: ", messages)
+      messages.next().then((res) => {
+        console.log('got some message:' )
+        resolve(res.value)
+        return;
+      })
+    } catch {
+      console.log('error: [function]getThreadLastMessage')
+      resolve(undefined)
+    }
+
   })
 }
 
@@ -147,7 +165,7 @@ export function createNewThread(selectedPatient: number,
     }
   })
 
-  return new Promise( (resolve) => {
+  return new Promise((resolve) => {
     getCommunicationId(selectedPatient).then(async (patientCommunicationID) => {
 
         // Check if Chat already Exists:
@@ -200,16 +218,15 @@ export function createNewThread(selectedPatient: number,
 
 }
 
-export function deleteThread(chatClient: ChatClient, setThread:  React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>, currentThread: ChatThreadClient) {
+export function deleteThread(chatClient: ChatClient, setThread: React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>, currentThread: ChatThreadClient) {
   return new Promise((resolve) => {
     console.log("test")
 
-      chatClient.deleteChatThread(currentThread.threadId).then(() => {
-        resolve(null);
-      })
+    chatClient.deleteChatThread(currentThread.threadId).then(() => {
+      resolve(null);
+    })
 
   })
-
 
 
 }
