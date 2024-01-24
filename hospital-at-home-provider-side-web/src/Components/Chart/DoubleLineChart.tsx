@@ -33,7 +33,7 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
                             pointStyle: (ctx) => {
                                 const index = ctx.dataIndex;
                                 if (data.length === 0) return 'circle';
-                                return data[index][3] === undefined ? 'triangle' : 'circle';
+                                return data[index][3] ? 'triangle' : 'circle';
                             },
                             pointRadius: 8,
                             backgroundColor: 'rgb(75, 192, 192)'
