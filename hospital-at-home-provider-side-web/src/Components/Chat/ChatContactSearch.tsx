@@ -19,7 +19,8 @@ export default function ChatContactSearch({
   threadClients: ChatThreadClient[]
 }): React.JSX.Element {
   const [dropDownOptions, setDropDownOptions] = useState<{ name: string, value: number }[]>([])
-  const [selectedPateint, setSelectedPatient] = useState<any>(null);
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
+  const [creatingThread, setCreatingThread] = useState(false);
 
   useEffect(() => {
     getPatients().then(setDropDownOptions)
@@ -28,10 +29,13 @@ export default function ChatContactSearch({
 
   return (
     <div style={{display: 'flex', flexDirection: 'row'}}>
-      <SelectSearch onChange={setSelectedPatient} options={dropDownOptions} search></SelectSearch>
-      <Button onClick={() => {
-        createNewThread((selectedPateint as number), chatClient, providerCommunicationId, dropDownOptions, threadClients).then(setThread)
-      }}>IMA BUTTON</Button>
+      <SelectSearch onChange={setSelectedPatient} options={dropDownOptions} search placeholder={"Search Patient"}></SelectSearch>
+      <Button
+        disabled={creatingThread || !selectedPatient}
+        onClick={() => {
+          setCreatingThread(true)
+          createNewThread((selectedPatient as number), chatClient, providerCommunicationId, dropDownOptions, threadClients).then(setThread).then(() => setCreatingThread(false))
+        }}>Start Chat</Button>
     </div>
-  );
+  )
 }

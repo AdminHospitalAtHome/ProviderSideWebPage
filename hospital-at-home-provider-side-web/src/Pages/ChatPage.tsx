@@ -12,7 +12,7 @@ import {
 
 export default function ChatPage(): React.JSX.Element {
   //doc link: https://azure.github.io/communication-ui-library/?path=/docs/composites-chat-basicexample--basic-example
-  const providerId: number = 300000001
+  const providerId: number = 100001
   const [chatClient, setChatClient] = useState<ChatClient | undefined>(undefined);
   const [threadClients, setThreadClients] = useState<ChatThreadClient[]>([]);
   const [chatThread, setChatThread] = useState<ChatThreadClient | undefined>(undefined);
