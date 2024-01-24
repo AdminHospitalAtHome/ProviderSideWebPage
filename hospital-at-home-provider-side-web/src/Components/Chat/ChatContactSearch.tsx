@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Form from 'react-bootstrap/Form'
 import SelectSearch from "react-select-search";
-import 'react-select-search/style.css'
+import './ChatContactSearch.css'
 import {createNewThread, getPatients} from "../../BackendFunctionCall/Message";
 import Button from "react-bootstrap/Button";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
@@ -28,14 +28,21 @@ export default function ChatContactSearch({
 
 
   return (
-    <div style={{display: 'flex', flexDirection: 'row'}}>
-      <SelectSearch onChange={setSelectedPatient} options={dropDownOptions} search placeholder={"Search Patient"}></SelectSearch>
-      <Button
-        disabled={creatingThread || !selectedPatient}
-        onClick={() => {
-          setCreatingThread(true)
-          createNewThread((selectedPatient as number), chatClient, providerCommunicationId, dropDownOptions, threadClients).then(setThread).then(() => setCreatingThread(false))
-        }}>Start Chat</Button>
+    <div className='container'>
+      <div className='searchBarContainer'>
+        <SelectSearch
+          onChange={setSelectedPatient} options={dropDownOptions} search
+          placeholder={"Search Patient"}></SelectSearch>
+      </div>
+      <div className="d-grid buttonContainer">
+        <Button
+          disabled={creatingThread || !selectedPatient}
+          onClick={() => {
+            setCreatingThread(true)
+            createNewThread((selectedPatient as number), chatClient, providerCommunicationId, dropDownOptions, threadClients).then(setThread).then(() => setCreatingThread(false))
+          }}>Start Chat</Button>
+      </div>
+
     </div>
   )
 }

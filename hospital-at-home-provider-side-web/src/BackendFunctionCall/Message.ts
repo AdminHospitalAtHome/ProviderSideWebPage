@@ -9,12 +9,12 @@ export const endpointUrl =
 //reference of web app functions: https://github.com/AdminHospitalAtHome/ProviderWebPage/blob/main/ProviderWebPage/app/BackendFunctions/Chat/Message.ts
 
 export let temp_communicationId: string = ''
+let temp_provider_name: string = ''
 
 export function initChatClient(userId: number): Promise<ChatClient | undefined> {
   return new Promise<ChatClient | undefined>((resolve) => {
     getCommunicationId(userId).then(res => {
       temp_communicationId = res
-      console.log(temp_communicationId);
       getCommunicationToken(res).then(accessToken => {
         resolve(new ChatClient(endpointUrl, new AzureCommunicationTokenCredential(accessToken)));
       }).catch(() => {
@@ -62,8 +62,14 @@ export function getCommunicationId(userId: number): Promise<string> {
       .then(res => res.json())
       .then(res => {
         if (res.length === 1) {
+          if (userId < 1000000) {
+            temp_provider_name = res[0].FirstName + ' ' + res[0].LastName
+          }
+
           // noinspection JSUnresolvedReference
           resolve(res[0].CommunicationId);
+
+
         } else {
           reject('failed to get communicationId');
         }
@@ -105,13 +111,11 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
   return new Promise(async (resolve) => {
     try {
       let messages = chatThreadClient.listMessages()
-      // console.log("MEssage: ", messages)
       messages.next().then((res) => {
-        console.log('got some message:' )
         resolve(res.value)
         return;
       }).catch(() => {
-          resolve(undefined);
+        resolve(undefined);
       })
     } catch {
       console.log('error: [function]getThreadLastMessage')
@@ -120,16 +124,6 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
 
   })
 }
-
-// export function getPatients(): Promise<{ name: string, value: number }[]> {
-//   return new Promise((resolve) => {
-//     // let patients: {name: string, value: number}[] = []
-//     getAllPatients().then(res => {
-//       const patients = res.map(function (patient):{// @ts-ignore
-//         return {patient.PatientID, patient.FirstName}})
-//     })
-//   })
-// }
 
 export function getPatients(): Promise<{ name: string, value: number }[]> {
   return new Promise((resolve) => {
@@ -185,8 +179,6 @@ export function createNewThread(selectedPatient: number,
           }
         }
 
-        console.log("New Chat Created")
-
         const createChatThreadRequest = {
           topic: 'Chat with ' + patientName + ' (' + selectedPatient + ')'
         }
@@ -194,7 +186,7 @@ export function createNewThread(selectedPatient: number,
           participants: [
             { // Provider
               id: {communicationUserId: providerCommunicationID},
-              displayName: 'Temp Provider',
+              displayName: temp_provider_name,
             },
             { // Patient
               id: {communicationUserId: patientCommunicationID},
@@ -222,9 +214,10 @@ export function createNewThread(selectedPatient: number,
 
 export function deleteThread(chatClient: ChatClient, setThread: React.Dispatch<React.SetStateAction<ChatThreadClient | undefined>>, currentThread: ChatThreadClient) {
   return new Promise((resolve) => {
-    console.log("test")
+    let threadId = currentThread.threadId;
+    chatClient.deleteChatThread(threadId).then(() => {
 
-    chatClient.deleteChatThread(currentThread.threadId).then(() => {
+      setThread(undefined);
       resolve(null);
     })
 
@@ -232,3 +225,26 @@ export function deleteThread(chatClient: ChatClient, setThread: React.Dispatch<R
 
 
 }
+
+
+export function parseDateTime(dateTime: string): string {
+  let tempDateObject: Date = new Date(dateTime);
+  tempDateObject.setMinutes(
+    tempDateObject.getMinutes() - tempDateObject.getTimezoneOffset(),
+  );
+  let tmpDate = tempDateObject.toISOString().split('T')[0].split('-');
+  let tmpDateString = tmpDate[1] + '-' + tmpDate[2] + '-' + tmpDate[0];
+  let tmpTime = tempDateObject.toISOString().split('T')[1].split(':');
+  let tmpHour = parseInt(tmpTime[0]);
+  let tmpTimeString = '';
+  if (tmpHour > 12) {
+    tmpTimeString = String(tmpHour - 12) + ':' + tmpTime[1] + ' PM';
+  } else if (tmpHour === 0) {
+    tmpTimeString = String(tmpHour + 12) + ':' + tmpTime[1] + 'AM';
+  } else {
+    tmpTimeString = String(tmpHour) + ':' + tmpTime[1] + ' AM';
+  }
+  return tmpDateString + ' '  + tmpTimeString;
+
+}
+

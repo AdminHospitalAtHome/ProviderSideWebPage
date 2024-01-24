@@ -29,7 +29,6 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
         <div style={{display: "flex", flexDirection: "row"}}>
           <div
             onClick={() => {
-            console.log("Click")
             setThread(threadClient);
           }}>
             <ChatContactCard selected={selected} threadClient={threadClient} providerCommunicationID={temp_communicationId}/>
@@ -46,17 +45,3 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
   </div>)
 }
 
-
-function temp() {
-	return new Promise(async (resolve) => {
-		let threadClients: ChatThreadClient[] = [];
-		for await (const t of threadClients) {
-			try {
-				console.log(t)
-			} catch {
-				console.log("HEY")
-			}
-		}
-		resolve("")
-	})
-}
