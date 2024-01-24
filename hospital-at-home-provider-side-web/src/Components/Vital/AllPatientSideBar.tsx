@@ -23,8 +23,6 @@ const styles = {
     }
 };
 
-
-
 export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any}) {
 
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -36,7 +34,6 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
 		systolicBloodPressure: null
   })
 
-
   const [alertLevel, setAlertLevel] = useState<VitalDataInterface>({
     bloodOxygen: null,
 		heartRate: null,
@@ -44,15 +41,12 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
 		weight: null
   })
 
-  //set range
   const range = {
     bloodPressure:5,
     heartRate:5,
     weight:5,
     bloodOxygen:5
   }
-
-
 
   const toggle = (id: number)=>{
     toggleExpanded(id);
@@ -62,7 +56,6 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
   useEffect(() => {
     getBaseLineVitals(expandedId)
     .then(data => {
-       console.log(data)
         const vitals = {
             bloodOxygen: data[0].BloodOxygenLevelInPercentage,
             heartRate: data[0].heartRateInBPM,
@@ -71,15 +64,10 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
             systolicBloodPressure: data[0].SystolicBloodPressureInMmHg
         };
         setBaseLineVitals(vitals);
-        // console.log(expandedId);
-        // console.log(baseLineVitals)
     })
     .catch(error => {
         console.error('Error fetching base line vitals:', error);
     });
-
-   
-
   },[expandedId])
 
 
@@ -89,8 +77,7 @@ function calculateAge(birthdateStr:string) {
   
     let age = today.getFullYear() - birthdate.getFullYear();
     const monthDifference = today.getMonth() - birthdate.getMonth();
-  
-    // Check if the birthday hasn't occurred yet this year
+
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
       age--;
     }
@@ -145,7 +132,7 @@ function calculateAge(birthdateStr:string) {
                 <p className="detailText" style={styles.detailText}>
                     Blood Pressure: {vitalData.bloodPressure}
                     <StatusButton color={getAlertLevel({
-                                                      Sysolic: {
+                                                      Systolic: {
                                                           baseLineVital: baseLineVitals.systolicBloodPressure, 
                                                           recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0], 
                                                           range: range.bloodOxygen

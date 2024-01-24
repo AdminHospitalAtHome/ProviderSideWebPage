@@ -20,8 +20,8 @@ export function exportToCsv(data: any[][] | null, columnHeaders: string[], filen
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
-    document.body.appendChild(a); // Append the anchor to body
+    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a); // Clean up
+    document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
