@@ -12,22 +12,12 @@ export default function ChatContactCard({threadClient, providerCommunicationID, 
   const [lastMessage, setLastMessage] = useState<any>(undefined)
 
   useEffect(() => {
-    try {
       getParticipantInThread(threadClient, providerCommunicationID).then(setPatientName)
-    } catch (error){
-      console.log(error)
-    }
-
     }, [threadClient]
   )
 
   useEffect(() => {
-    try{
       getThreadLastMessage(threadClient).then(setLastMessage)
-    } catch {
-      console.log("AHG")
-    }
-
   }, [threadClient])
 
 
@@ -40,7 +30,11 @@ export default function ChatContactCard({threadClient, providerCommunicationID, 
       <Card.Footer>{String(lastMessage.createdOn)}</Card.Footer>
     </Card>)
   } else {
-    return <div></div>
+    return (<Card style={selected ? {margin: '5px', backgroundColor:'#c5d4fc'} : {margin:'5px'}}>
+      <Card.Title>{patientName}</Card.Title>
+      <Card.Text>Undefinded</Card.Text>
+      <Card.Footer>Undefined</Card.Footer>
+    </Card>)
   }
 
 }

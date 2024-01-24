@@ -105,11 +105,13 @@ export function getThreadLastMessage(chatThreadClient: ChatThreadClient) {
   return new Promise(async (resolve) => {
     try {
       let messages = chatThreadClient.listMessages()
-      console.log("MEssage: ", messages)
+      // console.log("MEssage: ", messages)
       messages.next().then((res) => {
         console.log('got some message:' )
         resolve(res.value)
         return;
+      }).catch(() => {
+          resolve(undefined);
       })
     } catch {
       console.log('error: [function]getThreadLastMessage')
