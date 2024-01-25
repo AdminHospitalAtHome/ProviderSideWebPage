@@ -2,12 +2,11 @@ import React from 'react';
 import { useTable, Column, Cell, Row, HeaderGroup } from 'react-table';
 import './DataTable.css';
 
-interface DataTableProps {
+
+function DataTable({ data, columns }: {
   data: any[][] | null;
   columns: string[];
-}
-
-function DataTable({ data, columns }: DataTableProps) {
+}) {
 
   const dataFormatted = React.useMemo(() => {
     if (!data) {
@@ -28,14 +27,14 @@ function DataTable({ data, columns }: DataTableProps) {
     const columnHeaders: { [key: string]: string } = {
       'ifManualInput': 'If manual input',
     };
-    
+
     return columns.map(col => ({
       Header: columnHeaders[col] || col,
       accessor: col,
     }));
   }, [columns]);
 
- 
+
 
   const tableInstance = useTable<any>({ columns: columnDefs, data: dataFormatted });
 

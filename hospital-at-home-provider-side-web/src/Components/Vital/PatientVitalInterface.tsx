@@ -20,3 +20,11 @@ export interface BaselineVitalInterface {
     diastolicBloodPressure: number | null,
 	weight: number | null
 }
+
+export interface Patient {
+	PatientID: number;
+	FirstName: string;
+	LastName: string;
+	Gender: string;
+	DateOfBirth: string;
+}

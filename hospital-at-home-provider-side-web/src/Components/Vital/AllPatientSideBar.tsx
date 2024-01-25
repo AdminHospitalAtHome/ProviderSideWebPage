@@ -24,8 +24,8 @@ const styles = {
     }
 };
 
-export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: 
-  { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any, 
+export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
+  { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any,
    }
   ) {
 
@@ -79,7 +79,7 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
 function calculateAge(birthdateStr:string) {
     const birthdate = new Date(birthdateStr);
     const today = new Date();
-  
+
     let age = today.getFullYear() - birthdate.getFullYear();
     const monthDifference = today.getMonth() - birthdate.getMonth();
 
@@ -90,7 +90,7 @@ function calculateAge(birthdateStr:string) {
   }
 
   return (
-    <div className="container">
+    <div className="vital-container">
       {patients.map((patient) => (
         <div key={patient.PatientID}>
           <button className="tile" onClick={() => toggle(patient.PatientID)}>
@@ -98,7 +98,7 @@ function calculateAge(birthdateStr:string) {
             <span className="name">{patient.FirstName} {patient.LastName}</span>
           </button>
             <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`} onClick={() => {navigate(`/patient/${expandedId}`);}}>
-              
+
                 <p className="detailText">Gender: {patient.Gender}</p>
                 <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
                 <div className="separator"/>
@@ -106,50 +106,50 @@ function calculateAge(birthdateStr:string) {
                     Weight: {vitalData.weight}
                     <StatusButton color={getAlertLevel({
                                                       weight: {
-                                                          baseLineVital: baseLineVitals.weight, 
-                                                          recentVitalData: vitalData.weight, 
+                                                          baseLineVital: baseLineVitals.weight,
+                                                          recentVitalData: vitalData.weight,
                                                           range: range.weight
                                                       },
-                                                    
+
                                                   })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
                     Heart Rate: {vitalData.heartRate}
                     <StatusButton color={getAlertLevel({
                                                       heartRate: {
-                                                          baseLineVital: baseLineVitals.heartRate, 
-                                                          recentVitalData: vitalData.heartRate, 
+                                                          baseLineVital: baseLineVitals.heartRate,
+                                                          recentVitalData: vitalData.heartRate,
                                                           range: range.heartRate
                                                       },
-                                                    
+
                                                   })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
                     Blood Oxygen: {vitalData.bloodOxygen}
                     <StatusButton color={getAlertLevel({
                                                       bloodOxygen: {
-                                                          baseLineVital: baseLineVitals.bloodOxygen, 
-                                                          recentVitalData: vitalData.bloodOxygen, 
+                                                          baseLineVital: baseLineVitals.bloodOxygen,
+                                                          recentVitalData: vitalData.bloodOxygen,
                                                           range: range.bloodOxygen
                                                       },
-                                                    
+
                                                   })}/>
                 </p>
                 <p className="detailText" style={styles.detailText}>
                     Blood Pressure: {vitalData.bloodPressure}
                     <StatusButton color={getAlertLevel({
                                                       Systolic: {
-                                                          baseLineVital: baseLineVitals.systolicBloodPressure, 
-                                                          recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0], 
+                                                          baseLineVital: baseLineVitals.systolicBloodPressure,
+                                                          recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0],
                                                           range: range.bloodOxygen
                                                       },
 
                                                       Diastolic:{
-                                                        baseLineVital: baseLineVitals.diastolicBloodPressure, 
-                                                        recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0], 
+                                                        baseLineVital: baseLineVitals.diastolicBloodPressure,
+                                                        recentVitalData: vitalData.bloodPressure == null ? null : vitalData.bloodPressure.split('/')[0],
                                                         range: range.bloodOxygen
                                                       },
-                                                    
+
                                                   })}/>
                 </p>
             </div>

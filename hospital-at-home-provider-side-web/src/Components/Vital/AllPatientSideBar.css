@@ -1,8 +1,8 @@
-.container {
+.vital-container {
     flex: 1;
-      
+
   }
-  
+
   .tile {
     display: flex;
     align-items: center;
@@ -12,37 +12,36 @@
     border: none;
     cursor: pointer;
     width: 100%;
-    
+
 }
 
   .name {
     margin-left: 10px;
   }
-  
+
   .details {
     background-color: #FFF8DC;
     padding: 10px;
-    border-top: 1px solid #DDD; 
-    margin-top: -10px; 
+    border-top: 1px solid #DDD;
+    margin-top: -10px;
     margin-bottom: 10px;
     display: none;
 }
-  
+
   .details.expanded {
     display: block;
   }
-  
+
   .detailText {
     font-size: 16px;
     margin-bottom: 5px;
   }
-  
+
   .separator {
     border-bottom: 1px solid #000;
     margin: 10px 0;
   }
-  
+
   .avatar {
     /* Style for avatar, possibly a circle with text inside */
   }
-  

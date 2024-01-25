@@ -4,12 +4,12 @@
     padding: 10px;
     overflow-y: auto;
   }
-  
+
   .filterButton {
     text-align: right;
     margin-bottom: 10px;
   }
-  
+
   .filterPanel {
     background-color: white;
     padding: 10px;
@@ -17,7 +17,7 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
   }
-  
+
   .input {
     display: block;
     width: calc(100% - 24px);
@@ -35,7 +35,15 @@
   width: 85%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
+}
+
+/*ChatGPT used to tell us we needed flex and justify content. We then further discovered space-between
+worked better for our purposes to display buttons on same line.*/
+.vitalsButtonList {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
