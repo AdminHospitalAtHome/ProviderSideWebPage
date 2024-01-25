@@ -15,6 +15,7 @@ import FilterPanel from "../Components/Vital/FilterPanel";
 
 
 
+
 export default function VitalPage() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
