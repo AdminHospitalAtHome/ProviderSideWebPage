@@ -8,6 +8,7 @@ import ChatPage from "./Pages/ChatPage";
 import VitalPage from "./Pages/VitalPage";
 import {Fragment} from "react";
 import TopNavMenu from "./Components/TopNavMenu";
+import PatientDetailPage from "./Pages/PatientDetailPage";
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 				<Routes>
 					{/*add more <Route> after this route with different patient id as navigation*/}
 					<Route path='/chat' element={<ChatPage/>}/>
+					<Route path="/patient/:patientId" element={<PatientDetailPage/>} /> 
 				</Routes>
 			</Fragment>
 			

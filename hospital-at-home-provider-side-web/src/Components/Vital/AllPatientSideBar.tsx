@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllPatients } from '../../BackendFunctionCall/getPatientList';
 import './AllPatientSideBar.css';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import StatusButton from "../Button/StatusButton";
 import { getBaseLineVitals } from '../../BackendFunctionCall/getBaseLineVital';
@@ -23,7 +24,10 @@ const styles = {
     }
 };
 
-export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any}) {
+export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}: 
+  { patients: Patient[], toggleExpanded: (id: number) => void, vitalData:any, 
+   }
+  ) {
 
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const[baseLineVitals, setBaseLineVitals] = useState<BaselineVitalInterface>({
@@ -34,6 +38,7 @@ export default function AllPatientSideBar({ patients,toggleExpanded, vitalData}:
 		systolicBloodPressure: null
   })
 
+  const navigate = useNavigate();
   const [alertLevel, setAlertLevel] = useState<VitalDataInterface>({
     bloodOxygen: null,
 		heartRate: null,
@@ -92,7 +97,8 @@ function calculateAge(birthdateStr:string) {
             <div className="avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
             <span className="name">{patient.FirstName} {patient.LastName}</span>
           </button>
-            <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
+            <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`} onClick={() => {navigate(`/patient/${expandedId}`);}}>
+              
                 <p className="detailText">Gender: {patient.Gender}</p>
                 <p className="detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
                 <div className="separator"/>

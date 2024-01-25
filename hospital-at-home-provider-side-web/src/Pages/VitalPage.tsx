@@ -87,7 +87,10 @@ export default function VitalPage() {
 				.catch(error => {
 					console.error('Error fetching vital data:', error);
 				});
+
 		}
+
+		console.log(vitalData.weight)
 		
 	}, [patientId]);
 
