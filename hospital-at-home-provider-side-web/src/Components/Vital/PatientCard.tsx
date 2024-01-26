@@ -22,16 +22,16 @@ export default function PatientCard({patient, toggleExpanded, setExpandedId, exp
   }
 
   return (
-    <div key={patient.PatientID}>
-      <button className="tile" onClick={() => toggle(patient.PatientID, toggleExpanded, setExpandedId)}>
-        <div className="avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
-        <span className="name">{patient.FirstName} {patient.LastName}</span>
+    <div key={patient.PatientID} className="patient-card-container">
+      <button className={`patient-card-title ${expandedId === patient.PatientID ? 'expanded' : ''}`} onClick={() => toggle(patient.PatientID, toggleExpanded, setExpandedId)}>
+        <div className="patient-card-avatar">{`${patient.FirstName[0]}${patient.LastName[0]}`}</div>
+        <span className="patient-card-name">{patient.FirstName} {patient.LastName}</span>
       </button>
-      <div className={`details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
+      <div className={`patient-card-details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
 
         <p className="patient-card-detailText">Gender: {patient.Gender}</p>
         <p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
-        <div className="separator"/>
+        <div className="patient-card-separator"/>
         <p className="patient-card-detailText">
           Weight: {vitalData.weight}
           <StatusButton color={getAlertLevel({

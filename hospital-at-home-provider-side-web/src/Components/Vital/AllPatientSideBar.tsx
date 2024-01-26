@@ -56,7 +56,7 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
         return (<PatientCard baseLineVitals={baseLineVitals}
                              expandedId={expandedId}
                              patient={patient}
-                             setExpandedId={setExpandedId} 
+                             setExpandedId={setExpandedId}
                              toggleExpanded={toggleExpanded}
                              vitalData={vitalData}/>)
       })}

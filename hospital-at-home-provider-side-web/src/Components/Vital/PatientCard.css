@@ -1,5 +1,70 @@
+.patient-card-container {
+    background-color: #FFF8DC;
+    border-radius: 10px;
+}
+
 .patient-card-detailText {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.patient-card-title {
+    display: flex;
+    align-items: center;
+    background-color: #fbdea6;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.patient-card-title.expanded {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/*
+    ChatGPT used to let us know to use EM as a scalable unit instead of PX. That helped make this better on all browser
+    sizes. Then we used the following websites help us make a circle.
+    https://www.freecodecamp.org/news/css-shapes-explained-how-to-draw-a-circle-triangle-and-more-using-pure-css/
+    https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
+
+    TODO: Fix alignment of text later
+*/
+.patient-card-avatar {
+    padding: 10px;
+    height: 100%;
+    aspect-ratio: 1;
+    background: white;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.patient-card-name {
+    margin-left: 10px;
+}
+
+.patient-card-details {
+    padding: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: none;
+    border-radius: 10px;
+}
+
+.patient-card-details.expanded {
+    display: block;
+}
+
+.patient-card-detailText {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.patient-card-separator {
+    border-bottom: 1px solid #000;
+    margin: 10px 0;
 }
