@@ -1,0 +1,44 @@
+.patient-notes {
+    width: 600px; /* Adjust the width as necessary */
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-gap: 10px; /* Space between grid items */
+}
+
+.patient-notes div {
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-notes textarea {
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    resize: vertical; 
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.close-button:hover {
+    color: red;
+}

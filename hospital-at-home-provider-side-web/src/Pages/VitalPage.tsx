@@ -12,6 +12,7 @@ import DataTable from "../Components/Table/DataTable";
 import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Components/Vital/PatientVitalInterface';
 import FilterPanel from "../Components/Vital/FilterPanel";
+import PatientNotes from '../Components/Vital/PatientNotes';
 
 
 
@@ -38,9 +39,24 @@ export default function VitalPage() {
   const [startDateTime, setStartDateTime] = useState(getDefaultStartTime());
   const [stopDateTime, setStopDateTime] = useState(new Date().toISOString());
 
-  const toggleExpanded = (id: number) => {
-    setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
-  };
+	const toggleExpanded = (id: number) => {
+		setExpandedId(prevExpandedId => (prevExpandedId === id ? null : id));
+	};
+
+	const [isNoteModalOpen, setNoteModalOpen] = useState(false);
+	
+    const openModal = () => setNoteModalOpen(true);
+    const closeModal = () => setNoteModalOpen(false);
+	
+	useEffect(() => {
+		getAllPatients()
+			.then(patientData => {
+				setPatients(patientData);
+			})
+			.catch(error => {
+				console.error('Error fetching patients:', error);
+			});
+	}, []);
 
   useEffect(() => {
     getAllPatients()
@@ -194,6 +210,13 @@ export default function VitalPage() {
                    children2={bloodOxygenTable}/>
         <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
                    children2={bloodPressureTable}/>
+			</div>
+			{isNoteModalOpen && (
+				<PatientNotes closeModal={()=>{setNoteModalOpen(!isNoteModalOpen)}}/>
+			)}
+
+		</div>
+		
 
       </div>
     </div>

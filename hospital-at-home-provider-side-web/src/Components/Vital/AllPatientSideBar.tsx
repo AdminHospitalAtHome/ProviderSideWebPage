@@ -21,12 +21,7 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
   })
 
   const navigate = useNavigate();
-  const [alertLevel, setAlertLevel] = useState<VitalDataInterface>({
-    bloodOxygen: null,
-    heartRate: null,
-    bloodPressure: null,
-    weight: null
-  })
+  
 
 
 
