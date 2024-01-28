@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: SeniorProjectApp
+        working-directory: hospital-at-home-provider-side-web
     steps:
       - uses: actions/checkout@v4
       - name: use Node.js
