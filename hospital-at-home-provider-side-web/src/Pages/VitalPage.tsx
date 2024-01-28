@@ -44,10 +44,10 @@ export default function VitalPage() {
 	};
 
 	const [isNoteModalOpen, setNoteModalOpen] = useState(false);
-	
+
     const openModal = () => setNoteModalOpen(true);
     const closeModal = () => setNoteModalOpen(false);
-	
+
 	useEffect(() => {
 		getAllPatients()
 			.then(patientData => {
@@ -216,10 +216,10 @@ export default function VitalPage() {
 			)}
 
 		</div>
-		
 
-      </div>
-    </div>
+
+      {/*</div>*/}
+    {/*</div>*/}
 
     </body>
 
