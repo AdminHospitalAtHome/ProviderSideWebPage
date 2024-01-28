@@ -1,6 +1,25 @@
 import {expect, jest, test} from '@jest/globals'
 import {getWeight} from "../BackendFunctionCall/getVitalData";
 
+
+beforeEach(() => {
+  // This is needed since the gitHub Auto test server is running in a different timezone
+  jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(
+    jest.fn(
+      () => {
+        return 300;
+      }
+    )
+  )
+})
+
+
+afterEach(() => {
+  // this sets everything back to normal after each test so other tests are not affected.
+  jest.restoreAllMocks()
+})
+
+
 test('Get Weight Data', async () => {
     jest.spyOn(global, 'fetch').mockImplementationOnce(
       //@ts-ignore
@@ -38,6 +57,8 @@ test('Get Weight Data', async () => {
           }
         )
     );
+
+
 
     await expect(getWeight(100000001,
       "2023-12-11T00:00:00.000Z",
