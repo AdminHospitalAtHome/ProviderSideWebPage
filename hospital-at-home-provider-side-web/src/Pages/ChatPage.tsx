@@ -1,5 +1,6 @@
 import ChatMenu from "../Components/Chat/ChatMenu";
 import ChatFrame from "../Components/Chat/ChatFrame";
+import './ChatPage.css'
 import React, {useEffect, useReducer, useState} from "react";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {
@@ -39,23 +40,23 @@ export default function ChatPage(): React.JSX.Element {
 
 
   if (chatThread && communicationToken !== "" && chatClient) {
-    return (<body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-    <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
-    <div style={{flexGrow: 11}}>
+    return (<div className="ChatPageContainer">
+    <div style={{flex: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
+    <div style={{flex: 3}}>
       <ChatFrame thread={chatThread} communicationID={temp_communicationId}
                  communicationToken={communicationToken}></ChatFrame>
     </div>
-    </body>);
+    </div>);
   } else if (chatClient) {
     return (
-      <body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-      <div style={{width: '30%'}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
-      <div style={{flexGrow: 11}}>
-        Please Select a Chat...
+      <div className="ChatPageContainer">
+      <div style={{flex: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
+      <div style={{flex: 3, display: 'flex', justifyContent:'center',alignItems:'center', fontSize:'30px'}}>
+        Please select a contact to start/continue chat
       </div>
-      </body>);
+      </div>);
   } else {
-    return (<div style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>Loading</div>);
+    return (<div className="ChatPageContainer">Loading</div>);
   }
 
 

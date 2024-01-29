@@ -1,5 +1,6 @@
 import React, {useReducer} from "react";
 import ChatContactCard from "./ChatContactCard";
+import './ChatMenu.css'
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
 import {deleteThread, temp_communicationId} from "../../BackendFunctionCall/Message";
 import ChatContactSearch from "./ChatContactSearch";
@@ -15,7 +16,7 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
 
 
 
-  return (<div>
+  return (<div className="chat-menu-container">
     <ChatContactSearch chatClient={chatClient} providerCommunicationId={temp_communicationId} setThread={setThread} threadClients={threadClients}/>
     {threadClients.map((threadClient) => {
       let selected = false
@@ -37,8 +38,6 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
           <div className="d-grid" style={{margin:"5px", marginLeft:"0"}}>
             <Button style={{flex:1}} onClick={() => {deleteThread(chatClient, setThread, threadClient).then(() => {
               forceUpdate()})}} variant="danger">Delete</Button>
-
-
           </div>
         </div>)
     })}
