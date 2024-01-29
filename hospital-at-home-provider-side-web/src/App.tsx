@@ -9,6 +9,7 @@ import VitalPage from "./Pages/VitalPage";
 import {Fragment} from "react";
 import TopNavMenu from "./Components/TopNavMenu";
 import PatientDetailPage from "./Pages/PatientDetailPage";
+import {WarningPage} from "./Pages/WarningPage";
 
 function App() {
 	return (
@@ -18,17 +19,19 @@ function App() {
 				<TopNavMenu/>
 				{/*routes are equivalent to navigation stacks*/}
 				<Routes>
+					<Route index element={<WarningPage/>}/>
 					<Route path='/vital' element={<VitalPage/>}/>
 				</Routes>
 				<Routes>
 					{/*add more <Route> after this route with different patient id as navigation*/}
 					<Route path='/chat' element={<ChatPage/>}/>
-					<Route path="/patient/:patientId" element={<PatientDetailPage/>} /> 
+					<Route path="/patient/:patientId" element={<PatientDetailPage/>} />
 				</Routes>
 			</Fragment>
-			
-			
+
+
 		</Router>
+
 	);
 }
 
