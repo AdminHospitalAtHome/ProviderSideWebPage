@@ -49,7 +49,7 @@ export default function ChatPage(): React.JSX.Element {
   } else if (chatClient) {
     return (
       <body style={{paddingTop: '60px', display: 'flex', flexDirection: 'row'}}>
-      <div style={{flexGrow: 1}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
+      <div style={{width: '30%'}}><ChatMenu threadClients={threadClients} setThread={setChatThread} chatClient={chatClient} currentThread={chatThread} forceUpdate={forceUpdate}></ChatMenu></div>
       <div style={{flexGrow: 11}}>
         Please Select a Chat...
       </div>

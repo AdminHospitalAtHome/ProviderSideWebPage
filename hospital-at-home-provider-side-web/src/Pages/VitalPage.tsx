@@ -182,7 +182,7 @@ export default function VitalPage() {
   };
 
   return (
-    <body style={{paddingTop: '60px'}}>
+    <body style={{paddingTop: '55px'}}>
     <div className="main-container">
       <div className="sidebar">
         <div className="vitalsButtonList">

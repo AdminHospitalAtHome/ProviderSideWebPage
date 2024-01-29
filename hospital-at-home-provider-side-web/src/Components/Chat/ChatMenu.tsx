@@ -27,7 +27,7 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
 
       return (
         <div style={{display: "flex", flexDirection: "row"}}>
-          <div
+          <div style={{width: '100%'}}
             onClick={() => {
             setThread(threadClient);
           }}>

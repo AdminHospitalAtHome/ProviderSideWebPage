@@ -28,7 +28,7 @@ export default function ChatContactSearch({
 
 
   return (
-    <div className='container'>
+    <div className='chat-search-container'>
       <div className='searchBarContainer'>
         <SelectSearch
           onChange={setSelectedPatient} options={dropDownOptions} search
