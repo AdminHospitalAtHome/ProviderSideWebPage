@@ -1,17 +1,20 @@
 import StatusButton from "../Button/StatusButton";
 import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
-import React, {SetStateAction} from "react";
+import React, {SetStateAction, useState} from "react";
 import {calculateAge, toggle} from "../../BackendFunctionCall/Vital/patientCard";
 import './PatientCard.css';
 import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVitalInterface";
+import Button from "react-bootstrap/esm/Button";
+import PatientNotes from "./PatientNotes";
 
-export default function PatientCard({patient, toggleExpanded, setExpandedId, expandedId, vitalData, baseLineVitals}: {
+export default function PatientCard({patient, toggleExpanded, setExpandedId, expandedId, vitalData, baseLineVitals, openNoteModal}: {
   patient: Patient,
   toggleExpanded: (id: number) => void,
   setExpandedId: React.Dispatch<SetStateAction<number | null>>,
   expandedId: number | null,
   vitalData: VitalDataInterface,
   baseLineVitals: BaselineVitalInterface,
+  openNoteModal: any
 }) {
 
   const range = {
@@ -28,7 +31,9 @@ export default function PatientCard({patient, toggleExpanded, setExpandedId, exp
         <span className="patient-card-name">{patient.FirstName} {patient.LastName}</span>
       </button>
       <div className={`patient-card-details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
-
+      <Button variant="light" onClick={() => {openNoteModal()}} className="patient-card-notes-button">
+        Notes
+    </Button>
         <p className="patient-card-detailText">Gender: {patient.Gender}</p>
         <p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
         <div className="patient-card-separator"/>

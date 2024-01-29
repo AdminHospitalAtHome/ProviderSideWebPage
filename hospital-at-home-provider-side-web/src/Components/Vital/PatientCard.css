@@ -9,6 +9,23 @@
     align-items: center;
 }
 
+.patient-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-card-basic-info {
+    display: flex;
+}
+
+.patient-card-detailText {
+    margin-right: 10px;
+}
+
+.patient-card-notes-button {
+    padding: 5px 10px;
+}
 .patient-card-title {
     display: flex;
     align-items: center;

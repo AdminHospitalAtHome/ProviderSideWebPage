@@ -210,10 +210,6 @@ export default function VitalPage() {
                    children2={bloodOxygenTable}/>
         <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
                    children2={bloodPressureTable}/>
-			</div>
-			{isNoteModalOpen && (
-				<PatientNotes closeModal={()=>{setNoteModalOpen(!isNoteModalOpen)}}/>
-			)}
 
 		</div>
 
