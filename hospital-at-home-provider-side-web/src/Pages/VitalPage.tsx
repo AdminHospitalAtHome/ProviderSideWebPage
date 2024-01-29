@@ -214,8 +214,7 @@ export default function VitalPage() {
 		</div>
 
 
-      {/*</div>*/}
-    {/*</div>*/}
+      </div>
 
     </body>
 
