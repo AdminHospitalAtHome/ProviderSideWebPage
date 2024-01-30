@@ -12,7 +12,8 @@ import DataTable from "../Components/Table/DataTable";
 import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Components/Vital/PatientVitalInterface';
 import FilterPanel from "../Components/Vital/FilterPanel";
-import PatientNotes from '../Components/Vital/PatientNotes';
+
+// import { getPatientNotes } from '../BackendFunctionCall/getPatientNotes';
 
 
 
@@ -100,8 +101,7 @@ export default function VitalPage() {
         });
 
     }
-
-    console.log(vitalData.weight)
+    
 
   }, [patientId]);
 
