@@ -8,6 +8,7 @@ import Button from "react-bootstrap/esm/Button";
 import PatientNotes from "./PatientNotes";
 import {OverlayTrigger} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
+import Note from "./Notes";
 
 export default function PatientCard({
 	                                    patient,
@@ -26,7 +27,7 @@ export default function PatientCard({
 	baseLineVitals: BaselineVitalInterface,
 	openNoteModal: any
 }) {
-
+	
 	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])
 	/* Alert Level Key:
 		-2: Loading
@@ -35,14 +36,14 @@ export default function PatientCard({
 		 1: Concern (Yellow)
 		 2: Alert (Red)
 	*/
-
+	
 	useEffect(() => {
 		if (expandedId && expandedId === patient.PatientID) {
 			getAlertLevel(expandedId).then(setAlertLevel)
 		}
 	}, [expandedId]);
-
-
+	
+	
 	return (
 		<div key={patient.PatientID} className="patient-card-container">
 			<button className={`patient-card-title ${expandedId === patient.PatientID ? 'expanded' : ''}`}
@@ -51,11 +52,11 @@ export default function PatientCard({
 				<span className="patient-card-name">{patient.FirstName} {patient.LastName}</span>
 			</button>
 			<div className={`patient-card-details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
-				<Button variant="light" onClick={() => {
-					openNoteModal()
-				}} className="patient-card-notes-button">
-					Notes
-				</Button>
+				{/*<Button variant="light" onClick={() => {*/}
+				{/*	openNoteModal()*/}
+				{/*}} className="patient-card-notes-button">*/}
+				{/*	Notes*/}
+				{/*</Button>*/}
 				<p className="patient-card-detailText">Gender: {patient.Gender}</p>
 				<p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
 				<div className="patient-card-separator"/>
@@ -76,9 +77,13 @@ export default function PatientCard({
 					<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>
 						<StatusButton color={getColor(alertLevel[3])}/>
 					</OverlayTrigger>
-
 				</p>
+				<div className="patient-card-separator"/>
+				{
+					expandedId === patient.PatientID && <Note patientId = {patient.PatientID}/>
+				}
 			</div>
+		
 		</div>
 	)
 }
