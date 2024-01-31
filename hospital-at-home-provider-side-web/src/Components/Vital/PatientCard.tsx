@@ -6,9 +6,10 @@ import './PatientCard.css';
 import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVitalInterface";
 import Button from "react-bootstrap/esm/Button";
 import PatientNotes from "./PatientNotes";
-import {OverlayTrigger} from "react-bootstrap";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
 import Note from "./Notes";
+import Popover from "react-bootstrap/Popover";
 
 export default function PatientCard({
 	                                    patient,
@@ -27,7 +28,7 @@ export default function PatientCard({
 	baseLineVitals: BaselineVitalInterface,
 	openNoteModal: any
 }) {
-	
+
 	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])
 	/* Alert Level Key:
 		-2: Loading
@@ -36,14 +37,13 @@ export default function PatientCard({
 		 1: Concern (Yellow)
 		 2: Alert (Red)
 	*/
-	
+
 	useEffect(() => {
 		if (expandedId && expandedId === patient.PatientID) {
 			getAlertLevel(expandedId).then(setAlertLevel)
 		}
 	}, [expandedId]);
-	
-	
+
 	return (
 		<div key={patient.PatientID} className="patient-card-container">
 			<button className={`patient-card-title ${expandedId === patient.PatientID ? 'expanded' : ''}`}
@@ -74,16 +74,18 @@ export default function PatientCard({
 				</p>
 				<p className="patient-card-detailText">
 					Blood Pressure: {vitalData.bloodPressure}
-					<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>
+					{/*<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>*/}
+					{/*	<div>*/}
 						<StatusButton color={getColor(alertLevel[3])}/>
-					</OverlayTrigger>
+					{/*	</div>*/}
+					{/*</OverlayTrigger>*/}
 				</p>
 				<div className="patient-card-separator"/>
 				{
 					expandedId === patient.PatientID && <Note patientId = {patient.PatientID}/>
 				}
 			</div>
-		
+
 		</div>
 	)
 }

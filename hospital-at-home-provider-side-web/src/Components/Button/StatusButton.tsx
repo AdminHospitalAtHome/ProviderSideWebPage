@@ -16,7 +16,7 @@ const StatusButton: React.FC<ButtonProps> = ({ color}) => {
         margin: '2px',
     };
 
-    return <button onMouseOver={() => {console.log("HOVER")}} style={styles}></button>;
+    return <button style={styles}></button>;
 
 };
 export default StatusButton;
