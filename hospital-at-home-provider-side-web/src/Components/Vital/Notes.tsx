@@ -5,7 +5,7 @@ import {
 	deletePatientNote,
 	getPatientNotes,
 	updatePatientNote
-} from '../../BackendFunctionCall/getPatientNotesNew'
+} from '../../BackendFunctionCall/NoteFunctions'
 // @ts-ignore
 import addIcon from '../../icons/add.png';
 // @ts-ignore
@@ -48,6 +48,25 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			)
 		
 	}, [patientId]);
+	
+	const deleteOnClick = (uuid: string, type: string) => {
+		deletePatientNote(uuid).then(() => {
+			if (type === 'Subjective') {
+				const updateNotes = subjectiveNotes.filter(note => note.uuid !== uuid);
+				setSubjectiveNotes(updateNotes);
+			} else if (type === 'Objective') {
+				const updateNotes = objectiveNotes.filter(note => note.uuid !== uuid);
+				setObjectiveNotes(updateNotes);
+			} else if (type === 'Assessment') {
+				const updateNotes = assessmentNotes.filter(note => note.uuid !== uuid);
+				setAssessmentNotes(updateNotes);
+			} else if (type === 'Plan') {
+				const updateNotes = planNotes.filter(note => note.uuid !== uuid);
+				setPlanNotes(updateNotes);
+			}
+		})
+	}
+	
 	return <div className="note-container">
 		<label>Provider Note</label>
 		<div className="note-label-container">
@@ -59,8 +78,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			{subjectiveNotes.map((subjectiveNote) => (<li>{subjectiveNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
 				                                     style={{width: '20px', height: '20px'}}/></button>
-				<button className="icon-button"><img src={deleteIcon} alt={"Delete"}
-				                                     style={{width: '20px', height: '20px'}}/></button>
+				<button className="icon-button" onClick={() => deleteOnClick(subjectiveNote.uuid, 'Subjective')}><img
+					src={deleteIcon} alt={"Delete"}
+					style={{width: '20px', height: '20px'}}/></button>
 			</li>))}
 		</ul>
 		
@@ -73,8 +93,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			{objectiveNotes.map((objectiveNote) => (<li>{objectiveNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
 				                                     style={{width: '20px', height: '20px'}}/></button>
-				<button className="icon-button"><img src={deleteIcon} alt={"Delete"}
-				                                     style={{width: '20px', height: '20px'}}/></button>
+				<button className="icon-button" onClick={() => deleteOnClick(objectiveNote.uuid, 'Objective')}><img
+					src={deleteIcon} alt={"Delete"}
+					style={{width: '20px', height: '20px'}}/></button>
 			</li>))}
 		</ul>
 		
@@ -87,8 +108,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			{assessmentNotes.map((assessmentNote) => (<li>{assessmentNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
 				                                     style={{width: '20px', height: '20px'}}/></button>
-				<button className="icon-button"><img src={deleteIcon} alt={"Delete"}
-				                                     style={{width: '20px', height: '20px'}}/></button>
+				<button className="icon-button" onClick={() => deleteOnClick(assessmentNote.uuid, 'Assessment')}><img
+					src={deleteIcon} alt={"Delete"}
+					style={{width: '20px', height: '20px'}}/></button>
 			</li>))}
 		</ul>
 		
@@ -101,8 +123,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			{planNotes.map((planNote) => (<li>{planNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
 				                                     style={{width: '20px', height: '20px'}}/></button>
-				<button className="icon-button"><img src={deleteIcon} alt={"Delete"}
-				                                     style={{width: '20px', height: '20px'}}/></button>
+				<button className="icon-button" onClick={() => deleteOnClick(planNote.uuid, 'Plan')}><img
+					src={deleteIcon} alt={"Delete"}
+					style={{width: '20px', height: '20px'}}/></button>
 			</li>))}
 		</ul>
 	</div>

@@ -1,5 +1,5 @@
 import {expect, jest, test} from '@jest/globals'
-import { getPatientNotes } from '../BackendFunctionCall/getPatientNotesNew';
+import { getPatientNotes } from '../BackendFunctionCall/NoteFunctions';
 
 describe('Gets Alert Level', () => {
   test('Has Data: Get Alert Level', async () => {
