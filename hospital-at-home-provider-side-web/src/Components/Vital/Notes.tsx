@@ -101,7 +101,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			</button>
 		</div>
 		{addingSubjectiveNote && <div>
-			<input onChange={(e) => setAddInput(e.target.value)}></input>
+			<input onChange={(e) => {
+				setAddInput(e.target.value)
+			}}/>
 			<button onClick={() => {
 				addPatientNote('Subjective', addInput, patientId);
 				setAddingSubjectiveNote(!addingSubjectiveNote);
@@ -128,10 +130,12 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			                                                                             }}/>
 			</button>
 		</div>
-		{addingObjectiveNote && <div><input/>
+		{addingObjectiveNote && <div><input onChange={(e) => {
+			setAddInput(e.target.value)
+		}}/>
 			<button onClick={() => {
 				addPatientNote('Objective', addInput, patientId);
-				setAddingSubjectiveNote(!addingSubjectiveNote);
+				setAddingObjectiveNote(!addingObjectiveNote);
 			}}>Add
 			</button>
 		</div>}
@@ -154,7 +158,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			                                                                              }}/>
 			</button>
 		</div>
-		{addingAssessmentNote && <div><input/>
+		{addingAssessmentNote && <div><input onChange={(e) => {
+			setAddInput(e.target.value)
+		}}/>
 			<button onClick={() => {
 				addPatientNote('Assessment', addInput, patientId);
 				setAddingAssessmentNote(!addingAssessmentNote)
@@ -179,7 +185,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			}}/>
 			</button>
 		</div>
-		{addingPlanNote && <div><input/>
+		{addingPlanNote && <div><input onChange={(e) => {
+			setAddInput(e.target.value)
+		}}/>
 			<button onClick={() => {
 				addPatientNote('Plan', addInput, patientId);
 				setAddingPlanNote(!addingPlanNote)
