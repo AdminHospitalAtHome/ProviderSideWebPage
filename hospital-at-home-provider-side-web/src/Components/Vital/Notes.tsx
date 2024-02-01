@@ -15,10 +15,19 @@ import deleteIcon from '../../icons/delete.png';
 
 
 export default function Note({patientId}: { patientId: number }): React.JSX.Element {
+	const [update, setUpDate] = useState<boolean>(false);
 	const [subjectiveNotes, setSubjectiveNotes] = useState<any[]>([])
 	const [objectiveNotes, setObjectiveNotes] = useState<any[]>([])
 	const [assessmentNotes, setAssessmentNotes] = useState<any[]>([])
 	const [planNotes, setPlanNotes] = useState<any[]>([])
+	
+	const [addingSubjectiveNote, setAddingSubjectiveNote] = useState<boolean>(false)
+	const [addingObjectiveNote, setAddingObjectiveNote] = useState<boolean>(false)
+	const [addingAssessmentNote, setAddingAssessmentNote] = useState<boolean>(false)
+	const [addingPlanNote, setAddingPlanNote] = useState<boolean>(false)
+	
+	const [addInput, setAddInput] = useState<string>('')
+	
 	
 	useEffect(() => {
 		getPatientNotes(patientId)
@@ -47,7 +56,20 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 				}
 			)
 		
-	}, [patientId]);
+	}, [update, patientId]);
+	
+	const addOnClick = (type: string) => {
+		setAddInput('');
+		if (type === 'Subjective') {
+			setAddingSubjectiveNote(!addingSubjectiveNote);
+		} else if (type === 'Objective') {
+			setAddingObjectiveNote(!addingObjectiveNote);
+		} else if (type === 'Assessment') {
+			setAddingAssessmentNote(!addingAssessmentNote);
+		} else if (type === 'Plan') {
+			setAddingPlanNote(!addingPlanNote);
+		}
+	}
 	
 	const deleteOnClick = (uuid: string, type: string) => {
 		deletePatientNote(uuid).then(() => {
@@ -71,9 +93,22 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		<label>Provider Note</label>
 		<div className="note-label-container">
 			<label>Subjective</label>
-			<button className="icon-button"><img src={addIcon} alt={"Add"} style={{width: '20px', height: '20px'}}/>
+			<button className="icon-button" onClick={() => addOnClick('Subjective')}><img src={addIcon} alt={"Add"}
+			                                                                              style={{
+				                                                                              width: '20px',
+				                                                                              height: '20px'
+			                                                                              }}/>
 			</button>
 		</div>
+		{addingSubjectiveNote && <div>
+			<input onChange={(e) => setAddInput(e.target.value)}></input>
+			<button onClick={() => {
+				addPatientNote('Subjective', addInput, patientId);
+				setAddingSubjectiveNote(!addingSubjectiveNote);
+				setUpDate(!update);
+			}}>Add
+			</button>
+		</div>}
 		<ul>
 			{subjectiveNotes.map((subjectiveNote) => (<li>{subjectiveNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
@@ -86,9 +121,20 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		
 		<div className="note-label-container">
 			<label>Objective</label>
-			<button className="icon-button"><img src={addIcon} alt={"Add"} style={{width: '20px', height: '20px'}}/>
+			<button className="icon-button" onClick={() => addOnClick('Objective')}><img src={addIcon} alt={"Add"}
+			                                                                             style={{
+				                                                                             width: '20px',
+				                                                                             height: '20px'
+			                                                                             }}/>
 			</button>
 		</div>
+		{addingObjectiveNote && <div><input/>
+			<button onClick={() => {
+				addPatientNote('Objective', addInput, patientId);
+				setAddingSubjectiveNote(!addingSubjectiveNote);
+			}}>Add
+			</button>
+		</div>}
 		<ul>
 			{objectiveNotes.map((objectiveNote) => (<li>{objectiveNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
@@ -101,9 +147,20 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		
 		<div className="note-label-container">
 			<label>Assessment</label>
-			<button className="icon-button"><img src={addIcon} alt={"Add"} style={{width: '20px', height: '20px'}}/>
+			<button className="icon-button" onClick={() => addOnClick('Assessment')}><img src={addIcon} alt={"Add"}
+			                                                                              style={{
+				                                                                              width: '20px',
+				                                                                              height: '20px'
+			                                                                              }}/>
 			</button>
 		</div>
+		{addingAssessmentNote && <div><input/>
+			<button onClick={() => {
+				addPatientNote('Assessment', addInput, patientId);
+				setAddingAssessmentNote(!addingAssessmentNote)
+			}}>Add
+			</button>
+		</div>}
 		<ul>
 			{assessmentNotes.map((assessmentNote) => (<li>{assessmentNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
@@ -116,9 +173,19 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		
 		<div className="note-label-container">
 			<label>Plan</label>
-			<button className="icon-button"><img src={addIcon} alt={"Add"} style={{width: '20px', height: '20px'}}/>
+			<button className="icon-button" onClick={() => addOnClick('Plan')}><img src={addIcon} alt={"Add"} style={{
+				width: '20px',
+				height: '20px'
+			}}/>
 			</button>
 		</div>
+		{addingPlanNote && <div><input/>
+			<button onClick={() => {
+				addPatientNote('Plan', addInput, patientId);
+				setAddingPlanNote(!addingPlanNote)
+			}}>Add
+			</button>
+		</div>}
 		<ul>
 			{planNotes.map((planNote) => (<li>{planNote.noteText}
 				<button className="icon-button"><img src={editIcon} alt={"Edit"}
