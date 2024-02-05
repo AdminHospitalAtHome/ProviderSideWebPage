@@ -18,3 +18,10 @@
     cursor: pointer;
 }
 
+.edit-input{
+    width: 90%;
+    height:auto;
+    min-height: 20px;
+    overflow: hidden;
+    resize: none;
+}

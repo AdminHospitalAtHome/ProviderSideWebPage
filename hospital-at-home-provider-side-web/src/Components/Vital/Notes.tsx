@@ -12,7 +12,10 @@ import addIcon from '../../icons/add.png';
 import editIcon from '../../icons/edit.png';
 // @ts-ignore
 import deleteIcon from '../../icons/delete.png';
-
+// @ts-ignore
+import cancel from '../../icons/cancel.png';
+// @ts-ignore
+import save from '../../icons/save.png'
 
 export default function Note({patientId}: { patientId: number }): React.JSX.Element {
 	const [update, setUpDate] = useState<boolean>(false);
@@ -72,8 +75,12 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		}
 	}
 	
-	const editOnClick=(uuid: string, type:string) =>{
+	const editOnClick = (uuid: string) => {
 		setEditingNote(uuid);
+	}
+	
+	const saveEditOnClick = (uuid:string, type:string)=>{
+	
 	}
 	
 	
@@ -118,13 +125,30 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			</button>
 		</div>}
 		<ul>
-			{subjectiveNotes.map((subjectiveNote) => (<li>{subjectiveNote.noteText}
-				<button className="icon-button"><img src={editIcon} alt={"Edit"}
-				                                     style={{width: '20px', height: '20px'}}/></button>
-				<button className="icon-button" onClick={() => deleteOnClick(subjectiveNote.uuid, 'Subjective')}><img
-					src={deleteIcon} alt={"Delete"}
-					style={{width: '20px', height: '20px'}}/></button>
-			</li>))}
+			{subjectiveNotes.map((subjectiveNote) => (
+				subjectiveNote.uuid === editingNote ?
+					<li><textarea className='edit-input' defaultValue={subjectiveNote.noteText}/>
+						<button className="icon-button" onClick={()=>setEditingNote('')}><img src={cancel} alt={"Cancel"}
+						                                     style={{width: '20px', height: '20px'}}/></button>
+						<button className="icon-button"><img src={save} alt={"Save"}
+						                                     style={{width: '20px', height: '20px'}}/></button>
+					</li> :
+					<li>{subjectiveNote.noteText}
+						<button className="icon-button" onClick={() => editOnClick(subjectiveNote.uuid)}>
+							<img
+								src={editIcon}
+								alt={"Edit"}
+								style={{
+									width: '20px',
+									height: '20px'
+								}}/></button>
+						<button className="icon-button"
+						        onClick={() => deleteOnClick(subjectiveNote.uuid, 'Subjective')}>
+							<img
+								src={deleteIcon} alt={"Delete"}
+								style={{width: '20px', height: '20px'}}/></button>
+					</li>
+			))}
 		</ul>
 		
 		<div className="note-label-container">
