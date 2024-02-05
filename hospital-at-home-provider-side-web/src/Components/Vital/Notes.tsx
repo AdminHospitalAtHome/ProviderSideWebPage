@@ -31,6 +31,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	
 	const [addingNote, setAddingNote] = useState<string>('');
 	const [addInput, setAddInput] = useState<string>('');
+	const [editInput, setEditInput] = useState<string>('');
 	const [editingNote, setEditingNote] = useState<string>('');
 	
 	useEffect(() => {
@@ -79,8 +80,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		setEditingNote(uuid);
 	}
 	
-	const saveEditOnClick = (uuid:string, type:string)=>{
-	
+	const saveEditOnClick = (uuid: string, type: string) => {
+		console.log(type, uuid, editInput);
+		updatePatientNote(uuid,editingNote);
 	}
 	
 	
@@ -127,11 +129,20 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		<ul>
 			{subjectiveNotes.map((subjectiveNote) => (
 				subjectiveNote.uuid === editingNote ?
-					<li><textarea className='edit-input' defaultValue={subjectiveNote.noteText}/>
-						<button className="icon-button" onClick={()=>setEditingNote('')}><img src={cancel} alt={"Cancel"}
-						                                     style={{width: '20px', height: '20px'}}/></button>
-						<button className="icon-button"><img src={save} alt={"Save"}
-						                                     style={{width: '20px', height: '20px'}}/></button>
+					<li><textarea className='edit-input' defaultValue={subjectiveNote.noteText} onChange={(e)=>setEditInput(e.target.value)}/>
+						<button className="icon-button" onClick={() => setEditingNote('')}><img src={cancel}
+						                                                                        alt={"Cancel"}
+						                                                                        style={{
+							                                                                        width: '20px',
+							                                                                        height: '20px'
+						                                                                        }}/></button>
+						<button className="icon-button"
+						        onClick={() => saveEditOnClick(subjectiveNote.uuid, 'Subjective')}><img src={save}
+						                                                                                alt={"Save"}
+						                                                                                style={{
+							                                                                                width: '20px',
+							                                                                                height: '20px'
+						                                                                                }}/></button>
 					</li> :
 					<li>{subjectiveNote.noteText}
 						<button className="icon-button" onClick={() => editOnClick(subjectiveNote.uuid)}>
