@@ -27,7 +27,7 @@ export function getColor(alertLevel: number): string {
     case 0:
       return 'green';
     case 1:
-      return 'yellow';
+      return 'Gold';
     case 2:
       return 'red';
     default:

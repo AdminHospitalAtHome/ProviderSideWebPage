@@ -11,9 +11,10 @@ const StatusButton: React.FC<ButtonProps> = ({ color}) => {
         borderRadius: '50%',
         width: '15px',
         height: '15px',
-        border: 'none',
+        border: '1px solid black',
         display: 'inline-block',
         margin: '2px',
+
     };
 
     return <button style={styles}></button>;
