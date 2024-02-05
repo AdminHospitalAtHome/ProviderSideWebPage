@@ -26,8 +26,9 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	const [addingAssessmentNote, setAddingAssessmentNote] = useState<boolean>(false)
 	const [addingPlanNote, setAddingPlanNote] = useState<boolean>(false)
 	
-	const [addInput, setAddInput] = useState<string>('')
-	
+	const [addingNote, setAddingNote] = useState<string>('');
+	const [addInput, setAddInput] = useState<string>('');
+	const [editingNote, setEditingNote] = useState<string>('');
 	
 	useEffect(() => {
 		getPatientNotes(patientId)
@@ -70,6 +71,11 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			setAddingPlanNote(!addingPlanNote);
 		}
 	}
+	
+	const editOnClick=(uuid: string, type:string) =>{
+		setEditingNote(uuid);
+	}
+	
 	
 	const deleteOnClick = (uuid: string, type: string) => {
 		deletePatientNote(uuid).then(() => {

@@ -7,6 +7,9 @@ import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import StatusButton from "../Button/StatusButton";
 import {BaselineVitalInterface, Patient, PatientNote, VitalDataInterface} from './PatientVitalInterface';
 import PatientCard from "./PatientCard";
+import {
+  getPatientNotes
+} from '../../BackendFunctionCall/NoteFunctions'
 
 export default function AllPatientSideBar({patients, toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData: any }) {
   // This is the patientID of the expanded Patient Card
