@@ -82,7 +82,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	
 	const saveEditOnClick = (uuid: string, type: string) => {
 		console.log(type, uuid, editInput);
-		updatePatientNote(uuid,editingNote);
+		updatePatientNote(uuid, editInput).then(() => setEditingNote(''));
 	}
 	
 	
@@ -129,7 +129,8 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		<ul>
 			{subjectiveNotes.map((subjectiveNote) => (
 				subjectiveNote.uuid === editingNote ?
-					<li><textarea className='edit-input' defaultValue={subjectiveNote.noteText} onChange={(e)=>setEditInput(e.target.value)}/>
+					<li><textarea className='edit-input' defaultValue={subjectiveNote.noteText}
+					              onChange={(e) => setEditInput(e.target.value)}/>
 						<button className="icon-button" onClick={() => setEditingNote('')}><img src={cancel}
 						                                                                        alt={"Cancel"}
 						                                                                        style={{
