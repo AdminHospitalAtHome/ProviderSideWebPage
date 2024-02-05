@@ -5,7 +5,6 @@ import {calculateAge, getColor, toggle} from "../../BackendFunctionCall/Vital/pa
 import './PatientCard.css';
 import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVitalInterface";
 import Button from "react-bootstrap/esm/Button";
-import PatientNotes from "./PatientNotes";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
 import Note from "./Notes";
@@ -17,16 +16,13 @@ export default function PatientCard({
 	                                    setExpandedId,
 	                                    expandedId,
 	                                    vitalData,
-	                                    baseLineVitals,
-	                                    openNoteModal
                                     }: {
 	patient: Patient,
 	toggleExpanded: (id: number) => void,
 	setExpandedId: React.Dispatch<SetStateAction<number | null>>,
 	expandedId: number | null,
 	vitalData: VitalDataInterface,
-	baseLineVitals: BaselineVitalInterface,
-	openNoteModal: any
+	baseLineVitals: BaselineVitalInterface
 }) {
 
 	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])

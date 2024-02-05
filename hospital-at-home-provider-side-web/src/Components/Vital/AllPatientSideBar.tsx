@@ -7,8 +7,6 @@ import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import StatusButton from "../Button/StatusButton";
 import {BaselineVitalInterface, Patient, PatientNote, VitalDataInterface} from './PatientVitalInterface';
 import PatientCard from "./PatientCard";
-import PatientNotes from './PatientNotes';
-import { getPatientNotes, updatePatientNotes } from '../../BackendFunctionCall/getPatientNotes';
 
 export default function AllPatientSideBar({patients, toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData: any }) {
   // This is the patientID of the expanded Patient Card
@@ -22,26 +20,6 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
   })
 
   const navigate = useNavigate();
-  
-  const [isNoteModalOpen, setNoteModalOpen] = useState(false);
-  const [patientNote, setPatientNote] = useState<PatientNote | null>(null);
-    const openModal = async () => {
-      setNoteModalOpen(true)
-        await getPatientNotes(expandedId).then((data) => {
-        setPatientNote(data);
-      })
-    };
-    const closeModal = (formData: PatientNote) => {
-      setNoteModalOpen(false);
-    };
-
-    const onNotesUpdated = async () => {
-      if (expandedId) {
-        const updatedNotes = await getPatientNotes(expandedId);
-        setPatientNote(updatedNotes);
-      }
-    };
-
 
 
 
@@ -54,15 +32,12 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
                              setExpandedId={setExpandedId}
                              toggleExpanded={toggleExpanded}
                              vitalData={vitalData}
-                             openNoteModal={openModal}
                              />
                             
                              
                              )
       })}
-        {isNoteModalOpen && (
-          <PatientNotes onNotesUpdated = {onNotesUpdated} patientId= {expandedId} data = {patientNote} closeModal={closeModal}/>
-        )}
+
     </div>
 
   );

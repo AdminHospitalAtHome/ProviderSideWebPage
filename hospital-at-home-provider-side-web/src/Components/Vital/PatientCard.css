@@ -7,6 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: 10px;
 }
 
 .patient-card-top-row {
@@ -19,9 +20,6 @@
     display: flex;
 }
 
-.patient-card-detailText {
-    margin-right: 10px;
-}
 
 .patient-card-notes-button {
     padding: 5px 10px;
