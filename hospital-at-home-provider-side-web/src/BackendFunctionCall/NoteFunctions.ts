@@ -10,7 +10,7 @@
 //         return data;
 //     } catch (error) {
 //         console.error('There was a problem with the fetch operation:', error);
-//         throw error; 
+//         throw error;
 //     }
 // }
 
@@ -49,7 +49,7 @@ export function updatePatientNote(uuid: string, noteText: string): Promise<strin
         .then(data => {
             resolve(data);
         })
-        
+
     });
 }
 
@@ -151,8 +151,11 @@ export async function addPatientNote(noteType:string, noteText:string, patientId
         .then(response => response.json())
         .then(data => {
             resolve(data);
+        }).catch((err) => {
+            console.log(err);
+            resolve("BIG ERROR")
         })
-        
+
     });
 }
 
