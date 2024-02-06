@@ -12,7 +12,8 @@ import DataTable from "../Components/Table/DataTable";
 import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Components/Vital/PatientVitalInterface';
 import FilterPanel from "../Components/Vital/FilterPanel";
-import PatientNotes from '../Components/Vital/PatientNotes';
+
+// import { getPatientNotes } from '../BackendFunctionCall/getPatientNotes';
 
 
 
@@ -100,8 +101,7 @@ export default function VitalPage() {
         });
 
     }
-
-    console.log(vitalData.weight)
+    
 
   }, [patientId]);
 
@@ -182,7 +182,7 @@ export default function VitalPage() {
   };
 
   return (
-    <body style={{paddingTop: '60px'}}>
+    <body style={{paddingTop: '56px', height:'100%'}}>
     <div className="main-container">
       <div className="sidebar">
         <div className="vitalsButtonList">
@@ -210,16 +210,11 @@ export default function VitalPage() {
                    children2={bloodOxygenTable}/>
         <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
                    children2={bloodPressureTable}/>
-			</div>
-			{isNoteModalOpen && (
-				<PatientNotes closeModal={()=>{setNoteModalOpen(!isNoteModalOpen)}}/>
-			)}
 
 		</div>
 
 
-      {/*</div>*/}
-    {/*</div>*/}
+      </div>
 
     </body>
 

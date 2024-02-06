@@ -20,11 +20,20 @@ export default function ChatContactCard({threadClient, providerCommunicationID, 
       getThreadLastMessage(threadClient).then(setLastMessage)
   }, [threadClient])
 
-
+  // https://css-tricks.com/snippets/css/truncate-string-with-ellipsis/
+  // https://stackoverflow.com/questions/45591449/use-screen-width-inside-calc-css
   if (lastMessage) {
     return (<Card style={selected ? {margin: '5px', backgroundColor:'#c5d4fc'} : {margin:'5px'}}>
-      <Card.Title>{patientName}</Card.Title>
-      <Card.Text>{lastMessage.content.message}</Card.Text>
+      <Card.Title style={{marginLeft: '10px', marginTop: '10px', marginBottom:'0px'}}>{patientName}</Card.Title>
+      <Card.Text style={{
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        width:'20vw',
+        marginTop: '5px',
+        marginBottom: '5px',
+        marginLeft: '10px',
+      }}>{lastMessage.content.message? lastMessage.content.message : "No Recent Messages"}</Card.Text>
       <Card.Footer>{parseDateTime(String(lastMessage.createdOn))}</Card.Footer>
     </Card>)
   } else {

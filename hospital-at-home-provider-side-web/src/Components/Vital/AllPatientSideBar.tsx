@@ -5,9 +5,11 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import StatusButton from "../Button/StatusButton";
-import {getBaseLineVitals} from '../../BackendFunctionCall/getBaseLineVital';
-import {BaselineVitalInterface, Patient, VitalDataInterface} from './PatientVitalInterface';
+import {BaselineVitalInterface, Patient, PatientNote, VitalDataInterface} from './PatientVitalInterface';
 import PatientCard from "./PatientCard";
+import {
+  getPatientNotes
+} from '../../BackendFunctionCall/NoteFunctions'
 
 export default function AllPatientSideBar({patients, toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData: any }) {
   // This is the patientID of the expanded Patient Card
@@ -21,27 +23,6 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
   })
 
   const navigate = useNavigate();
-  
-
-
-
-  useEffect(() => {
-    getBaseLineVitals(expandedId)
-      .then(data => {
-        const vitals = {
-          bloodOxygen: data[0].BloodOxygenLevelInPercentage,
-          heartRate: data[0].heartRateInBPM,
-          weight: data[0].WeightInPounds,
-          diastolicBloodPressure: data[0].DiastolicBloodPressureInMmHg,
-          systolicBloodPressure: data[0].SystolicBloodPressureInMmHg
-        };
-        setBaseLineVitals(vitals);
-      })
-      .catch(error => {
-        console.error('Error fetching base line vitals:', error);
-      });
-  }, [expandedId])
-
 
 
 
@@ -53,8 +34,14 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
                              patient={patient}
                              setExpandedId={setExpandedId}
                              toggleExpanded={toggleExpanded}
-                             vitalData={vitalData}/>)
+                             vitalData={vitalData}
+                             />
+                            
+                             
+                             )
       })}
+
     </div>
+
   );
 }

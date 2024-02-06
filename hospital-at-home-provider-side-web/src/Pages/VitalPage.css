@@ -1,23 +1,23 @@
 .sidebar {
-    width: 20%;
+    flex:1;
     background-color: #d88d63;
     padding: 10px;
     overflow-y: auto;
-  }
+}
 
 .filterButton {
-  text-align: right;
-  margin-bottom: 10px;
+    text-align: right;
+    margin-bottom: 10px;
 }
 
 
-  .main-container {
+.main-container {
     display: flex;
-    height: 90vh;
+    height: 100%;
 }
 
 .main-content {
-  width: 85%;
+    flex: 3;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -28,7 +28,7 @@
 /*ChatGPT used to tell us we needed flex and justify content. We then further discovered space-between
 worked better for our purposes to display buttons on same line.*/
 .vitalsButtonList {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }

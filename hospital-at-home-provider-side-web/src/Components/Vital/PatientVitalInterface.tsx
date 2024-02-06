@@ -28,3 +28,10 @@ export interface Patient {
 	Gender: string;
 	DateOfBirth: string;
 }
+
+export interface PatientNote {
+    Subjective: string;
+    Objective: string;
+    Assessment: string;
+    Plan: string;
+}

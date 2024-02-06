@@ -1,5 +1,5 @@
 .patient-notes {
-    width: 600px; /* Adjust the width as necessary */
+    width: 600px; 
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
@@ -11,8 +11,9 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    grid-gap: 10px; /* Space between grid items */
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 10px; 
+    grid-template-rows: auto auto auto 50px;
 }
 
 .patient-notes div {
@@ -38,6 +39,17 @@
     font-weight: bold;
     color: #333;
 }
+
+
+.done-button {
+    grid-column: 2 / 3; 
+    grid-row: 4 / 5; 
+    padding: 10px 20px;
+    align-self: center;
+    justify-self: end; 
+    width: 200px;
+}
+
 
 .close-button:hover {
     color: red;

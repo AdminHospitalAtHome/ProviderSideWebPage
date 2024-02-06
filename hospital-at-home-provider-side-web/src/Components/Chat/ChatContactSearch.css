@@ -1,10 +1,12 @@
 @import url('https://rsms.me/inter/inter.css');
 
 
-.container {
+.chat-search-container {
     display: flex;
     flex-direction: row;
     width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .searchBarContainer {
@@ -34,6 +36,7 @@
     font-family: var(--select-search-font);
     color: var(--select-search-text);
     box-sizing: border-box;
+    margin-right: 5px;
 }
 
 
