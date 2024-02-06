@@ -81,8 +81,32 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	}
 	
 	const saveEditOnClick = (uuid: string, type: string) => {
-		console.log(type, uuid, editInput);
 		updatePatientNote(uuid, editInput).then(() => setEditingNote(''));
+		if (type === 'Subjective') {
+			subjectiveNotes.map(note => {
+				if(note.uuid === uuid){
+					note.noteText = editInput
+				}
+			})
+		} else if (type === 'Objective') {
+			objectiveNotes.map(note => {
+				if(note.uuid === uuid){
+					note.noteText = editInput
+				}
+			})
+		} else if (type === 'Assessment') {
+			assessmentNotes.map(note => {
+				if(note.uuid === uuid){
+					note.noteText = editInput
+				}
+			})
+		} else if (type === 'Plan') {
+			planNotes.map(note => {
+				if(note.uuid === uuid){
+					note.noteText = editInput
+				}
+			})
+		}
 	}
 	
 	
