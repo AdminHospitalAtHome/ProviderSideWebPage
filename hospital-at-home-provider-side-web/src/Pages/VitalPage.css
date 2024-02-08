@@ -1,3 +1,8 @@
+.main-container {
+    display: flex;
+    height: 100%;
+}
+
 .sidebar {
     flex:1;
     background-color: #d88d63;
@@ -10,19 +15,8 @@
     margin-bottom: 10px;
 }
 
-
-.main-container {
-    display: flex;
-    height: 100%;
-}
-
 .main-content {
-    flex: 3;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    padding: 20px;
+    flex: 4;
 }
 
 /*ChatGPT used to tell us we needed flex and justify content. We then further discovered space-between
@@ -31,4 +25,19 @@ worked better for our purposes to display buttons on same line.*/
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    grid-auto-rows: minmax(200px, auto);
+    height: 92%;
+}
+
+.date-selection-container {
+    margin-bottom: 20px;
+    height: 3%;
 }

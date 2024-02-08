@@ -12,10 +12,7 @@ import DataTable from "../Components/Table/DataTable";
 import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Components/Vital/PatientVitalInterface';
 import FilterPanel from "../Components/Vital/FilterPanel";
-
-// import { getPatientNotes } from '../BackendFunctionCall/getPatientNotes';
-
-
+import DateSelectionBar from "../Components/Vital/DateSelectionBar";
 
 
 export default function VitalPage() {
@@ -105,10 +102,6 @@ export default function VitalPage() {
 
   }, [patientId]);
 
-
-
-
-
   const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
   const bloodOxygenHeaders = ["Date Time", "Blood Oxygen level in %", "ifManualInput"];
   const bloodPressureHeaders = ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg", "ifManualInput"];
@@ -183,39 +176,40 @@ export default function VitalPage() {
 
   return (
     <body style={{paddingTop: '56px', height:'100%'}}>
-    <div className="main-container">
-      <div className="sidebar">
-        <div className="vitalsButtonList">
-          <div className="">
-            <Button variant="light"
-              onClick={() => handleExportClick()}>
-              Export Data
-            </Button>
+      <div className="main-container">
+        <div className="sidebar">
+          <div className="vitalsButtonList">
+            <div className="">
+              <Button variant="light"
+                onClick={() => handleExportClick()}>
+                Export Data
+              </Button>
+            </div>
+            <div className="">
+              <Button variant="light" onClick={() => setFilterPanelVisible(!filterPanelVisible)}>
+                Filter
+              </Button>
+            </div>
           </div>
-          <div className="">
-            <Button variant="light" onClick={() => setFilterPanelVisible(!filterPanelVisible)}>
-              Filter
-            </Button>
+          {filterPanelVisible && (
+                      <FilterPanel filters={filters} setFilters={setFilters} setPatients={setPatients}></FilterPanel>
+          )}
+          <AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
+        </div>
+        <div className="main-content">
+          <div className="date-selection-container">
+            <DateSelectionBar setStartDateTime={setStartDateTime} setStopDateTime={setStopDateTime}/>
+          </div>
+          <div className="charts-container">
+            <VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
+            <VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
+            <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}
+                       children2={bloodOxygenTable}/>
+            <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
+                       children2={bloodPressureTable}/>
           </div>
         </div>
-        {filterPanelVisible && (
-					<FilterPanel filters={filters} setFilters={setFilters} setPatients={setPatients}></FilterPanel>
-        )}
-        <AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
       </div>
-      <div className="main-content">
-        <VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
-        <VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
-        <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}
-                   children2={bloodOxygenTable}/>
-        <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
-                   children2={bloodPressureTable}/>
-
-		</div>
-
-
-      </div>
-
     </body>
 
   );
