@@ -19,6 +19,7 @@ const DoubleLineChart: React.FC<DoubleLineChartProps> = ({data, label1, label2})
 
             const ctx = chartRef.current?.getContext('2d');
         if (ctx && data) {
+
             chartInstance.current = new Chart(ctx!, {
                 type: 'line',
                 data: {

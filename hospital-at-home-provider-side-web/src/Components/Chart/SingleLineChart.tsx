@@ -17,6 +17,7 @@ const SingleLineChart: React.FC<SingleLineChartProps> = ({ data , label}) => {
 
         const ctx = chartRef.current?.getContext('2d');
         if (ctx && data) {
+
             chartInstance.current = new Chart(ctx, {
                 type: 'line',
                 data: {

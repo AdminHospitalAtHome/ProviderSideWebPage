@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import Button from 'react-bootstrap/Button';
-import {getHeartRate, getWeight, getBloodOxygen, getBloodPressure} from '../BackendFunctionCall/getVitalData';
+import timeTableParser, {getHeartRate, getWeight, getBloodOxygen, getBloodPressure} from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css';
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
@@ -46,15 +46,15 @@ export default function VitalPage() {
     const openModal = () => setNoteModalOpen(true);
     const closeModal = () => setNoteModalOpen(false);
 
-	useEffect(() => {
-		getAllPatients()
-			.then(patientData => {
-				setPatients(patientData);
-			})
-			.catch(error => {
-				console.error('Error fetching patients:', error);
-			});
-	}, []);
+	// useEffect(() => {
+	// 	getAllPatients()
+	// 		.then(patientData => {
+	// 			setPatients(patientData);
+	// 		})
+	// 		.catch(error => {
+	// 			console.error('Error fetching patients:', error);
+	// 		});
+	// }, []);
 
   useEffect(() => {
     getAllPatients()
@@ -96,11 +96,9 @@ export default function VitalPage() {
         .catch(error => {
           console.error('Error fetching vital data:', error);
         });
-
     }
-    
 
-  }, [patientId]);
+  }, [patientId, startDateTime, stopDateTime]);
 
   const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
   const bloodOxygenHeaders = ["Date Time", "Blood Oxygen level in %", "ifManualInput"];
