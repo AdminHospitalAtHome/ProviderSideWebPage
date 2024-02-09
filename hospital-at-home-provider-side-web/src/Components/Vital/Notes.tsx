@@ -76,6 +76,28 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		}
 	}
 	
+	const addOnConfirm = async (type: string) => {
+		let res: any = await addPatientNote(type, addInput, patientId);
+		
+		if (type === 'Subjective') {
+			res = [res, ...subjectiveNotes]
+			setSubjectiveNotes(res);
+			setAddingSubjectiveNote(false);
+		} else if (type === 'Objective') {
+			res = [res, ...objectiveNotes]
+			setObjectiveNotes(res);
+			setAddingObjectiveNote(false);
+		} else if (type === 'Assessment') {
+			res = [res, ...assessmentNotes]
+			setAssessmentNotes(res);
+			setAddingAssessmentNote(false);
+		} else if (type === 'Plan') {
+			res = [res, ...planNotes]
+			setPlanNotes(res);
+			setAddingPlanNote(false);
+		}
+	}
+	
 	const editOnClick = (uuid: string) => {
 		setEditingNote(uuid);
 	}
@@ -84,25 +106,25 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 		updatePatientNote(uuid, editInput).then(() => setEditingNote(''));
 		if (type === 'Subjective') {
 			subjectiveNotes.map(note => {
-				if(note.uuid === uuid){
+				if (note.uuid === uuid) {
 					note.noteText = editInput
 				}
 			})
 		} else if (type === 'Objective') {
 			objectiveNotes.map(note => {
-				if(note.uuid === uuid){
+				if (note.uuid === uuid) {
 					note.noteText = editInput
 				}
 			})
 		} else if (type === 'Assessment') {
 			assessmentNotes.map(note => {
-				if(note.uuid === uuid){
+				if (note.uuid === uuid) {
 					note.noteText = editInput
 				}
 			})
 		} else if (type === 'Plan') {
 			planNotes.map(note => {
-				if(note.uuid === uuid){
+				if (note.uuid === uuid) {
 					note.noteText = editInput
 				}
 			})
@@ -144,9 +166,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 				setAddInput(e.target.value)
 			}}/>
 			<button onClick={() => {
-				addPatientNote('Subjective', addInput, patientId);
-				setAddingSubjectiveNote(!addingSubjectiveNote);
-				setUpDate(!update);
+				addOnConfirm('Subjective');
 			}}>Add
 			</button>
 		</div>}
@@ -200,8 +220,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			setAddInput(e.target.value)
 		}}/>
 			<button onClick={() => {
-				addPatientNote('Objective', addInput, patientId);
-				setAddingObjectiveNote(!addingObjectiveNote);
+				addOnConfirm('Objective')
 			}}>Add
 			</button>
 		</div>}
@@ -248,8 +267,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			setAddInput(e.target.value)
 		}}/>
 			<button onClick={() => {
-				addPatientNote('Assessment', addInput, patientId);
-				setAddingAssessmentNote(!addingAssessmentNote)
+				addOnConfirm('Assessment')
 			}}>Add
 			</button>
 		</div>}
@@ -296,8 +314,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			setAddInput(e.target.value)
 		}}/>
 			<button onClick={() => {
-				addPatientNote('Plan', addInput, patientId);
-				setAddingPlanNote(!addingPlanNote)
+				addOnConfirm('Plan')
 			}}>Add
 			</button>
 		</div>}
