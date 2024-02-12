@@ -1,11 +1,13 @@
 .dateSelectionContainer {
     display: flex;
     flex-direction: row;
-    background-color: #ba4618;
-    padding: 5px;
+    background-color: #fbdea6;
+    /*padding: 5px;*/
     border-radius: 10px;
     margin: 10px;
+
     justify-content: space-around;
+    height: 40px;
 }
 
 .dateSelectionButton {
@@ -13,12 +15,12 @@
     padding: 10px;
     border: none;
     background-color: transparent;
-    color: white;
     cursor: pointer;
+    color: black;
 }
 
 .middleButton {
-    border-color: white;
-    border-left: 2px solid white;
-    border-right: 2px solid white;
+    border-color: black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
 }

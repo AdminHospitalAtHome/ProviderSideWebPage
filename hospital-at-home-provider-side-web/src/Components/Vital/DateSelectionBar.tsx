@@ -1,45 +1,34 @@
 import React from 'react';
 import './DateSelectionBar.css';
+import {selectTimeRange} from "../../BackendFunctionCall/Vital/DateSelectionBar";
 
-interface DateSelectionBarProps {
-    setStartDateTime: React.Dispatch<React.SetStateAction<string>>;
-    setStopDateTime: React.Dispatch<React.SetStateAction<string>>;
-}
 
-const DateSelectionBar: React.FC<DateSelectionBarProps> = ({
-                                                               setStartDateTime,
-                                                               setStopDateTime,
-                                                           }) => {
-    const selectTimeRange = (days: number) => {
-        const startDateTimeTemp = new Date();
-        startDateTimeTemp.setHours(0, 0, 0, 0);
-        startDateTimeTemp.setDate(startDateTimeTemp.getDate() - days);
-        setStartDateTime(startDateTimeTemp.toISOString());
-        setStopDateTime(new Date().toISOString());
-    };
+
+export default function DateSelectionBar({setStartDateTime, setStopDateTime}: {
+  setStartDateTime: React.Dispatch<React.SetStateAction<string>>,
+  setStopDateTime: React.Dispatch<React.SetStateAction<string>>
+}) {
 
     return (
         <div className="dateSelectionContainer">
             <button
                 className="dateSelectionButton"
-                onClick={() => selectTimeRange(1)}
+                onClick={() => selectTimeRange(1, setStartDateTime, setStopDateTime)}
             >
                 Day
             </button>
             <button
                 className="dateSelectionButton middleButton"
-                onClick={() => selectTimeRange(7)}
+                onClick={() => selectTimeRange(7, setStartDateTime, setStopDateTime)}
             >
                 Week
             </button>
             <button
                 className="dateSelectionButton"
-                onClick={() => selectTimeRange(30)}
+                onClick={() => selectTimeRange(30, setStartDateTime, setStopDateTime)}
             >
                 Month
             </button>
         </div>
     );
 };
-
-export default DateSelectionBar;

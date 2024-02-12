@@ -32,7 +32,6 @@ export function getColor(alertLevel: number): string {
       return 'red';
     default:
       return 'pink';
-
-
   }
 }
+
