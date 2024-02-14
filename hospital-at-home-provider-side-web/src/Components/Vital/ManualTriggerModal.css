@@ -20,7 +20,7 @@
 .ManualTriggerModal-Label {
     justify-content: space-between;
     display: flex;
-    margin-right: 50px;
+    margin-right: 20px;
     margin-left: 20px;
     margin-top: 5px;
 }
@@ -39,4 +39,5 @@
 
 .ManualTriggerModal-Footer {
     background-color: #FFF8DC !important;
+    padding-right: 30px !important;
 }

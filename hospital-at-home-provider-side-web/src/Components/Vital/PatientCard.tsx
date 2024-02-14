@@ -74,7 +74,7 @@ export default function PatientCard({
 				<p className="patient-card-detailText">Gender: {patient.Gender}</p>
 				<p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
 				<div className="patient-card-separator"/>
-				<ManualTriggerModal/>
+				<ManualTriggerModal patientID={patient.PatientID}/>
 				<p className="patient-card-detailText">
 					Weight: {recentWeight}
 					<StatusButton color={getColor(alertLevel[0])}/>
