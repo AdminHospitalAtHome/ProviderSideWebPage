@@ -1,6 +1,6 @@
 .main-container {
     display: flex;
-    height: 100%;
+    height: calc(100vh - 56px);
 }
 
 .sidebar {
@@ -29,15 +29,16 @@ worked better for our purposes to display buttons on same line.*/
 
 .charts-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
     grid-auto-rows: minmax(200px, auto);
     height: 92%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }
 
 .date-selection-container {
     margin-bottom: 20px;
     height: 3%;
+
 }

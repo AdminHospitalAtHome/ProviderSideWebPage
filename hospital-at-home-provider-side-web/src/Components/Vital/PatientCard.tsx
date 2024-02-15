@@ -7,7 +7,7 @@ import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVita
 import Button from "react-bootstrap/esm/Button";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
-import Note from "./Notes";
+import Note from "./NotePad";
 import Popover from "react-bootstrap/Popover";
 import {
 	getRecentBloodOxygen,

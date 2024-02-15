@@ -1,4 +1,4 @@
-import './Note.css'
+import './NotePad.css'
 import {useEffect, useState} from "react";
 import {
 	addPatientNote,
@@ -151,7 +151,6 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	}
 	
 	return <div className="note-container">
-		<label>Provider Note</label>
 		<div className="note-label-container">
 			<label>Subjective</label>
 			<button className="icon-button" onClick={() => addOnClick('Subjective')}><img src={addIcon} alt={"Add"}
@@ -162,10 +161,10 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			</button>
 		</div>
 		{addingSubjectiveNote && <div>
-			<input onChange={(e) => {
+			<input className={'add-input'} onChange={(e) => {
 				setAddInput(e.target.value)
 			}}/>
-			<button onClick={() => {
+			<button className={'add-confirm-button'} onClick={() => {
 				addOnConfirm('Subjective');
 			}}>Add
 			</button>
@@ -216,10 +215,10 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			                                                                             }}/>
 			</button>
 		</div>
-		{addingObjectiveNote && <div><input onChange={(e) => {
+		{addingObjectiveNote && <div><input className={'add-input'} onChange={(e) => {
 			setAddInput(e.target.value)
 		}}/>
-			<button onClick={() => {
+			<button className='add-confirm-button' onClick={() => {
 				addOnConfirm('Objective')
 			}}>Add
 			</button>
@@ -263,10 +262,10 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			                                                                              }}/>
 			</button>
 		</div>
-		{addingAssessmentNote && <div><input onChange={(e) => {
+		{addingAssessmentNote && <div><input className={'add-input'} onChange={(e) => {
 			setAddInput(e.target.value)
 		}}/>
-			<button onClick={() => {
+			<button className={'add-confirm-button'} onClick={() => {
 				addOnConfirm('Assessment')
 			}}>Add
 			</button>
@@ -310,10 +309,10 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 			}}/>
 			</button>
 		</div>
-		{addingPlanNote && <div><input onChange={(e) => {
+		{addingPlanNote && <div><input className={'add-input'} onChange={(e) => {
 			setAddInput(e.target.value)
 		}}/>
-			<button onClick={() => {
+			<button className={'add-confirm-button'} onClick={() => {
 				addOnConfirm('Plan')
 			}}>Add
 			</button>

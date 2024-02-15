@@ -25,3 +25,17 @@
     overflow: hidden;
     resize: none;
 }
+
+
+
+.add-input{
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.add-confirm-button{
+    background-color: #fbdea6;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-left:5px;
+}
