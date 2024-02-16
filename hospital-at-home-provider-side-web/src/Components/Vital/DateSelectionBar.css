@@ -1,0 +1,26 @@
+.dateSelectionContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: #fbdea6;
+    /*padding: 5px;*/
+    border-radius: 10px;
+    margin: 10px;
+
+    justify-content: space-around;
+    height: 40px;
+}
+
+.dateSelectionButton {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: black;
+}
+
+.middleButton {
+    border-color: black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}

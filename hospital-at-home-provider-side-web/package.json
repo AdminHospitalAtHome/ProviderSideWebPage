@@ -21,6 +21,7 @@
     "react-bootstrap": "^2.9.2",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
+    "react-hook-form": "^7.50.1",
     "react-router-dom": "^6.21.2",
     "react-scripts": "5.0.1",
     "react-select-search": "^4.1.7",

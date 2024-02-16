@@ -7,8 +7,15 @@ import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVita
 import Button from "react-bootstrap/esm/Button";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
-import Note from "./Notes";
+import Note from "./NotePad";
 import Popover from "react-bootstrap/Popover";
+import {
+	getRecentBloodOxygen,
+	getRecentBloodPressure,
+	getRecentHeartRate,
+	getRecentWeight
+} from "../../BackendFunctionCall/getVitalData";
+import ManualTriggerModal from "./ManualTriggerModal";
 
 export default function PatientCard({
 	                                    patient,
@@ -25,6 +32,11 @@ export default function PatientCard({
 	baseLineVitals: BaselineVitalInterface
 }) {
 
+	const [recentBloodPressure,  setRecentBloodPressure] = useState("Loading...")
+	const [recentWeight,  setRecentWeight] = useState("Loading...")
+	const [recentBloodOxygen,  setRecentBloodOxygen] = useState("Loading...")
+	const [recentHeartRate,  setRecentHeartRate] = useState("Loading...")
+
 	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])
 	/* Alert Level Key:
 		-2: Loading
@@ -34,11 +46,17 @@ export default function PatientCard({
 		 2: Alert (Red)
 	*/
 
+
 	useEffect(() => {
 		if (expandedId && expandedId === patient.PatientID) {
 			getAlertLevel(expandedId).then(setAlertLevel)
+			getRecentBloodPressure(patient.PatientID).then(setRecentBloodPressure)
+			getRecentWeight(patient.PatientID).then(setRecentWeight)
+			getRecentBloodOxygen(patient.PatientID).then(setRecentBloodOxygen)
+			getRecentHeartRate(patient.PatientID).then(setRecentHeartRate)
 		}
 	}, [expandedId]);
+
 
 	return (
 		<div key={patient.PatientID} className="patient-card-container">
@@ -56,20 +74,21 @@ export default function PatientCard({
 				<p className="patient-card-detailText">Gender: {patient.Gender}</p>
 				<p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
 				<div className="patient-card-separator"/>
+				<ManualTriggerModal patientID={patient.PatientID}/>
 				<p className="patient-card-detailText">
-					Weight: {vitalData.weight}
+					Weight: {recentWeight}
 					<StatusButton color={getColor(alertLevel[0])}/>
 				</p>
 				<p className="patient-card-detailText">
-					Heart Rate: {vitalData.heartRate}
+					Heart Rate: {recentHeartRate}
 					<StatusButton color={getColor(alertLevel[1])}/>
 				</p>
 				<p className="patient-card-detailText">
-					Blood Oxygen: {vitalData.bloodOxygen}
+					Blood Oxygen: {recentBloodOxygen}
 					<StatusButton color={getColor(alertLevel[2])}/>
 				</p>
 				<p className="patient-card-detailText">
-					Blood Pressure: {vitalData.bloodPressure}
+					Blood Pressure: {recentBloodPressure}
 					{/*<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>*/}
 					{/*	<div>*/}
 						<StatusButton color={getColor(alertLevel[3])}/>

@@ -50,12 +50,15 @@
     TODO: Fix alignment of text later
 */
 .patient-card-avatar {
-    padding: 10px;
-    height: 100%;
-    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3em;
+    height: 3em;
     background: white;
     border-radius: 50%;
-    text-align: center;
+    border: 1px solid #000;
+    box-sizing: border-box;
 }
 
 .patient-card-name {

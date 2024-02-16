@@ -24,10 +24,11 @@ export default function ChatMenu({threadClients, setThread, chatClient, currentT
         if (currentThread.threadId === threadClient.threadId) {
           selected = true;
         }
+
       }
 
       return (
-        <div style={{display: "flex", flexDirection: "row"}}>
+        <div key={threadClient.threadId} style={{display: "flex", flexDirection: "row"}}>
           <div style={{width: '100%'}}
             onClick={() => {
             setThread(threadClient);
