@@ -7,7 +7,7 @@ import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVita
 import Button from "react-bootstrap/esm/Button";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
-import Note from "./NotePad";
+import NotePad from "./Notes/NotePad";
 import Popover from "react-bootstrap/Popover";
 import {
 	getRecentBloodOxygen,
@@ -97,7 +97,7 @@ export default function PatientCard({
 				</p>
 				<div className="patient-card-separator"/>
 				{
-					expandedId === patient.PatientID && <Note patientId = {patient.PatientID}/>
+					expandedId === patient.PatientID && <NotePad patientId = {patient.PatientID}/>
 				}
 			</div>
 

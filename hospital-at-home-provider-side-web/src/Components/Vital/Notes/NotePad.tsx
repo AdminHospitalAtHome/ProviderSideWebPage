@@ -5,19 +5,20 @@ import {
 	deletePatientNote,
 	getPatientNotes,
 	updatePatientNote
-} from '../../BackendFunctionCall/NoteFunctions'
+} from '../../../BackendFunctionCall/NoteFunctions'
 // @ts-ignore
-import addIcon from '../../icons/add.png';
+import addIcon from '../../../icons/add.png';
 // @ts-ignore
-import editIcon from '../../icons/edit.png';
+import editIcon from '../../../icons/edit.png';
 // @ts-ignore
-import deleteIcon from '../../icons/delete.png';
+import deleteIcon from '../../../icons/delete.png';
 // @ts-ignore
-import cancel from '../../icons/cancel.png';
+import cancel from '../../../icons/cancel.png';
 // @ts-ignore
-import save from '../../icons/save.png'
+import save from '../../../icons/save.png'
+import Note from "./Note";
 
-export default function Note({patientId}: { patientId: number }): React.JSX.Element {
+export default function NotePad({patientId}: { patientId: number }): React.JSX.Element {
 	const [update, setUpDate] = useState<boolean>(false);
 	const [subjectiveNotes, setSubjectiveNotes] = useState<any[]>([])
 	const [objectiveNotes, setObjectiveNotes] = useState<any[]>([])
@@ -151,6 +152,7 @@ export default function Note({patientId}: { patientId: number }): React.JSX.Elem
 	}
 	
 	return <div className="note-container">
+		<Note type={"Subjective"} patientId={patientId}></Note>
 		<div className="note-label-container">
 			<label>Subjective</label>
 			<button className="icon-button" onClick={() => addOnClick('Subjective')}><img src={addIcon} alt={"Add"}
