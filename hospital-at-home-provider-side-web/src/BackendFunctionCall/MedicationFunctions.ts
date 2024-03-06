@@ -2,7 +2,6 @@ export async function addMedication(name:string, prescription:boolean) {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addMedication?code=4VAUDupAuBUSNjrtbjimScJo2L5cl5lHCjagDs8g753PAzFuKiqPrA==';
     const data = {
         "name": name,
-        "prescription": prescription,
     };
 
     return new Promise((resolve, reject) => {
@@ -53,11 +52,10 @@ export async function getMedication(patientId:string) {
 }
 
 
-export function updatePatientNote(id: number, prescription: boolean, amount:string): Promise<string> {
+export function updatePatientMedication(id: number, amount:string): Promise<string> {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/updatePatientMedication?code=hIjsqmkrlNSmsWERv6EJJ985dpHgM4bjykeJXbDl3StfAzFuM44u-g==';
     const data = {
         "id": id,
-        "prescription": prescription,
         "amount":amount
     };
 
@@ -77,13 +75,37 @@ export function updatePatientNote(id: number, prescription: boolean, amount:stri
     });
 }
 
+
+
+
+export async function deletePatientNote(id:string){
+    const url = `https://hosptial-at-home-js-api.azurewebsites.net/api/deletePatientMedication?code=eF2AaQIahCW6IveOBeofYVOyIhXMsDEN_V6qLBfn7KHHAzFusNIq3w==&id=${id}`;
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+    }
+}
+
+
 export async function addPatientMedication(patientId:string, medicationName:string, amount:string, prescription: boolean) {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addPatientMedication?code=3mxlebfOfAfA_OPnvYYabTSER13AUoWCWqMl9B7br-ljAzFuoaTOPA==';
     const data = {
         "patientID": patientId,
         "medicationName":medicationName,
         "amount":amount,
-        "prescription":prescription
     }
 
     return new Promise((resolve, reject) => {
