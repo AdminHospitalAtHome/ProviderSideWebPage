@@ -47,8 +47,11 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 	}
 	
 	async function deleteOnClick(uuid: string) {
-		deletePatientNote(uuid);
-		notes.filter(note => note.uuid !== uuid);
+		deletePatientNote(uuid).then(() => {
+			const remainingNotes = notes.filter(note => note.uuid !== uuid);
+			setNotes(remainingNotes);
+		})
+		
 	}
 	
 	function editOnClick(uuid: string) {
@@ -102,7 +105,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 							</button>
 						</li> :
 						<li>{note.noteText}
-							<button className="icon-button" onClick={() => editOnClick(note.uuid)}>
+							<button className="icon-button" onClick={() => setEditingExistingNoteId(note.uuid)}>
 								<img
 									src={editIcon}
 									alt={"Edit"}
@@ -111,7 +114,9 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 										height: '20px'
 									}}/></button>
 							<button className="icon-button"
-							        onClick={() => deleteOnClick(note.uuid)}>
+							        onClick={() =>
+								        deleteOnClick(note.uuid)
+							        }>
 								<img
 									src={deleteIcon} alt={"Delete"}
 									style={{width: '20px', height: '20px'}}/></button>
