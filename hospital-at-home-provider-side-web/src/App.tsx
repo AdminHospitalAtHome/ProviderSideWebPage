@@ -10,9 +10,17 @@ import {Fragment} from "react";
 import TopNavMenu from "./Components/TopNavMenu";
 import PatientDetailPage from "./Pages/PatientDetailPage";
 import {WarningPage} from "./Pages/WarningPage";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 	return (
+		<div>
+		<ToastContainer
+			autoClose= {5000}
+		theme="light"
+		closeButton={false}
+		/>
 		<Router>
 			{/*<fragment> is used to allow other component to exist in router, like this manu bar*/}
 			<Fragment>
@@ -31,7 +39,7 @@ function App() {
 
 
 		</Router>
-
+		</div>
 	);
 }
 
