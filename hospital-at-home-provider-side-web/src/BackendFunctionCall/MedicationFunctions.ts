@@ -52,11 +52,12 @@ export async function getMedication(patientId:string) {
 }
 
 
-export function updatePatientMedication(id: number, amount:string): Promise<string> {
+export function updatePatientMedication(id: number, amount:string, unit:string): Promise<string> {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/updatePatientMedication?code=hIjsqmkrlNSmsWERv6EJJ985dpHgM4bjykeJXbDl3StfAzFuM44u-g==';
     const data = {
         "id": id,
-        "amount":amount
+        "amount":amount,
+        "unit":unit
     };
 
     return new Promise((resolve, reject) => {
