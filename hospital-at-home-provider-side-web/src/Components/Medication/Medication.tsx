@@ -11,11 +11,13 @@ import save from "../../icons/save.png";
 import editIcon from "../../icons/edit.png";
 // @ts-ignore
 import deleteIcon from "../../icons/delete.png";
+import AddMedicationModal from "./AddMedicationModal";
 
 export default function Medication({patientId}: { patientId: number }): React.JSX.Element {
-	// const [filer, setFilter] = useState('')
-	const [allMedication, setAllMedication] = useState<any[]>([])
-	const [displayMedication, setDisplayMedication] = useState<any[]>([])
+	
+	const [allMedication, setAllMedication] = useState<any[]>([]);
+	const [displayMedication, setDisplayMedication] = useState<any[]>([]);
+	const [showModal, setShowModal] = useState<boolean>(false);
 	
 	useEffect(() => {
 		getPatientMedication(patientId).then((res) => {
@@ -39,24 +41,24 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 	
 	return (
 		<div>
-			<div style={{display:'flex', flexDirection:'row'}}>
+			<div style={{display: 'flex', flexDirection: 'row'}}>
 				<Form.Select onChange={(e) => medicationTypeFilterOnChange(e.target.value)}>
 					<option>All</option>
 					<option>Heart</option>
 					<option>Blood Pressure</option>
 				</Form.Select>
-				<button className="icon-button"><img src={addIcon}
+				<button className="icon-button" onClick={()=>setShowModal(true)}><img src={addIcon}
 				                                     alt={"Add"}
 				                                     style={{
 					                                     width: '20px',
 					                                     height: '20px'
 				                                     }}/>
 				</button>
+				<AddMedicationModal show={showModal} setShow={setShowModal}/>
 			</div>
 			
 			<ul>
 				{allMedication.map((medication) => (
-					
 					<li>
 						<div>
 							<label style={{fontWeight: 'bold'}}>{medication.medicationName}</label>
