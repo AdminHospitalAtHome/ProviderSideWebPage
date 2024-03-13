@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from "react";
 // @ts-ignore
-import addIcon from "../../../icons/add.png";
+import addIcon from "../../icons/add.png";
 // @ts-ignore
-import cancel from "../../../icons/cancel.png";
+import cancel from "../../icons/cancel.png";
 // @ts-ignore
-import save from "../../../icons/save.png";
+import save from "../../icons/save.png";
 // @ts-ignore
-import editIcon from "../../../icons/edit.png";
+import editIcon from "../../icons/edit.png";
 // @ts-ignore
-import deleteIcon from "../../../icons/delete.png";
+import deleteIcon from "../../icons/delete.png";
 
 import {
 	addPatientNote,
 	getPatientNotes,
 	updatePatientNote,
 	deletePatientNote
-} from "../../../BackendFunctionCall/NoteFunctions";
+} from "../../BackendFunctionCall/NoteFunctions";
 import {set} from "react-hook-form";
 
 export default function Note({type, patientId}: { type: string, patientId: number }): React.JSX.Element {
@@ -67,7 +67,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 	
 	return (<div>
 			<div className="note-label-container">
-				<label>Subjective</label>
+				<label style={{fontWeight:'bold'}}>{type}</label>
 				<button className="icon-button" onClick={() => setAddingNewNote(!addingNewNote)}><img src={addIcon}
 				                                                                                      alt={"Add"}
 				                                                                                      style={{
