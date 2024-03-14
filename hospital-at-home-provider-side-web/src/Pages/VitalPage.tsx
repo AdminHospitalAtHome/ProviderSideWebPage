@@ -17,6 +17,7 @@ import useWebSocket from 'react-use-websocket';
 import AlertToast from "../Components/SocketAlerts/AlertToast";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {getWebSocketAddressURL} from "../BackendFunctionCall/socketAlerts/getWebSocketAddressURL";
 
 
 export default function VitalPage() {
@@ -59,17 +60,16 @@ export default function VitalPage() {
 	// 			console.error('Error fetching patients:', error);
 	// 		});
 	// }, []);
+  const [webSocketURL, setWebSocketURL] = useState('wss://hospitalathome.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA0MjU1NDEsImV4cCI6MTcxMDQyOTE0MSwiYXVkIjoiaHR0cHM6Ly9ob3NwaXRhbGF0aG9tZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiJ9.bmWoYaMlkZA0rXQOOsYNzVPjnZWDm2yAjithJmsetfY');
+  useEffect(() => {
+    getWebSocketAddressURL().then(setWebSocketURL)
+  }, []);
 
-
-  // TODO: Remove Later
   // Coppied then modified from Documentation
-  const socketUrl = 'wss://hospitalathome.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3c3M6Ly9ob3NwaXRhbGF0aG9tZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiIsImlhdCI6MTcxMDE2NjMwNSwiZXhwIjoxNzEwMTg3OTA1LCJyb2xlIjpbIndlYnB1YnN1Yi5zZW5kVG9Hcm91cCIsIndlYnB1YnN1Yi5qb2luTGVhdmVHcm91cCJdfQ.kl2uLdKPJx7mJjDS9PSLGQHfDUSl40RgPONUMYxFK2k';
-  const {} = useWebSocket(socketUrl, {
-    onOpen: () => console.log('opened'),
+  const {} = useWebSocket(webSocketURL, {
     //Will attempt to reconnect on all close events, such as server shutting down
     shouldReconnect: (closeEvent) => true,
     onMessage: (messageEvent) => {
-      console.log(messageEvent.data);
       // Settings for toast in App.tsx
       toast.error(messageEvent.data);
     }
