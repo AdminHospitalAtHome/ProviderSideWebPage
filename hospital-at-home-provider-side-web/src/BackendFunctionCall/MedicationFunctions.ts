@@ -1,7 +1,8 @@
-export async function addMedication(name:string, prescription:boolean) {
+export async function addMedication(name:string, type:string) {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addMedication?code=4VAUDupAuBUSNjrtbjimScJo2L5cl5lHCjagDs8g753PAzFuKiqPrA==';
     const data = {
         "name": name,
+        "type":type
     };
 
     return new Promise((resolve, reject) => {
@@ -36,7 +37,7 @@ export async function getPatientMedication(patientId:number):Promise<any> {
     });
 }
 
-export async function getMedication(patientId:number) {
+export async function getMedication() {
     const url = `https://hosptial-at-home-js-api.azurewebsites.net/api/getMedication?code=5fK7lqN5CInxa9YceM0f-kgO6NMxkCEF3nJHDhBs2j4RAzFuieqp9A==`;
    
 
@@ -101,12 +102,14 @@ export async function deletePatientNote(id:string){
 }
 
 
-export async function addPatientMedication(patientId:number, medicationName:string, amount:string, prescription: boolean) {
+export async function addPatientMedication(patientId:number, medicationName:string, amount:string, unit:string, type:string) {
     const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addPatientMedication?code=3mxlebfOfAfA_OPnvYYabTSER13AUoWCWqMl9B7br-ljAzFuoaTOPA==';
     const data = {
         "patientID": patientId,
         "medicationName":medicationName,
         "amount":amount,
+        "unit":unit,
+        "type":type
     }
 
     return new Promise((resolve, reject) => {
