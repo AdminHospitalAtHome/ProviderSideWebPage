@@ -55,9 +55,9 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 		<div>
 			<div style={{display: 'flex', flexDirection: 'row'}}>
 				<Form.Select onChange={e => setFilter(e.target.value)}>
-					<option>All</option>
-					<option>Heart</option>
-					<option>Blood Pressure</option>
+					<option>all</option>
+					<option>heart</option>
+					<option>blood pressure</option>
 				</Form.Select>
 				<button className="icon-button" onClick={() => setShowModal(true)}><img src={addIcon}
 				                                                                        alt={"Add"}
@@ -72,7 +72,7 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 			</div>
 			
 			<ul>
-				{allMedication.map((medication) => (
+				{displayMedication.map((medication) => (
 					<li>
 						<div>
 							<label style={{fontWeight: 'bold'}}>{medication.medicationName}</label>
