@@ -5,6 +5,8 @@ import './ChatContactSearch.css'
 import {createNewThread, getPatients} from "../../BackendFunctionCall/Message";
 import Button from "react-bootstrap/Button";
 import {ChatClient, ChatThreadClient} from "@azure/communication-chat";
+import {Simulate} from "react-dom/test-utils";
+import drop = Simulate.drop;
 
 
 export default function ChatContactSearch({
@@ -23,9 +25,8 @@ export default function ChatContactSearch({
   const [creatingThread, setCreatingThread] = useState(false);
 
   useEffect(() => {
-    getPatients().then(setDropDownOptions)
+    getPatients().then(setDropDownOptions);
   }, [])
-
 
   return (
     <div className='chat-search-container'>

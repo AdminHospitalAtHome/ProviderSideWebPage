@@ -37,7 +37,7 @@ export async function getPatientMedication(patientId:number):Promise<any> {
     });
 }
 
-export async function getMedication() {
+export async function getMedication(): Promise<any> {
     const url = `https://hosptial-at-home-js-api.azurewebsites.net/api/getMedication?code=5fK7lqN5CInxa9YceM0f-kgO6NMxkCEF3nJHDhBs2j4RAzFuieqp9A==`;
    
 
