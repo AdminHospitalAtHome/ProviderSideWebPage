@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import React, {useEffect, useState} from "react";
-import {getPatientMedication} from '../../BackendFunctionCall/MedicationFunctions'
+import {deletePatientMedication, getPatientMedication} from '../../BackendFunctionCall/MedicationFunctions'
 // @ts-ignore
 import addIcon from "../../icons/add.png";
 // @ts-ignore
@@ -12,10 +12,12 @@ import editIcon from "../../icons/edit.png";
 // @ts-ignore
 import deleteIcon from "../../icons/delete.png";
 import AddMedicationModal from "./AddMedicationModal";
+import {temp_communicationId} from "../../BackendFunctionCall/Message";
 
 export default function Medication({patientId}: { patientId: number }): React.JSX.Element {
 	
 	const [allMedication, setAllMedication] = useState<any[]>([]);
+	const [filter, setFilter] = useState<string>('all')
 	const [displayMedication, setDisplayMedication] = useState<any[]>([]);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	
@@ -25,9 +27,19 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 		})
 	}, [patientId]);
 	
+	useEffect(() => {
+		medicationTypeFilterOnChange(filter);
+	}, [filter, allMedication]);
+	
+	const handleDelete = (id: number) => {
+		setDisplayMedication(displayMedication.filter(medication => medication.id !== id));
+		setAllMedication(allMedication.filter(medication => medication.id !== id));
+	}
+	
+	
 	function medicationTypeFilterOnChange(type: string): void {
 		let temp_medication_list: any[] = []
-		if (type === 'All') {
+		if (type === 'all') {
 			setDisplayMedication(allMedication);
 		} else {
 			for (let medication of allMedication) {
@@ -42,19 +54,21 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 	return (
 		<div>
 			<div style={{display: 'flex', flexDirection: 'row'}}>
-				<Form.Select onChange={(e) => medicationTypeFilterOnChange(e.target.value)}>
+				<Form.Select onChange={e => setFilter(e.target.value)}>
 					<option>All</option>
 					<option>Heart</option>
 					<option>Blood Pressure</option>
 				</Form.Select>
-				<button className="icon-button" onClick={()=>setShowModal(true)}><img src={addIcon}
-				                                     alt={"Add"}
-				                                     style={{
-					                                     width: '20px',
-					                                     height: '20px'
-				                                     }}/>
+				<button className="icon-button" onClick={() => setShowModal(true)}><img src={addIcon}
+				                                                                        alt={"Add"}
+				                                                                        style={{
+					                                                                        width: '20px',
+					                                                                        height: '20px'
+				                                                                        }}/>
 				</button>
-				<AddMedicationModal show={showModal} setShow={setShowModal}/>
+				<AddMedicationModal show={showModal} setShow={setShowModal} patientId={patientId}
+				                    patientMedication = {allMedication}
+				                    patientMedicationSetter={setAllMedication}/>
 			</div>
 			
 			<ul>
@@ -74,7 +88,7 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 											width: '20px',
 											height: '20px'
 										}}/></button>
-								<button className="icon-button"
+								<button className="icon-button" onClick={() => handleDelete(medication.id)}
 								>
 									<img
 										src={deleteIcon} alt={"Delete"}

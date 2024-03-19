@@ -3,11 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form"
 import SelectSearch from "react-select-search";
 import {useEffect, useState} from "react";
-import {getMedication} from "../../BackendFunctionCall/MedicationFunctions";
+import {addPatientMedication, getMedication} from "../../BackendFunctionCall/MedicationFunctions";
 
-export default function AddMedicationModal({show, setShow}: {
+export default function AddMedicationModal({show, setShow, patientId, patientMedication,patientMedicationSetter}: {
 	show: boolean,
-	setShow: React.Dispatch<React.SetStateAction<boolean>>
+	setShow: React.Dispatch<React.SetStateAction<boolean>>,
+	patientId: number,
+	patientMedication: any[],
+	patientMedicationSetter: React.Dispatch<React.SetStateAction<any>>
 }): React.JSX.Element {
 	const [allMedication, setAllMedication] = useState<any[]>([]);
 	const [displayMedication, setDisplayMedication] = useState<any[]>([])
@@ -16,26 +19,34 @@ export default function AddMedicationModal({show, setShow}: {
 	const [unit, setUnit] = useState<string>('mL');
 	
 	const handleClose = () => setShow(false);
-	const handleSave = () =>{
-		handleClose();
+	const handleSave = () => {
+		const type = displayMedication.find(medication => medication.name === selectedMedication).type;
+		addPatientMedication(patientId, selectedMedication, amount, unit, type).then(res => {
+			let newMedication = [res, ...patientMedication];
+			patientMedicationSetter(newMedication);
+		})
+		handleClose()
 	}
-	const applyMedicationFilter = (e:any) =>{
-		if (e.target.value === 'all'){
+	const applyMedicationFilter = (e: any) => {
+		if (e.target.value === 'all') {
 			setDisplayMedication(allMedication);
-		}
-		else{
+		} else {
 			let temp_displayMedication = allMedication.filter(medication => medication.type === e.target.value);
-			console.log(temp_displayMedication);
 			setDisplayMedication(temp_displayMedication);
 		}
 		
 	}
 	
 	useEffect(() => {
-		let temp_medication:any[] = []
+		let temp_medication: any[] = []
 		getMedication().then(res => {
 			res.map((medication: { name: string; type: string; }) => {
-				temp_medication.push({key: medication.name, value: medication.name, name: medication.name, type: medication.type})
+				temp_medication.push({
+					key: medication.name,
+					value: medication.name,
+					name: medication.name,
+					type: medication.type
+				})
 			})
 			setAllMedication(temp_medication);
 			setDisplayMedication(temp_medication);
