@@ -34,6 +34,7 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 	const handleDelete = (id: number) => {
 		setDisplayMedication(displayMedication.filter(medication => medication.id !== id));
 		setAllMedication(allMedication.filter(medication => medication.id !== id));
+		deletePatientMedication(id);
 	}
 	
 	

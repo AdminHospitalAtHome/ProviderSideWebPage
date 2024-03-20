@@ -25,7 +25,7 @@ export default function AddMedicationModal({show, setShow, patientId, patientMed
 			let newMedication = [res, ...patientMedication];
 			patientMedicationSetter(newMedication);
 		})
-		handleClose()
+		handleClose();
 	}
 	const applyMedicationFilter = (e: any) => {
 		if (e.target.value === 'all') {
