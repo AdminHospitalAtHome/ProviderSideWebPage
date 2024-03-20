@@ -17,9 +17,9 @@ function App() {
 	return (
 		<div>
 		<ToastContainer
-			autoClose= {5000}
 		theme="light"
-		closeButton={false}
+		autoClose={false}
+		closeButton={true}
 		/>
 		<Router>
 			{/*<fragment> is used to allow other component to exist in router, like this manu bar*/}

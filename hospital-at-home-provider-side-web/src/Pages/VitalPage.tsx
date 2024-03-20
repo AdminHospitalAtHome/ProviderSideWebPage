@@ -14,8 +14,7 @@ import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Compon
 import FilterPanel from "../Components/Vital/FilterPanel";
 import DateSelectionBar from "../Components/Vital/DateSelectionBar";
 import useWebSocket from 'react-use-websocket';
-import AlertToast from "../Components/SocketAlerts/AlertToast";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {getWebSocketAddressURL} from "../BackendFunctionCall/socketAlerts/getWebSocketAddressURL";
 
@@ -70,9 +69,16 @@ export default function VitalPage() {
     //Will attempt to reconnect on all close events, such as server shutting down
     shouldReconnect: (closeEvent) => true,
     onMessage: (messageEvent) => {
+      let messageJSON = JSON.parse(messageEvent.data);
       // Settings for toast in App.tsx
-      toast.error(messageEvent.data);
+      toast.error(messageJSON.AlertString, {
+        toastId: messageJSON.id,
+        onClose: () => {
+          console.log(messageJSON.id)
+        }
+      });
     }
+
   });
 
   useEffect(() => {
