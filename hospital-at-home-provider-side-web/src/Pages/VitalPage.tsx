@@ -61,13 +61,10 @@ export default function VitalPage() {
 	// 			console.error('Error fetching patients:', error);
 	// 		});
 	// }, []);
-  const [webSocketURL, setWebSocketURL] = useState('wss://hospitalathome.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA0MjU1NDEsImV4cCI6MTcxMDQyOTE0MSwiYXVkIjoiaHR0cHM6Ly9ob3NwaXRhbGF0aG9tZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiJ9.bmWoYaMlkZA0rXQOOsYNzVPjnZWDm2yAjithJmsetfY');
-  useEffect(() => {
-    getWebSocketAddressURL().then(setWebSocketURL)
-  }, []);
 
   // Coppied then modified from Documentation
-  const {} = useWebSocket(webSocketURL, {
+  // We are allowed to either pass in string (URL) or function that returns string or promise that resolve to a string
+  const {} = useWebSocket(getWebSocketAddressURL, {
     //Will attempt to reconnect on all close events, such as server shutting down
     shouldReconnect: (closeEvent) => true,
     onMessage: (messageEvent) => {
@@ -76,7 +73,6 @@ export default function VitalPage() {
       toast.error(messageJSON.AlertString, {
         toastId: messageJSON.id,
         onClose: () => {
-          console.log(messageJSON.id)
           viewedAlerts(messageJSON.id, providerId)
         }
       });
@@ -201,7 +197,7 @@ export default function VitalPage() {
   };
 
   return (
-    <body style={{paddingTop: '56px', height:'100%'}}>
+    <div style={{paddingTop: '56px', height:'100%'}}>
       <div className="main-container">
         {/*<ToastContainer*/}
         {/*position="top-right"*/}
@@ -239,7 +235,7 @@ export default function VitalPage() {
           </div>
         </div>
       </div>
-    </body>
+    </div>
 
   );
 }

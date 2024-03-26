@@ -35,9 +35,10 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
                              setExpandedId={setExpandedId}
                              toggleExpanded={toggleExpanded}
                              vitalData={vitalData}
+                             key={patient.PatientID}
                              />
-                            
-                             
+
+
                              )
       })}
 

@@ -36,7 +36,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 			}
 		)
 	}, [patientId, type]);
-	
+
 	async function addOnClick() {
 		{
 			let res: any = await addPatientNote(type, newNodeInput, patientId);
@@ -45,15 +45,15 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 			setAddingNewNote(!addingNewNote);
 		}
 	}
-	
+
 	async function deleteOnClick(uuid: string) {
 		deletePatientNote(uuid).then(() => {
 			const remainingNotes = notes.filter(note => note.uuid !== uuid);
 			setNotes(remainingNotes);
 		})
-		
+
 	}
-	
+
 	function editOnClick(uuid: string) {
 		updatePatientNote(uuid, editingNoteInput);
 		notes.map(note => {
@@ -62,9 +62,9 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 			}
 		})
 		setEditingExistingNoteId('');
-		
+
 	}
-	
+
 	return (<div>
 			<div className="note-label-container">
 				<label style={{fontWeight:'bold'}}>{type}</label>
@@ -86,7 +86,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 			<ul>
 				{notes.map((note) => (
 					note.uuid === editingExistingNoteId ?
-						<li><textarea className='edit-input' defaultValue={note.noteText}
+						<li key={note.uuid + "EDITING"}><textarea className='edit-input' defaultValue={note.noteText}
 						              onChange={(e) => setEditingNoteInput(e.target.value)}/>
 							<button className="icon-button"
 							        onClick={() => setEditingExistingNoteId('')}><img src={cancel}
@@ -104,7 +104,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 							                                                    }}/>
 							</button>
 						</li> :
-						<li>{note.noteText}
+						<li key={note.uuid + "NOTEDITING"}>{note.noteText}
 							<button className="icon-button" onClick={() => setEditingExistingNoteId(note.uuid)}>
 								<img
 									src={editIcon}
@@ -124,7 +124,7 @@ export default function Note({type, patientId}: { type: string, patientId: numbe
 				))}
 			</ul>
 		</div>
-	
+
 	);
-	
+
 }
