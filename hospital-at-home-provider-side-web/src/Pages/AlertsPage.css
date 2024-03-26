@@ -1,0 +1,6 @@
+.AlertsPageContainer{
+    height:100%;
+    padding-top:56px;
+    display: flex;
+    flex-direction: column;
+}

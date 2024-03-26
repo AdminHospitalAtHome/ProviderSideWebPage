@@ -17,9 +17,11 @@ import useWebSocket from 'react-use-websocket';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {getWebSocketAddressURL} from "../BackendFunctionCall/socketAlerts/getWebSocketAddressURL";
+import {viewedAlerts} from "../BackendFunctionCall/socketAlerts/alertFunctions";
 
 
 export default function VitalPage() {
+  const providerId = 100001;
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [filters, setFilters] = useState({providerID: '', firstName: '', lastName: '', gender: ''});
@@ -75,6 +77,7 @@ export default function VitalPage() {
         toastId: messageJSON.id,
         onClose: () => {
           console.log(messageJSON.id)
+          viewedAlerts(messageJSON.id, providerId)
         }
       });
     }
