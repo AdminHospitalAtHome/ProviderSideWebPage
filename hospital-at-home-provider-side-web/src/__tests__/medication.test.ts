@@ -20,7 +20,7 @@ describe('Add patient Medication', () => {
         }
       )
     )
-    await expect(addPatientMedication(100000001, "Amiodarone", "2", "pill", "heart"),).resolves.toStrictEqual(addedSuccessMessage);
+    await expect(addPatientMedication(100000001, "Amiodarone", "2", "pill", "heart", 3),).resolves.toStrictEqual(addedSuccessMessage);
    
     
   })
