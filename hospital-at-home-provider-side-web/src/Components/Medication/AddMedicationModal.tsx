@@ -5,7 +5,7 @@ import SelectSearch from "react-select-search";
 import {useEffect, useState} from "react";
 import {addPatientMedication, getMedication} from "../../BackendFunctionCall/MedicationFunctions";
 
-export default function AddMedicationModal({show, setShow, patientId, patientMedication,patientMedicationSetter}: {
+export default function AddMedicationModal({show, setShow, patientId, patientMedication, patientMedicationSetter}: {
 	show: boolean,
 	setShow: React.Dispatch<React.SetStateAction<boolean>>,
 	patientId: number,
@@ -17,11 +17,12 @@ export default function AddMedicationModal({show, setShow, patientId, patientMed
 	const [selectedMedication, setSelectedMedication] = useState<any>(null);
 	const [amount, setAmount] = useState<string>('');
 	const [unit, setUnit] = useState<string>('mL');
+	const [frequency, setFrequency] = useState<number>(0);
 	
 	const handleClose = () => setShow(false);
 	const handleSave = () => {
 		const type = displayMedication.find(medication => medication.name === selectedMedication).type;
-		addPatientMedication(patientId, selectedMedication, amount, unit, type).then(res => {
+		addPatientMedication(patientId, selectedMedication, amount, unit, type, frequency).then(res => {
 			let newMedication = [res, ...patientMedication];
 			patientMedicationSetter(newMedication);
 		})
@@ -82,10 +83,15 @@ export default function AddMedicationModal({show, setShow, patientId, patientMed
 			<div>
 				<Form.Label>Unit</Form.Label>
 				<Form.Select onChange={(e) => setUnit(e.target.value)}>
-					<option>mL</option>
 					<option>mg</option>
+					<option>mL</option>
 					<option>pill</option>
 				</Form.Select>
+			</div>
+			<div>
+				<Form.Label>Frequency(times/day)</Form.Label>
+				<Form.Control type={"number"}
+				              onChange={(e) => setFrequency((parseInt(e.target.value)))}/>
 			</div>
 		
 		</Modal.Body>

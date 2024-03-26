@@ -102,7 +102,7 @@ export async function deletePatientMedication(id: number): Promise<any> {
 }
 
 
-export async function addPatientMedication(patientId: number, medicationName: string, amount: string, unit: string, type: string) {
+export async function addPatientMedication(patientId: number, medicationName: string, amount: string, unit: string, type: string, frequency: number) {
 	const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addPatientMedication?code=3mxlebfOfAfA_OPnvYYabTSER13AUoWCWqMl9B7br-ljAzFuoaTOPA==';
 	const data = {
 		"patientID": patientId,

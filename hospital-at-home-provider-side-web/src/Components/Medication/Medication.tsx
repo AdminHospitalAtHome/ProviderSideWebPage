@@ -78,7 +78,7 @@ export default function Medication({patientId}: { patientId: number }): React.JS
 						<div>
 							<label style={{fontWeight: 'bold'}}>{medication.medicationName}</label>
 							<div>amount: {medication.amount} {medication.unit}
-							
+							<div>frequency: {medication.frequency} times/day</div>
 							</div>
 							<div>
 								<button className="icon-button">
