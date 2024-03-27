@@ -10,9 +10,18 @@ import {Fragment} from "react";
 import TopNavMenu from "./Components/TopNavMenu";
 import PatientDetailPage from "./Pages/PatientDetailPage";
 import {WarningPage} from "./Pages/WarningPage";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import AlertsPage from "./Pages/AlertsPage";
 
 function App() {
 	return (
+		<div>
+		<ToastContainer
+		theme="light"
+		autoClose={false}
+		closeButton={true}
+		/>
 		<Router>
 			{/*<fragment> is used to allow other component to exist in router, like this manu bar*/}
 			<Fragment>
@@ -27,11 +36,14 @@ function App() {
 					<Route path='/chat' element={<ChatPage/>}/>
 					<Route path="/patient/:patientId" element={<PatientDetailPage/>} />
 				</Routes>
+				<Routes>
+					<Route path='/alerts' element={<AlertsPage/>} />
+				</Routes>
 			</Fragment>
 
 
 		</Router>
-
+		</div>
 	);
 }
 

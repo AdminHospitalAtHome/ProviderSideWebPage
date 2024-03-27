@@ -13,9 +13,15 @@ import {exportToCsv} from "../BackendFunctionCall/exportToCSV";
 import {MultipleVitalDataInterface, Patient, VitalDataInterface} from '../Components/Vital/PatientVitalInterface';
 import FilterPanel from "../Components/Vital/FilterPanel";
 import DateSelectionBar from "../Components/Vital/DateSelectionBar";
+import useWebSocket from 'react-use-websocket';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {getWebSocketAddressURL} from "../BackendFunctionCall/socketAlerts/getWebSocketAddressURL";
+import {viewedAlerts} from "../BackendFunctionCall/socketAlerts/alertFunctions";
 
 
 export default function VitalPage() {
+  const providerId = 100001;
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filterPanelVisible, setFilterPanelVisible] = useState(false);
   const [filters, setFilters] = useState({providerID: '', firstName: '', lastName: '', gender: ''});
@@ -55,6 +61,28 @@ export default function VitalPage() {
 	// 			console.error('Error fetching patients:', error);
 	// 		});
 	// }, []);
+  const [webSocketURL, setWebSocketURL] = useState('wss://hospitalathome.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA0MjU1NDEsImV4cCI6MTcxMDQyOTE0MSwiYXVkIjoiaHR0cHM6Ly9ob3NwaXRhbGF0aG9tZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiJ9.bmWoYaMlkZA0rXQOOsYNzVPjnZWDm2yAjithJmsetfY');
+  useEffect(() => {
+    getWebSocketAddressURL().then(setWebSocketURL)
+  }, []);
+
+  // Coppied then modified from Documentation
+  const {} = useWebSocket(webSocketURL, {
+    //Will attempt to reconnect on all close events, such as server shutting down
+    shouldReconnect: (closeEvent) => true,
+    onMessage: (messageEvent) => {
+      let messageJSON = JSON.parse(messageEvent.data);
+      // Settings for toast in App.tsx
+      toast.error(messageJSON.AlertString, {
+        toastId: messageJSON.id,
+        onClose: () => {
+          console.log(messageJSON.id)
+          viewedAlerts(messageJSON.id, providerId)
+        }
+      });
+    }
+
+  });
 
   useEffect(() => {
     getAllPatients()
@@ -175,6 +203,9 @@ export default function VitalPage() {
   return (
     <body style={{paddingTop: '56px', height:'100%'}}>
       <div className="main-container">
+        {/*<ToastContainer*/}
+        {/*position="top-right"*/}
+        {/*autoClose={3000}/>*/}
         <div className="sidebar">
           <div className="vitalsButtonList">
             <div className="">

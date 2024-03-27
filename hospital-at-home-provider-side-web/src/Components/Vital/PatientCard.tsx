@@ -7,7 +7,7 @@ import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVita
 import Button from "react-bootstrap/esm/Button";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import StatusButtonPopover from "../Button/StatusButtonPopover";
-import Note from "./NotePad";
+import NotePad from "../Notes/NotePad";
 import Popover from "react-bootstrap/Popover";
 import {
 	getRecentBloodOxygen,
@@ -16,6 +16,7 @@ import {
 	getRecentWeight
 } from "../../BackendFunctionCall/getVitalData";
 import ManualTriggerModal from "./ManualTriggerModal";
+import Medication from "../Medication/Medication";
 
 export default function PatientCard({
 	                                    patient,
@@ -31,12 +32,12 @@ export default function PatientCard({
 	vitalData: VitalDataInterface,
 	baseLineVitals: BaselineVitalInterface
 }) {
-
-	const [recentBloodPressure,  setRecentBloodPressure] = useState("Loading...")
-	const [recentWeight,  setRecentWeight] = useState("Loading...")
-	const [recentBloodOxygen,  setRecentBloodOxygen] = useState("Loading...")
-	const [recentHeartRate,  setRecentHeartRate] = useState("Loading...")
-
+	
+	const [recentBloodPressure, setRecentBloodPressure] = useState("Loading...")
+	const [recentWeight, setRecentWeight] = useState("Loading...")
+	const [recentBloodOxygen, setRecentBloodOxygen] = useState("Loading...")
+	const [recentHeartRate, setRecentHeartRate] = useState("Loading...")
+	
 	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])
 	/* Alert Level Key:
 		-2: Loading
@@ -45,8 +46,8 @@ export default function PatientCard({
 		 1: Concern (Yellow)
 		 2: Alert (Red)
 	*/
-
-
+	
+	
 	useEffect(() => {
 		if (expandedId && expandedId === patient.PatientID) {
 			getAlertLevel(expandedId).then(setAlertLevel)
@@ -56,8 +57,8 @@ export default function PatientCard({
 			getRecentHeartRate(patient.PatientID).then(setRecentHeartRate)
 		}
 	}, [expandedId]);
-
-
+	
+	
 	return (
 		<div key={patient.PatientID} className="patient-card-container">
 			<button className={`patient-card-title ${expandedId === patient.PatientID ? 'expanded' : ''}`}
@@ -91,16 +92,19 @@ export default function PatientCard({
 					Blood Pressure: {recentBloodPressure}
 					{/*<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>*/}
 					{/*	<div>*/}
-						<StatusButton color={getColor(alertLevel[3])}/>
+					<StatusButton color={getColor(alertLevel[3])}/>
 					{/*	</div>*/}
 					{/*</OverlayTrigger>*/}
 				</p>
 				<div className="patient-card-separator"/>
 				{
-					expandedId === patient.PatientID && <Note patientId = {patient.PatientID}/>
+					expandedId === patient.PatientID && <NotePad patientId={patient.PatientID}/>
 				}
+				<div className={'patient-card-separator'}></div>
+				{expandedId === patient.PatientID && <Medication patientId={patient.PatientID}/>}
+			
 			</div>
-
+		
 		</div>
 	)
 }

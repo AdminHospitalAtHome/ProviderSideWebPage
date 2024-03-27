@@ -1,0 +1,24 @@
+.AlertCard{
+    margin:20px;
+    margin-bottom: 0px;
+    width:100%;
+}
+.AlertCardTitle{
+    margin:10px;
+
+}
+
+.AlertCardText{
+    margin-left: 10px;
+}
+
+.TextContainer{
+    display:flex;
+}
+
+.DropDownCard{
+    margin-left: 40px;
+    border-radius: 0px 0 10px 10px;
+    border-width: 2px;
+    background-color: lightgray;
+}
