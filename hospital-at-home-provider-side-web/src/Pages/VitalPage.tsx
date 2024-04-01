@@ -1,7 +1,13 @@
 import {useEffect, useState} from 'react';
 import {getAllPatients} from '../BackendFunctionCall/getPatientList';
 import Button from 'react-bootstrap/Button';
-import timeTableParser, {getHeartRate, getWeight, getBloodOxygen, getBloodPressure} from '../BackendFunctionCall/getVitalData';
+import timeTableParser, {
+  getHeartRate,
+  getWeight,
+  getBloodOxygen,
+  getBloodPressure,
+  getSpirometry, parseSpirometryForFEV1Chart, parseSpirometryForFEV1_FVCChart
+} from '../BackendFunctionCall/getVitalData';
 import './VitalPage.css';
 import VitalCard from '../Components/Vital/VitalCard';
 import AllPatientSideBar from '../Components/Vital/AllPatientSideBar';
@@ -30,14 +36,8 @@ export default function VitalPage() {
     bloodOxygen: null,
     heartRate: null,
     bloodPressure: null,
-    weight: null
-  });
-
-  const [recentVitalData, setRecentVitalData] = useState<VitalDataInterface>({
-    bloodOxygen: null,
-    heartRate: null,
-    bloodPressure: null,
-    weight: null
+    weight: null,
+    spirometry: null,
   });
 
   const [startDateTime, setStartDateTime] = useState(getDefaultStartTime());
@@ -86,26 +86,18 @@ export default function VitalPage() {
         getBloodOxygen(patientId, startDateTime, stopDateTime),
         getHeartRate(patientId, startDateTime, stopDateTime),
         getBloodPressure(patientId, startDateTime, stopDateTime),
-        getWeight(patientId, startDateTime, stopDateTime)
+        getWeight(patientId, startDateTime, stopDateTime),
+        getSpirometry(patientId, startDateTime, stopDateTime),
       ])
-        .then(([bloodOxygen, heartRate, bloodPressure, weight]) => {
-          const recentBloodOxygen = bloodOxygen.length > 0 ? `${bloodOxygen[bloodOxygen.length - 1][1]}%` : null;
-          const recentHeartRate = heartRate.length > 0 ? `${heartRate[heartRate.length - 1][1]} BPM` : null;
-          const recentBloodPressure = bloodPressure.length > 0 ? `${bloodPressure[bloodPressure.length - 1][1]}/${bloodPressure[bloodPressure.length - 1][2]} mmHg` : null;
-          const recentWeight = weight.length > 0 ? `${weight[weight.length - 1][1]} lbs` : null;
+        .then(([bloodOxygen, heartRate, bloodPressure, weight, spirometry]) => {
           setVitalData({
             bloodOxygen: bloodOxygen,
             heartRate: heartRate,
             bloodPressure: bloodPressure,
-            weight: weight
+            weight: weight,
+            spirometry: spirometry
           });
 
-          setRecentVitalData({
-            bloodOxygen: recentBloodOxygen,
-            heartRate: recentHeartRate,
-            bloodPressure: recentBloodPressure,
-            weight: recentWeight
-          });
         })
         .catch(error => {
           console.error('Error fetching vital data:', error);
@@ -115,36 +107,51 @@ export default function VitalPage() {
   }, [patientId, startDateTime, stopDateTime]);
 
   const patientHeaders = ['PatientID', 'FirstName', 'LastName', 'Gender', 'DateOfBirth'];
-  const bloodOxygenHeaders = ["Date Time", "Blood Oxygen level in %", "ifManualInput"];
-  const bloodPressureHeaders = ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg", "ifManualInput"];
-  const heartRateHeaders = ["Date Time", "Heart Rate in BPM", "ifManualInput"];
-  const weightHeaders = ["Date Time", "Weight in lbs", "ifManualInput"];
+  const bloodOxygenHeaders = ["Date Time", "Blood Oxygen level in %", "If Manual Input"];
+  const bloodPressureHeaders = ["Date Time", "Systolic Blood Pressure in mmHg", "Diastolic Blood Pressure in mmHg", "If Manual Input"];
+  const heartRateHeaders = ["Date Time", "Heart Rate in BPM", "If Manual Input"];
+  const weightHeaders = ["Date Time", "Weight in lbs", "If Manual Input"];
+  const spirometryHeaders = ["Date Time", "FEV1 in Liters", "FEV1/FVC in %", "If Manual Input"];
 
   const heartRateChart = (
     <SingleLineChart
       data={vitalData.heartRate}
-      label="Heart Rate in BPM"
+      label="Heart Rate In BPM"
     />
   );
 
   const weightChart = (
     <SingleLineChart
       data={vitalData.weight}
-      label="Weight in lbs"
+      label="Weight In lbs"
     />);
 
   const bloodOxygenChart = (
     <SingleLineChart
       data={vitalData.bloodOxygen}
-      label="Blood Oxygen level in %"
+      label="Blood Oxygen level In %"
     />);
 
   const bloodPressureChart = (
     <DoubleLineChart
       data={vitalData.bloodPressure}
-      label1="Systolic Blood Pressure in mmHg"
-      label2="Diastolic Blood Pressure in mmHg"
+      label1="Systolic Blood Pressure In mmHg"
+      label2="Diastolic Blood Pressure In mmHg"
     />);
+
+  const spirometryFEV1Chart = (
+    <SingleLineChart
+      data={parseSpirometryForFEV1Chart(vitalData.spirometry)}
+      label="FEV1 In L"
+    />
+  )
+
+  const spirometryFEV1_FVCChart = (
+    <SingleLineChart
+      data={parseSpirometryForFEV1_FVCChart(vitalData.spirometry)}
+      label="FEV1/FVC In %"
+    />
+  )
 
   const heartRateTable = (
     <DataTable columns={heartRateHeaders}
@@ -168,6 +175,13 @@ export default function VitalPage() {
       columns={bloodPressureHeaders}
       data={vitalData.bloodPressure}/>
   );
+
+  // The two tables will be the same with the charts being specific
+  const spirometryTable = (
+    <DataTable
+      columns={spirometryHeaders}
+      data={vitalData.spirometry}/>
+  )
 
   const patientData = patients.map(patient => [
     patient.PatientID,
@@ -214,27 +228,27 @@ export default function VitalPage() {
           </div>
           <div className="charts-container">
             <div className="vital-card-container">
-              <VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
+              <VitalCard title="Weight" children={weightChart} children2={weightTable}/>
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
+              <VitalCard title="Heart Rate" children={heartRateChart} children2={heartRateTable}/>
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+              <VitalCard title="Blood Oxygen" children={bloodOxygenChart} children2={bloodOxygenTable}/>
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+              <VitalCard title="Blood Oxygen" children={bloodOxygenChart} children2={bloodOxygenTable}/>
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Spirometry (FEV1)" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+              <VitalCard title="Spirometry (FEV1)" children={spirometryFEV1Chart} children2={spirometryTable}/>
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Spirometry (FEV1/FVC)" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+              <VitalCard title="Spirometry (FEV1/FVC)" children={spirometryFEV1_FVCChart} children2={spirometryTable}/>
             </div>
           </div>
         </div>

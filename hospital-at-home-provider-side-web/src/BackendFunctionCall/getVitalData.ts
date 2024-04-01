@@ -62,7 +62,7 @@ export function getRecentWeight(patientID: number): Promise<string> {
     });
 }
 
-export function getRecentSpirometry(patientID: number):Promise<string>{
+export function getRecentSpirometry(patientID: number): Promise<string>{
     return new Promise((resolve, reject) => {
     fetch(
       `https://hosptial-at-home-js-api.azurewebsites.net/api/getRecentSpirometry?patientID=${patientID}`,
@@ -102,7 +102,7 @@ export function getBloodOxygen(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-) {
+): Promise<any[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getBloodOxygen?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -110,7 +110,7 @@ export function getBloodOxygen(
         .then(json => parseBloodOxygenData(json));
 }
 
-export function parseBloodOxygenData(bloodOxygenJson: any) {
+export function parseBloodOxygenData(bloodOxygenJson: any): any[][] {
     let bloodOxygenArr = [];
     for (var i = 0; i < bloodOxygenJson.length; i++) {
         bloodOxygenArr.push([
@@ -126,7 +126,7 @@ export function getBloodPressure(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-) {
+): Promise<any[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getBloodPressure?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -134,7 +134,7 @@ export function getBloodPressure(
         .then(json => parseBloodPressureData(json));
 }
 
-export function parseBloodPressureData(bloodPressureJSON: any) {
+export function parseBloodPressureData(bloodPressureJSON: any): any[][] {
     let bloodPressureArr = [];
     for (let i = 0; i < bloodPressureJSON.length; i++) {
         bloodPressureArr.push([
@@ -151,7 +151,7 @@ export function getHeartRate(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-) {
+): Promise<any[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getHeartRate?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -159,7 +159,7 @@ export function getHeartRate(
         .then(json => parseHeartRateData(json));
 }
 
-export function parseHeartRateData(heartRateJson: any) {
+export function parseHeartRateData(heartRateJson: any): any[][] {
     let heartRateArr = [];
     for (let i = 0; i < heartRateJson.length; i++) {
         heartRateArr.push([
@@ -175,7 +175,7 @@ export function getWeight(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-) {
+): Promise<any[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getWeight?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -183,7 +183,7 @@ export function getWeight(
         .then(json => parseWeightData(json));
 }
 
-export function parseWeightData(weightJson: any) {
+export function parseWeightData(weightJson: any): any[][] {
     let weightArr = [];
     for (let i = 0; i < weightJson.length; i++) {
         weightArr.push([
@@ -193,4 +193,49 @@ export function parseWeightData(weightJson: any) {
         ]);
     }
     return weightArr;
+}
+
+export function getSpirometry(
+  patientID: number,
+  startDateTime: string,
+  stopDateTime: string,
+): Promise<any[][]> {
+    return fetch(
+      `https://hosptial-at-home-js-api.azurewebsites.net/api/getSpirometry?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
+    )
+      .then(response => response.json())
+      .then(json => parseSpirometryData(json));
+}
+
+export function parseSpirometryData(spirometryJson: any): any[][] {
+    let spirometryArr = [];
+    for (let i = 0; i < spirometryJson.length; i++) {
+        spirometryArr.push([
+            timeTableParser(spirometryJson[i].DateTimeTaken),
+            spirometryJson[i].FEV1InLiters,
+            spirometryJson[i].FEV1_FVCInPercentage,
+            spirometryJson[i].IfManualInput,
+        ]);
+    }
+    return spirometryArr;
+}
+
+export function parseSpirometryForFEV1Chart(spirometryArr: any[][] | null): any[][] {
+    let newSpirometryArr = [];
+    if (spirometryArr) {
+        for (let i = 0; i < spirometryArr.length; i++) {
+            newSpirometryArr.push([spirometryArr[i][0], spirometryArr[i][1], spirometryArr[i][3]]);
+        }
+    }
+    return newSpirometryArr;
+}
+
+export function parseSpirometryForFEV1_FVCChart(spirometryArr: any[][] | null): any[][] {
+    let newSpirometryArr = [];
+    if (spirometryArr) {
+        for (let i = 0; i < spirometryArr.length; i++) {
+            newSpirometryArr.push([spirometryArr[i][0], spirometryArr[i][2], spirometryArr[i][3]]);
+        }
+    }
+    return newSpirometryArr;
 }

@@ -3,6 +3,7 @@ export interface MultipleVitalDataInterface {
 	heartRate: any[][] | null;
 	bloodPressure: any[][] | null;
 	weight: any[][] | null;
+	spirometry: any[][] | null;
 }
 
 export interface VitalDataInterface {
