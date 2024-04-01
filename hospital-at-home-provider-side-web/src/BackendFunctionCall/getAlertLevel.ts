@@ -13,9 +13,9 @@ export function getAlertLevel(patientID: number): Promise<number[]> {
           .then(res => res.json())
           .then(output => {
               if (output.length === 1) {
-                  resolve([output[0].Weight_Level, output[0].Heart_Rate_Level, output[0].Blood_Oxygen_Level, output[0].Blood_Pressure_Level])
+                  resolve([output[0].Weight_Level, output[0].Heart_Rate_Level, output[0].Blood_Oxygen_Level, output[0].Blood_Pressure_Level, output[0].Spirometry_Level])
               } else {
-                  resolve([-1, -1, -1, -1]); // -1 means no data
+                  resolve([-1, -1, -1, -1,-1]); // -1 means no data
               }
           });
     });

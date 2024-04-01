@@ -62,6 +62,22 @@ export function getRecentWeight(patientID: number): Promise<string> {
     });
 }
 
+export function getRecentSpirometry(patientID: number):Promise<string>{
+    return new Promise((resolve, reject) => {
+    fetch(
+      `https://hosptial-at-home-js-api.azurewebsites.net/api/getRecentSpirometry?patientID=${patientID}`,
+    )
+      .then(res => res.json())
+      .then(output => {
+          if (output.length === 1) {
+              resolve(`${output[0].FEV1InLiters} L`);
+          } else {
+              resolve('N/A');
+          }
+      });
+});
+}
+
 export default function timeTableParser(dateTime: string): string {
     var tempDateObject: Date = new Date(dateTime);
     tempDateObject.setMinutes(

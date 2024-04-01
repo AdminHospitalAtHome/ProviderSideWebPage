@@ -11,17 +11,9 @@ import {
   getPatientNotes
 } from '../../BackendFunctionCall/NoteFunctions'
 
-export default function AllPatientSideBar({patients, toggleExpanded, vitalData}: { patients: Patient[], toggleExpanded: (id: number) => void, vitalData: any }) {
+export default function AllPatientSideBar({patients, toggleExpanded}: { patients: Patient[], toggleExpanded: (id: number) => void}) {
   // This is the patientID of the expanded Patient Card
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [baseLineVitals, setBaseLineVitals] = useState<BaselineVitalInterface>({
-    bloodOxygen: null,
-    heartRate: null,
-    weight: null,
-    diastolicBloodPressure: null,
-    systolicBloodPressure: null
-  })
-
   const navigate = useNavigate();
 
 
@@ -29,17 +21,12 @@ export default function AllPatientSideBar({patients, toggleExpanded, vitalData}:
   return (
     <div className="vital-container">
       {patients.map((patient) => {
-        return (<PatientCard baseLineVitals={baseLineVitals}
-                             expandedId={expandedId}
+        return (<PatientCard expandedId={expandedId}
                              patient={patient}
                              setExpandedId={setExpandedId}
                              toggleExpanded={toggleExpanded}
-                             vitalData={vitalData}
                              key={patient.PatientID}
-                             />
-
-
-                             )
+                             />)
       })}
 
     </div>

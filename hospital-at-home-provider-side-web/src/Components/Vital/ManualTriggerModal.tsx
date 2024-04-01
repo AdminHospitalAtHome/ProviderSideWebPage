@@ -33,12 +33,20 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
 
     "Custom_Blood_Oxygen_Alert.RedBloodOxygenLevel": "85",
     "Custom_Blood_Oxygen_Alert.YellowBloodOxygenLevel": "88",
+
+    "Custom_Spirometry_Alert.RedFEV1Level": "", // No Default For These Values
+    "Custom_Spirometry_Alert.RedFEV1_FVCLevel": "",
+    "Custom_Spirometry_Alert.YellowFEV1Level": "",
+    "Custom_Spirometry_Alert.YellowFEV1_FVCLevel": "",
   }
   const [data, setData] = useState(presetData)
 
-  const handleInputChange = (e: any) => {
+  // IMPORTANT! Default regex for integers, but can add your own types if needed
+  const intRegex = /^[0-9\b]+$/;
+
+  const handleInputChange = (e: any, re: RegExp) => {
     const {name, value} = e.target;
-    const re = /^[0-9\b]+$/;
+    // const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)){
       setData((prevData) => ({
         ...prevData,
@@ -84,7 +92,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Weight_Alert.Red_Day_Frame"]}
                      name="Custom_Weight_Alert.Red_Day_Frame"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -94,7 +102,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Weight_Alert.Red_Weight_Change"]}
                      name="Custom_Weight_Alert.Red_Weight_Change"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -104,7 +112,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Weight_Alert.Yellow_Day_Frame"]}
                      name="Custom_Weight_Alert.Yellow_Day_Frame"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -114,7 +122,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Weight_Alert.Yellow_Weight_Change"]}
                      name="Custom_Weight_Alert.Yellow_Weight_Change"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -130,7 +138,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Heart_Rate_Alert.Red_Heart_Rate"]}
                      name="Custom_Heart_Rate_Alert.Red_Heart_Rate"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -140,7 +148,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Heart_Rate_Alert.Yellow_Heart_Rate"]}
                      name="Custom_Heart_Rate_Alert.Yellow_Heart_Rate"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -156,7 +164,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Pressure_Alert.RedSystolicBP"]}
                      name="Custom_Blood_Pressure_Alert.RedSystolicBP"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -166,7 +174,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Pressure_Alert.RedDiastolicBP"]}
                      name="Custom_Blood_Pressure_Alert.RedDiastolicBP"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -176,7 +184,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Pressure_Alert.YellowSystolicBP"]}
                      name="Custom_Blood_Pressure_Alert.YellowSystolicBP"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -186,7 +194,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Pressure_Alert.YellowDiastolicBP"]}
                      name="Custom_Blood_Pressure_Alert.YellowDiastolicBP"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -202,7 +210,7 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Oxygen_Alert.RedBloodOxygenLevel"]}
                      name="Custom_Blood_Oxygen_Alert.RedBloodOxygenLevel"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
@@ -212,13 +220,54 @@ export default function ManualTriggerModal({patientID}: {patientID: number}) {
               <input className="ManualTriggerModal-InputBox"
                      value={data["Custom_Blood_Oxygen_Alert.YellowBloodOxygenLevel"]}
                      name="Custom_Blood_Oxygen_Alert.YellowBloodOxygenLevel"
-                     onChange={handleInputChange}
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
                      placeholder={'0'}
 
               />
             </label>
           </div>
 
+          <div className="ManualTriggerModal-VitalGroup">
+            <h5>
+              Spirometry
+            </h5>
+            <label className="ManualTriggerModal-Label">
+              Red FEV1 Level (L):
+              <input className="ManualTriggerModal-InputBox"
+                     value={data["Custom_Spirometry_Alert.RedFEV1Level"]}
+                     name="Custom_Spirometry_Alert.RedFEV1Level"
+                     onChange={(e) => {handleInputChange(e, /^(\d+(\.\d{0,2})?)$/)}}
+                     placeholder={'None'}
+              />
+            </label>
+            <label className="ManualTriggerModal-Label">
+              RED FEV1/FVC Level (%):
+              <input className="ManualTriggerModal-InputBox"
+                     value={data["Custom_Spirometry_Alert.RedFEV1_FVCLevel"]}
+                     name="Custom_Spirometry_Alert.RedFEV1_FVCLevel"
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
+                     placeholder={'None'}
+              />
+            </label>
+            <label className="ManualTriggerModal-Label">
+              Yellow FEV1 Level (L):
+              <input className="ManualTriggerModal-InputBox"
+                     value={data["Custom_Spirometry_Alert.YellowFEV1Level"]}
+                     name="Custom_Spirometry_Alert.YellowFEV1Level"
+                     onChange={(e) => {handleInputChange(e, /^(\d+(\.\d{0,2})?)$/)}}
+                     placeholder={'None'}
+              />
+            </label>
+            <label className="ManualTriggerModal-Label">
+              Yellow FEV1/FVC Level (%):
+              <input className="ManualTriggerModal-InputBox"
+                     value={data["Custom_Spirometry_Alert.YellowFEV1_FVCLevel"]}
+                     name="Custom_Spirometry_Alert.YellowFEV1_FVCLevel"
+                     onChange={(e) => {handleInputChange(e, intRegex)}}
+                     placeholder={'None'}
+              />
+            </label>
+          </div>
 
         </Modal.Body>
         <Modal.Footer className="ManualTriggerModal-Footer">

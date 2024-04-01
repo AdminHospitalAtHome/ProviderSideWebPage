@@ -52,16 +52,6 @@ export default function VitalPage() {
     const openModal = () => setNoteModalOpen(true);
     const closeModal = () => setNoteModalOpen(false);
 
-	// useEffect(() => {
-	// 	getAllPatients()
-	// 		.then(patientData => {
-	// 			setPatients(patientData);
-	// 		})
-	// 		.catch(error => {
-	// 			console.error('Error fetching patients:', error);
-	// 		});
-	// }, []);
-
   // Coppied then modified from Documentation
   // We are allowed to either pass in string (URL) or function that returns string or promise that resolve to a string
   const {} = useWebSocket(getWebSocketAddressURL, {
@@ -199,9 +189,6 @@ export default function VitalPage() {
   return (
     <div style={{paddingTop: '56px', height:'100%'}}>
       <div className="main-container">
-        {/*<ToastContainer*/}
-        {/*position="top-right"*/}
-        {/*autoClose={3000}/>*/}
         <div className="sidebar">
           <div className="vitalsButtonList">
             <div className="">
@@ -219,19 +206,36 @@ export default function VitalPage() {
           {filterPanelVisible && (
                       <FilterPanel filters={filters} setFilters={setFilters} setPatients={setPatients}></FilterPanel>
           )}
-          <AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded} vitalData={recentVitalData}/>
+          <AllPatientSideBar patients={patients} toggleExpanded={toggleExpanded}/>
         </div>
         <div className="main-content">
           <div className="date-selection-container">
             <DateSelectionBar setStartDateTime={setStartDateTime} setStopDateTime={setStopDateTime}/>
           </div>
           <div className="charts-container">
-            <VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
-            <VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
-            <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart}
-                       children2={bloodOxygenTable}/>
-            <VitalCard title="Blood Pressure" data={vitalData.bloodPressure} children={bloodPressureChart}
-                       children2={bloodPressureTable}/>
+            <div className="vital-card-container">
+              <VitalCard title="Weight" data={vitalData.weight} children={weightChart} children2={weightTable}/>
+            </div>
+
+            <div className="vital-card-container">
+              <VitalCard title="Heart Rate" data={vitalData.heartRate} children={heartRateChart} children2={heartRateTable}/>
+            </div>
+
+            <div className="vital-card-container">
+              <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+            </div>
+
+            <div className="vital-card-container">
+              <VitalCard title="Blood Oxygen" data={vitalData.bloodOxygen} children={bloodOxygenChart} children2={bloodOxygenTable}/>
+            </div>
+
+            <div className="vital-card-container">
+              <VitalCard title="Spirometry (FEV1)" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+            </div>
+
+            <div className="vital-card-container">
+              <VitalCard title="Spirometry (FEV1/FVC)" data={vitalData.bloodPressure} children={bloodPressureChart} children2={bloodPressureTable}/>
+            </div>
           </div>
         </div>
       </div>

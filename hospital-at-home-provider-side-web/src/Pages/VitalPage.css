@@ -35,10 +35,15 @@ worked better for our purposes to display buttons on same line.*/
     height: 92%;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
+    overflow: scroll;
 }
 
 .date-selection-container {
     margin-bottom: 20px;
     height: 3%;
 
+}
+
+.vital-card-container {
+    height: 500px;
 }

@@ -3,16 +3,12 @@ import {getAlertLevel} from "../../BackendFunctionCall/getAlertLevel";
 import React, {SetStateAction, useEffect, useState} from "react";
 import {calculateAge, getColor, toggle} from "../../BackendFunctionCall/Vital/patientCard";
 import './PatientCard.css';
-import {VitalDataInterface, BaselineVitalInterface, Patient} from "./PatientVitalInterface";
-import Button from "react-bootstrap/esm/Button";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import StatusButtonPopover from "../Button/StatusButtonPopover";
+import {Patient} from "./PatientVitalInterface";
 import NotePad from "../Notes/NotePad";
-import Popover from "react-bootstrap/Popover";
 import {
 	getRecentBloodOxygen,
 	getRecentBloodPressure,
-	getRecentHeartRate,
+	getRecentHeartRate, getRecentSpirometry,
 	getRecentWeight
 } from "../../BackendFunctionCall/getVitalData";
 import ManualTriggerModal from "./ManualTriggerModal";
@@ -23,22 +19,19 @@ export default function PatientCard({
 	                                    toggleExpanded,
 	                                    setExpandedId,
 	                                    expandedId,
-	                                    vitalData,
                                     }: {
 	patient: Patient,
 	toggleExpanded: (id: number) => void,
 	setExpandedId: React.Dispatch<SetStateAction<number | null>>,
 	expandedId: number | null,
-	vitalData: VitalDataInterface,
-	baseLineVitals: BaselineVitalInterface
 }) {
-	
+
 	const [recentBloodPressure, setRecentBloodPressure] = useState("Loading...")
 	const [recentWeight, setRecentWeight] = useState("Loading...")
 	const [recentBloodOxygen, setRecentBloodOxygen] = useState("Loading...")
 	const [recentHeartRate, setRecentHeartRate] = useState("Loading...")
-	
-	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2])
+	const [recentSpirometry, setRecentSpirometry] = useState("Loading...")
+	const [alertLevel, setAlertLevel] = useState<number[]>([-2, -2, -2, -2, -2])
 	/* Alert Level Key:
 		-2: Loading
 		-1: No Data (Gray)
@@ -46,8 +39,8 @@ export default function PatientCard({
 		 1: Concern (Yellow)
 		 2: Alert (Red)
 	*/
-	
-	
+
+
 	useEffect(() => {
 		if (expandedId && expandedId === patient.PatientID) {
 			getAlertLevel(expandedId).then(setAlertLevel)
@@ -55,10 +48,12 @@ export default function PatientCard({
 			getRecentWeight(patient.PatientID).then(setRecentWeight)
 			getRecentBloodOxygen(patient.PatientID).then(setRecentBloodOxygen)
 			getRecentHeartRate(patient.PatientID).then(setRecentHeartRate)
+			getRecentSpirometry(patient.PatientID).then(setRecentSpirometry)
+
 		}
 	}, [expandedId]);
-	
-	
+
+
 	return (
 		<div key={patient.PatientID} className="patient-card-container">
 			<button className={`patient-card-title ${expandedId === patient.PatientID ? 'expanded' : ''}`}
@@ -67,11 +62,6 @@ export default function PatientCard({
 				<span className="patient-card-name">{patient.FirstName} {patient.LastName}</span>
 			</button>
 			<div className={`patient-card-details ${expandedId === patient.PatientID ? 'expanded' : ''}`}>
-				{/*<Button variant="light" onClick={() => {*/}
-				{/*	openNoteModal()*/}
-				{/*}} className="patient-card-notes-button">*/}
-				{/*	Notes*/}
-				{/*</Button>*/}
 				<p className="patient-card-detailText">Gender: {patient.Gender}</p>
 				<p className="patient-card-detailText">Age: {calculateAge(patient.DateOfBirth)}</p>
 				<div className="patient-card-separator"/>
@@ -90,11 +80,11 @@ export default function PatientCard({
 				</p>
 				<p className="patient-card-detailText">
 					Blood Pressure: {recentBloodPressure}
-					{/*<OverlayTrigger trigger="hover" placement="right" overlay={StatusButtonPopover}>*/}
-					{/*	<div>*/}
 					<StatusButton color={getColor(alertLevel[3])}/>
-					{/*	</div>*/}
-					{/*</OverlayTrigger>*/}
+				</p>
+				<p className="patient-card-detailText">
+					Spirometry (FEV1): {recentSpirometry}
+					<StatusButton color={getColor(alertLevel[4])}/>
 				</p>
 				<div className="patient-card-separator"/>
 				{
@@ -102,9 +92,9 @@ export default function PatientCard({
 				}
 				<div className={'patient-card-separator'}></div>
 				{expandedId === patient.PatientID && <Medication patientId={patient.PatientID}/>}
-			
+
 			</div>
-		
+
 		</div>
 	)
 }
