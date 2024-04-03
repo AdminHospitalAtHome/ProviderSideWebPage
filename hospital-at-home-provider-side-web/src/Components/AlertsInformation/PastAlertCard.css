@@ -1,7 +1,7 @@
 .AlertCard{
-    margin:20px;
+    margin-left: 20px;
+    margin-top:20px;
     margin-bottom: 0px;
-    width:100%;
 }
 .AlertCardTitle{
     margin:10px;

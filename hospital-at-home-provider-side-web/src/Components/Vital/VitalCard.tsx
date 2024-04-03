@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './VitalCard.css'; 
+import './VitalCard.css';
 
-function VitalCard({ title, data, children, children2}:{title:string, data:any, children: any, children2: any}) {
+function VitalCard({title, children, children2}:{title:string, children: any, children2: any}) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleClick = () => {

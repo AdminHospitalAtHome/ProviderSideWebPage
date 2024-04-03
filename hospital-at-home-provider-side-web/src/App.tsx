@@ -16,7 +16,7 @@ import AlertsPage from "./Pages/AlertsPage";
 
 function App() {
 	return (
-		<div>
+		<div className="AppDiv">
 		<ToastContainer
 		theme="light"
 		autoClose={false}
