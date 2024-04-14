@@ -13,6 +13,7 @@ import {WarningPage} from "./Pages/WarningPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import AlertsPage from "./Pages/AlertsPage";
+import MedicationPage from "./Pages/MedicationPage";
 
 function App() {
 	return (
@@ -35,6 +36,9 @@ function App() {
 					{/*add more <Route> after this route with different patient id as navigation*/}
 					<Route path='/chat' element={<ChatPage/>}/>
 					<Route path="/patient/:patientId" element={<PatientDetailPage/>} />
+				</Routes>
+				<Routes>
+					<Route path={'/medications'} element={<MedicationPage/>}/>
 				</Routes>
 				<Routes>
 					<Route path='/alerts' element={<AlertsPage/>} />
