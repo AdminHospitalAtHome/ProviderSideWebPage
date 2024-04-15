@@ -104,12 +104,15 @@ export async function deletePatientMedication(id: number): Promise<any> {
 
 export async function addPatientMedication(patientId: number, medicationName: string, amount: string, unit: string, type: string, frequency: number) {
 	const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addPatientMedication?code=3mxlebfOfAfA_OPnvYYabTSER13AUoWCWqMl9B7br-ljAzFuoaTOPA==';
+	console.log(new Date().toISOString().slice(0,10));
 	const data = {
 		"patientID": patientId,
 		"medicationName": medicationName,
 		"amount": amount,
 		"unit": unit,
-		"type": type
+		"type": type,
+		"frequency":frequency,
+		"startDate": new Date().toISOString().slice(0, 10)
 	}
 	
 	return new Promise((resolve, reject) => {
