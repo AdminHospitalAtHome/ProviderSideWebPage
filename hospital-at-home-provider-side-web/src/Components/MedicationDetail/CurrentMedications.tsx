@@ -1,7 +1,8 @@
 import Table from 'react-bootstrap/Table'
 import {FormLabel} from "react-bootstrap";
 
-export default function CurrentMedications(): React.JSX.Element{
+export default function CurrentMedications({currentMedication}:{currentMedication: any[]}): React.JSX.Element{
+	console.log(currentMedication);
 	return(
 		<div>
 			<div className={'label-container'}>
@@ -20,14 +21,18 @@ export default function CurrentMedications(): React.JSX.Element{
 					</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td>medA</td>
-						<td>Heart</td>
-						<td>30 mg</td>
-						<td>3 times/day</td>
-						<td>2024/03/19</td>
-						<td>Take before meal</td>
-					</tr>
+					{
+						currentMedication.map(med =>(
+							<tr>
+								<td>{med.medicationName}</td>
+								<td>{med.type}</td>
+								<td>{med.amount} {med.unit}</td>
+								<td>{med.frequency} times/day</td>
+								<td>{med.startDate}</td>
+								<td>Take before meal</td>
+							</tr>
+						))
+					}
 					</tbody>
 				</Table>
 			</div>

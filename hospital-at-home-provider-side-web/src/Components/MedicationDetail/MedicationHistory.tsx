@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 import {FormLabel} from "react-bootstrap";
 import './MedicationDetail.css'
 
-export default function MedicationHistory(): React.JSX.Element {
+export default function MedicationHistory( {medicationHistory}:{medicationHistory: any[]}): React.JSX.Element {
 	return (
 		<div>
 			<div className={'label-container'}>
