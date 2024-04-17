@@ -2,7 +2,6 @@ import Table from 'react-bootstrap/Table'
 import {FormLabel} from "react-bootstrap";
 
 export default function CurrentMedications({currentMedication}:{currentMedication: any[]}): React.JSX.Element{
-	console.log(currentMedication);
 	return(
 		<div>
 			<div className={'label-container'}>
