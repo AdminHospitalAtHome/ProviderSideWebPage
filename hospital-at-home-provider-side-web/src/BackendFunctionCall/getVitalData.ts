@@ -1,3 +1,5 @@
+import {BloodOxygen, BloodPressure, HeartRate, Weight} from "../data";
+
 export function getRecentBloodOxygen(patientID: number): Promise<string> {
     return new Promise((resolve, reject) => {
         fetch(
@@ -102,7 +104,7 @@ export function getBloodOxygen(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-): Promise<any[][]> {
+): Promise<BloodOxygen[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getBloodOxygen?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -110,7 +112,7 @@ export function getBloodOxygen(
         .then(json => parseBloodOxygenData(json));
 }
 
-export function parseBloodOxygenData(bloodOxygenJson: any): any[][] {
+export function parseBloodOxygenData(bloodOxygenJson: BloodOxygen[]): any[][] {
     let bloodOxygenArr = [];
     for (var i = 0; i < bloodOxygenJson.length; i++) {
         bloodOxygenArr.push([
@@ -134,7 +136,7 @@ export function getBloodPressure(
         .then(json => parseBloodPressureData(json));
 }
 
-export function parseBloodPressureData(bloodPressureJSON: any): any[][] {
+export function parseBloodPressureData(bloodPressureJSON: BloodPressure[]): any[][] {
     let bloodPressureArr = [];
     for (let i = 0; i < bloodPressureJSON.length; i++) {
         bloodPressureArr.push([
@@ -151,7 +153,7 @@ export function getHeartRate(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-): Promise<any[][]> {
+): Promise<HeartRate[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getHeartRate?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -159,7 +161,7 @@ export function getHeartRate(
         .then(json => parseHeartRateData(json));
 }
 
-export function parseHeartRateData(heartRateJson: any): any[][] {
+export function parseHeartRateData(heartRateJson: HeartRate[]): any[][] {
     let heartRateArr = [];
     for (let i = 0; i < heartRateJson.length; i++) {
         heartRateArr.push([
@@ -175,7 +177,7 @@ export function getWeight(
     patientID: number,
     startDateTime: string,
     stopDateTime: string,
-): Promise<any[][]> {
+): Promise<Weight[][]> {
     return fetch(
         `https://hosptial-at-home-js-api.azurewebsites.net/api/getWeight?patientID=${patientID}&startDateTime=${startDateTime}&stopDateTime=${stopDateTime}`,
     )
@@ -183,7 +185,7 @@ export function getWeight(
         .then(json => parseWeightData(json));
 }
 
-export function parseWeightData(weightJson: any): any[][] {
+export function parseWeightData(weightJson: Weight[]): any[][] {
     let weightArr = [];
     for (let i = 0; i < weightJson.length; i++) {
         weightArr.push([
