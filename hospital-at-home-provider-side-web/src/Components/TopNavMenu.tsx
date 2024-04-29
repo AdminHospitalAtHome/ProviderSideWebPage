@@ -9,6 +9,7 @@ export default function TopNavMenu(): JSX.Element {
 			<Navbar.Text>Hospital-At-Home</Navbar.Text>
 			<Navbar.Brand href={'/vital'}>Vitals</Navbar.Brand>
 			<Navbar.Brand href={'/chat'}>Chat</Navbar.Brand>
+			<Navbar.Brand href={'/medications'}>Medications</Navbar.Brand>
 			<Navbar.Brand href={'/alerts'}>Alerts</Navbar.Brand>
 		</Navbar>
 	</Container>

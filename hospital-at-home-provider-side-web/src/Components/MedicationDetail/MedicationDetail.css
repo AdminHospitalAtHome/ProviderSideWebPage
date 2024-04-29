@@ -1,0 +1,18 @@
+.label-container {
+    background-color: #FBDEA6;
+    padding-left: 30px;
+}
+
+.detail-container {
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table {
+    background-color: #fbdea6;
+}
+
+.table-container{
+    padding: 5px 20px;
+}
