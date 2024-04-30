@@ -200,6 +200,9 @@ export default function VitalPage() {
     exportToCsv(vitalData.weight, weightHeaders, 'weight.csv');
   };
 
+  console.log("Vital Data (Weight): ", vitalData.weight);
+  console.log("Vital Data (Spirometry): ", vitalData.spirometry);
+  console.log("Vital Data Parsed (Spirometry): ", parseSpirometryForFEV1_FVCChart(vitalData.spirometry))
   return (
     <div style={{paddingTop: '56px', height:'100%'}}>
       <div className="main-container">
@@ -240,7 +243,7 @@ export default function VitalPage() {
             </div>
 
             <div className="vital-card-container">
-              <VitalCard title="Blood Oxygen" children={bloodOxygenChart} children2={bloodOxygenTable}/>
+              <VitalCard title="Blood Pressure" children={bloodPressureChart} children2={bloodPressureTable}/>
             </div>
 
             <div className="vital-card-container">

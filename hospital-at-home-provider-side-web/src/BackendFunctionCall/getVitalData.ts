@@ -222,22 +222,27 @@ export function parseSpirometryData(spirometryJson: any): any[][] {
     return spirometryArr;
 }
 
-export function parseSpirometryForFEV1Chart(spirometryArr: any[][] | null): any[][] {
+export function parseSpirometryForFEV1Chart(spirometryArr: any[][] | null): any[][] | null {
     let newSpirometryArr = [];
     if (spirometryArr) {
         for (let i = 0; i < spirometryArr.length; i++) {
             newSpirometryArr.push([spirometryArr[i][0], spirometryArr[i][1], spirometryArr[i][3]]);
         }
+        return newSpirometryArr;
+    } else {
+        return null;
     }
-    return newSpirometryArr;
+
 }
 
-export function parseSpirometryForFEV1_FVCChart(spirometryArr: any[][] | null): any[][] {
+export function parseSpirometryForFEV1_FVCChart(spirometryArr: any[][] | null): any[][] | null {
     let newSpirometryArr = [];
     if (spirometryArr) {
         for (let i = 0; i < spirometryArr.length; i++) {
             newSpirometryArr.push([spirometryArr[i][0], spirometryArr[i][2], spirometryArr[i][3]]);
         }
+        return newSpirometryArr;
+    } else {
+        return null;
     }
-    return newSpirometryArr;
 }
