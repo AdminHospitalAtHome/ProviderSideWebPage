@@ -104,14 +104,14 @@ export async function deletePatientMedication(id: number): Promise<any> {
 
 export async function addPatientMedication(patientId: number, medicationName: string, amount: string, unit: string, type: string, frequency: number) {
 	const url = 'https://hosptial-at-home-js-api.azurewebsites.net/api/addPatientMedication?code=3mxlebfOfAfA_OPnvYYabTSER13AUoWCWqMl9B7br-ljAzFuoaTOPA==';
-	console.log(new Date().toISOString().slice(0,10));
+	console.log(new Date().toISOString().slice(0, 10));
 	const data = {
 		"patientID": patientId,
 		"medicationName": medicationName,
 		"amount": amount,
 		"unit": unit,
 		"type": type,
-		"frequency":frequency,
+		"frequency": frequency,
 		"startDate": new Date().toISOString().slice(0, 10)
 	}
 	
@@ -129,6 +129,21 @@ export async function addPatientMedication(patientId: number, medicationName: st
 			})
 		
 	});
+}
+
+export async function getPatientAllergy(patientId: number): Promise<any> {
+	const url = `https://hosptial-at-home-js-api.azurewebsites.net/api/getPatientAllergy?patientID=${patientId}code=bufIZF8lU4veGYO0thJNyP28Gi9DsPifWudMxkaDycv7AzFuzSe-_Q==`
+	return new Promise((resolve, reject) => {
+		fetch(url)
+			.then(res => res.json)
+			.then(res =>
+				resolve(res)
+			)
+	})
+}
+
+export async function signMedicationEnddate(medicationId: number):Promise<any>{
+
 }
 
 
