@@ -10,21 +10,40 @@ import saveIcon from "../../icons/save.png";
 import editIcon from "../../icons/edit.png";
 // @ts-ignore
 import deleteIcon from "../../icons/delete.png";
+import {updatePatientMedication} from "../../BackendFunctionCall/MedicationFunctions";
+import {PatientMedication} from "../../data";
 
-export default function CurrentMedications({currentMedication}: { currentMedication: any[] }): React.JSX.Element {
+export default function CurrentMedications({currentMedication, setCurrentMedication, setMedicationHistory}: {
+	currentMedication: PatientMedication[],
+	setCurrentMedication: React.Dispatch<React.SetStateAction<PatientMedication[] | undefined>>,
+	setMedicationHistory: React.Dispatch<React.SetStateAction<PatientMedication[] | undefined>>
+}): React.JSX.Element {
 	const [editingMedicationId, setEditingMedicationId] = useState<number>()
-	const [editAmount, setEditAmount] = useState<number>();
-	const [editFrequency, setEditFrequency] = useState<number>();
+	const [editAmount, setEditAmount] = useState<number>(0);
+	const [editFrequency, setEditFrequency] = useState<number>(0);
 	
-	function editOnSave(): void {
-		setEditingMedicationId(undefined);
-		console.log(editAmount);
-		console.log(editFrequency);
+	async function editOnSave(): Promise<void> {
+		if (editingMedicationId) {
+			await updatePatientMedication(editingMedicationId, editAmount, editFrequency, undefined);
+			let temp_current_med = currentMedication;
+			temp_current_med.map(med => {
+				if (med.id === editingMedicationId) {
+					med.frequency = editFrequency;
+					med.amount = editAmount;
+				}
+			})
+			setCurrentMedication(temp_current_med);
+		}
+		setEditingMedicationId(0);
 	}
 	
-	function signEndDate(medicationId: number): void {
-	
+	async function deleteOnClick(med: PatientMedication): Promise<void> {
+		await updatePatientMedication(med.id, undefined, undefined, new Date().toISOString().slice(0, 10))
+		setCurrentMedication(medication => medication?.filter(m => m.id !== med.id));
+		med.endDate = new Date().toISOString().slice(0, 10);
+		setMedicationHistory(medication => ([...medication || [], med]))
 	}
+	
 	
 	return (
 		<div>
@@ -97,7 +116,7 @@ export default function CurrentMedications({currentMedication}: { currentMedicat
 												src={saveIcon} alt={"Save"}
 												style={{width: '20px', height: '20px'}}/>
 										</button> :
-										<button className="icon-button">
+										<button className="icon-button" onClick={() => deleteOnClick(med)}>
 											<img
 												src={deleteIcon} alt={"Delete"}
 												style={{width: '20px', height: '20px'}}/>

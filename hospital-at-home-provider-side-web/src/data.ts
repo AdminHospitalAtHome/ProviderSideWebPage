@@ -1,4 +1,4 @@
-export interface Patient{
+export interface Patient {
 	PatientID: number
 	FirstName: string
 	LastName: string
@@ -9,7 +9,7 @@ export interface Patient{
 	Age: number
 }
 
-export interface Weight{
+export interface Weight {
 	UniqueID: number,
 	PatientID: number,
 	DateTimeTaken: string,
@@ -17,7 +17,7 @@ export interface Weight{
 	IfManualInput: boolean
 }
 
-export interface BloodPressure{
+export interface BloodPressure {
 	UniqueID: number,
 	PatientID: number,
 	DateTimeTaken: string,
@@ -26,7 +26,7 @@ export interface BloodPressure{
 	IfManualInput: boolean
 }
 
-export interface HeartRate{
+export interface HeartRate {
 	UniqueID: number,
 	PatientID: number,
 	DateTimeTaken: string,
@@ -34,7 +34,7 @@ export interface HeartRate{
 	IfManualInput: boolean
 }
 
-export interface BloodOxygen{
+export interface BloodOxygen {
 	UniqueID: number,
 	PatientID: number,
 	DateTimeTaken: string,
@@ -42,6 +42,13 @@ export interface BloodOxygen{
 	IfManualInput: boolean
 }
 
-export interface Note{
-
+export interface PatientMedication {
+	id: number,
+	medicationName: string,
+	amount: number,
+	unit: "pill" | "mg" | "ml",
+	type: string,
+	frequency: number,
+	startDate: string,
+	endDate: string | undefined
 }

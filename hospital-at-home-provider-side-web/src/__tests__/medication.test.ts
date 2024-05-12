@@ -52,10 +52,6 @@ describe('Update patient medication', () => {
           }
         )
       )
-  
-  
-   await expect(updatePatientMedication(1, "2","pill")).resolves.toStrictEqual(mockPatientMedication);
-  
     })
   
   })

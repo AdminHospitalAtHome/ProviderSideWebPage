@@ -1,9 +1,8 @@
 import React from "react";
 import './MedicationDetail.css'
 
-export default function PatientInfo({patientInfo}:{patientInfo: any}): React.JSX.Element {
-	console.log(patientInfo.FirstName);
-;	return (
+export default function PatientInfo({patientInfo}: { patientInfo: any }): React.JSX.Element {
+	return (
 		<div>
 			<div>
 				<div className={'label-container'}>
