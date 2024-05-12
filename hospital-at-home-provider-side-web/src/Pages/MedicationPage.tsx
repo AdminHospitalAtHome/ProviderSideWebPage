@@ -7,14 +7,15 @@ import {useEffect, useState} from "react";
 import {getPatients} from "../BackendFunctionCall/Message";
 import {getPatientMedication} from "../BackendFunctionCall/MedicationFunctions";
 import {getPatientInfo} from "../BackendFunctionCall/PatientInfo";
+import {PatientMedication} from "../data";
 
 export default function MedicationPage(): React.JSX.Element {
 	const [selectedPatientId, setSelectedPatientId] = useState<any>();
 	const [patientIdOption, setPatientIdOption] = useState<any[]>();
 	const [patientInfo, setPatientInfo] = useState<any[]>();
-	const [patientMedication, setPatientMedication] = useState<any[]>();
-	const [patientCurrentMedication,setPatientCurrentMedication] = useState<any>();
-	const [patientMedicationHistory, setPatientMedicationHistory] = useState<any>();
+	const [patientMedication, setPatientMedication] = useState<PatientMedication[]>();
+	const [patientCurrentMedication,setPatientCurrentMedication] = useState<PatientMedication[]>();
+	const [patientMedicationHistory, setPatientMedicationHistory] = useState<PatientMedication[]>();
 	useEffect(() => {
 		getPatients().then(res => {
 			let temp_patient: any[] = []
@@ -49,8 +50,8 @@ export default function MedicationPage(): React.JSX.Element {
 				                                 placeholder={'Please search with patient name'}></SelectSearch>
 			}
 			{patientInfo && <PatientInfo patientInfo = {patientInfo}/>}
-			{(patientCurrentMedication || patientMedicationHistory) && <CurrentMedications currentMedication={patientCurrentMedication}/>}
-			{(patientCurrentMedication || patientMedicationHistory) && <MedicationHistory medicationHistory={patientMedicationHistory}/>}
+			{(patientCurrentMedication) && <CurrentMedications currentMedication={patientCurrentMedication} setCurrentMedication={setPatientCurrentMedication} setMedicationHistory={setPatientMedicationHistory}/>}
+			{(patientMedicationHistory) && <MedicationHistory medicationHistory={patientMedicationHistory} setMedicationHistory={setPatientMedicationHistory}/>}
 		</div>
 	)
 }
